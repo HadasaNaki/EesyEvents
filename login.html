@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="התחברות ל-EasyVents - פלטפורמה חכמה לתכנון וניהול אירועים">
+    <title>התחברות - EasyVents</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <h1>🎉 EasyVents</h1>
+                    </a>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html#home">דף הבית</a></li>
+                        <li><a href="index.html#features">תכונות</a></li>
+                        <li><a href="index.html#about">אודות</a></li>
+                        <li><a href="index.html#contact">צור קשר</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <a href="login.html" class="btn btn-secondary">התחבר</a>
+                    <a href="register.html" class="btn btn-primary">הרשם</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="auth-main">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h2>ברוך הבא חזרה!</h2>
+                    <p>התחבר לחשבון שלך והמשך לתכנן את האירוע המושלם</p>
+                </div>
+
+                <form class="auth-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="email">אימייל *</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            required
+                            placeholder="example@email.com"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">סיסמה *</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required
+                            placeholder="הכנס סיסמה"
+                        >
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input 
+                                type="checkbox" 
+                                id="remember" 
+                                name="remember"
+                            >
+                            <span>זכור אותי</span>
+                        </label>
+                    </div>
+
+                    <div class="forgot-password">
+                        <a href="#">שכחת את הסיסמה?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">התחבר</button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>עדיין אין לך חשבון? <a href="register.html">הירשם כאן</a></p>
+                </div>
+
+                <div class="auth-divider">
+                    <span>או</span>
+                </div>
+
+                <div class="social-auth">
+                    <button type="button" class="btn btn-social btn-google">
+                        <span>🔍</span>
+                        המשך עם Google
+                    </button>
+                    <button type="button" class="btn btn-social btn-facebook">
+                        <span>📘</span>
+                        המשך עם Facebook
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 EasyVents. כל הזכויות שמורות.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
