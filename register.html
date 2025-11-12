@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="הרשמה ל-EasyVents - פלטפורמה חכמה לתכנון וניהול אירועים">
+    <title>הרשמה - EasyVents</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <h1>🎉 EasyVents</h1>
+                    </a>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html#home">דף הבית</a></li>
+                        <li><a href="index.html#features">תכונות</a></li>
+                        <li><a href="index.html#about">אודות</a></li>
+                        <li><a href="index.html#contact">צור קשר</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <a href="login.html" class="btn btn-secondary">התחבר</a>
+                    <a href="register.html" class="btn btn-primary">הרשם</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="auth-main">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h2>צור חשבון חדש</h2>
+                    <p>הצטרף אלינו והתחל לתכנן את האירוע המושלם שלך</p>
+                </div>
+
+                <form class="auth-form" id="registerForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">שם פרטי *</label>
+                            <input 
+                                type="text" 
+                                id="firstName" 
+                                name="firstName" 
+                                required
+                                placeholder="הכנס שם פרטי"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">שם משפחה *</label>
+                            <input 
+                                type="text" 
+                                id="lastName" 
+                                name="lastName" 
+                                required
+                                placeholder="הכנס שם משפחה"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">אימייל *</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            required
+                            placeholder="example@email.com"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">טלפון</label>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone"
+                            placeholder="050-1234567"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">סיסמה *</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required
+                            placeholder="לפחות 8 תווים"
+                            minlength="8"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">אימות סיסמה *</label>
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            name="confirmPassword" 
+                            required
+                            placeholder="הכנס סיסמה שוב"
+                            minlength="8"
+                        >
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input 
+                                type="checkbox" 
+                                id="terms" 
+                                name="terms" 
+                                required
+                            >
+                            <span>אני מסכים/ה <a href="#">לתנאי השימוש</a> ו<a href="#">למדיניות הפרטיות</a></span>
+                        </label>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input 
+                                type="checkbox" 
+                                id="newsletter" 
+                                name="newsletter"
+                            >
+                            <span>אני מעוניין/ת לקבל עדכונים וטיפים לתכנון אירועים</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">צור חשבון</button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>כבר יש לך חשבון? <a href="login.html">התחבר כאן</a></p>
+                </div>
+
+                <div class="auth-divider">
+                    <span>או</span>
+                </div>
+
+                <div class="social-auth">
+                    <button type="button" class="btn btn-social btn-google">
+                        <span>🔍</span>
+                        המשך עם Google
+                    </button>
+                    <button type="button" class="btn btn-social btn-facebook">
+                        <span>📘</span>
+                        המשך עם Facebook
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 EasyVents. כל הזכויות שמורות.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
