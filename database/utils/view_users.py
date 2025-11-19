@@ -2,8 +2,12 @@
 Script to view all users in the database
 """
 import sqlite3
+import os
 
-conn = sqlite3.connect('easyevents.db')
+# Get the path to the database file (relative to this script's location)
+db_path = os.path.join(os.path.dirname(__file__), '..', 'easyevents.db')
+
+conn = sqlite3.connect(db_path)
 conn.row_factory = sqlite3.Row
 cursor = conn.cursor()
 

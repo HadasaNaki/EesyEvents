@@ -32,13 +32,18 @@
 
 ## 🛠️ טכנולוגיות
 
-| רכיב | טכנולוגיה |
-|------|-----------|
-| צד שרת | Node.js / ASP.NET Core |
-| צד לקוח | HTML5, CSS3, JavaScript |
-| בסיס נתונים | SQL Server / Firebase |
-| ניהול גרסאות | Git & GitHub |
-| DevOps | Azure DevOps |
+| רכיב | טכנולוגיה | גרסה |
+|------|-----------|------|
+| צד שרת (Backend) | Python Flask | 3.1.2 |
+| בסיס נתונים | SQLite | Built-in |
+| אבטחה | Werkzeug (Password Hashing) | 3.1.3 |
+| CORS | Flask-CORS | 6.0.1 |
+| צד לקוח (Frontend) | HTML5, CSS3, JavaScript (ES6+) | - |
+| ניהול גרסאות | Git & GitHub | - |
+| סביבת פיתוח | VS Code (מומלץ) | - |
+
+### 📦 חבילות Python
+ראה `requirements.txt` לרשימה מלאה של כל החבילות והגרסאות.
 
 ---
 
@@ -47,15 +52,29 @@
 ```
 easyevent/
 │
-├── index.html          # דף הבית הראשי
-├── register.html       # דף הרשמה למערכת
-├── login.html          # דף התחברות למערכת
+├── Frontend (Client Side):
+│   ├── index.html              # דף הבית הראשי
+│   ├── register.html           # דף הרשמה למערכת
+│   ├── login.html              # דף התחברות למערכת
+│   │
+│   ├── styles.css              # עיצוב כללי לכל האתר
+│   ├── auth.css                # עיצוב מיוחד לדפי הזדהות
+│   └── auth.js                 # לוגיקת אימות משתמשים (Frontend)
 │
-├── styles.css          # עיצוב כללי לכל האתר
-├── auth.css            # עיצוב מיוחד לדפי הזדהות
+├── Backend (Server Side):
+│   ├── app.py                  # שרת Flask - API endpoints
+│   └── view_users.py           # סקריפט עזר לצפייה במשתמשים
 │
-├── .gitignore          # קבצים שלא נכללים בגיט
-└── README.md           # התיעוד הזה
+├── Database:
+│   └── easyevents.db           # בסיס נתונים SQLite (לא ב-Git)
+│
+├── Configuration:
+│   ├── .gitignore              # קבצים שלא נכללים בגיט
+│   ├── requirements.txt        # חבילות Python נדרשות
+│   └── README.md               # התיעוד הזה
+│
+└── Environment:
+    └── .venv/                  # סביבה וירטואלית של Python
 ```
 
 ### 📂 מבנה עתידי מתוכנן
@@ -92,31 +111,89 @@ easyevent/
 
 ## 🚀 התקנה והרצה
 
-### דרישות מקדימות
+### ✅ דרישות מקדימות
+- **Python 3.8+** מותקן במחשב
+- **Git** מותקן במחשב
 - דפדפן מודרני (Chrome, Firefox, Edge)
-- Git מותקן במחשב
 - עורך קוד (VS Code מומלץ)
 
-### שלבי התקנה
+### 📥 שלבי התקנה
 
-1. **שכפול הפרויקט:**
+#### 1. **שכפול הפרויקט:**
 ```bash
 git clone https://github.com/HadasaNaki/EesyEvents.git
-cd easyevent
+cd EesyEvents
 ```
 
-2. **פתיחת הפרויקט:**
+#### 2. **יצירת סביבה וירטואלית:**
 ```bash
-# פתיחה ב-VS Code
-code .
+# Windows
+python -m venv .venv
+.venv\Scripts\activate
 
-# או פתיחת index.html ישירות בדפדפן
-start index.html
+# macOS/Linux
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-3. **צפייה בדף הבית:**
-   - פתח את `index.html` בדפדפן
-   - נווט לדפים השונים דרך התפריט
+#### 3. **התקנת חבילות Python:**
+```bash
+pip install -r requirements.txt
+```
+
+#### 4. **הפעלת שרת Backend:**
+```bash
+# ודא שהסביבה הוירטואלית פעילה
+python app.py
+```
+השרת ירוץ על: `http://localhost:5000`
+
+#### 5. **פתיחת האתר:**
+בטרמינל נפרד או בדפדפן:
+```bash
+# פתיחה ישירה
+start index.html
+
+# או גלוש אל
+file:///path/to/your/project/index.html
+```
+
+---
+
+### 🔄 עדכון הפרויקט
+
+כשיש עדכונים חדשים:
+```bash
+# משוך את השינויים האחרונים
+git pull origin main
+
+# עדכן את החבילות
+pip install -r requirements.txt --upgrade
+
+# הפעל מחדש את השרת
+python app.py
+```
+
+---
+
+### 🛠️ פקודות שימושיות
+
+#### צפייה במשתמשים בבסיס הנתונים:
+```bash
+python view_users.py
+```
+
+#### בדיקת סטטיסטיקות:
+```bash
+# בדפדפן
+http://localhost:5000/api/stats
+```
+
+#### רשימת כל המשתמשים (API):
+```bash
+# בדפדפן
+http://localhost:5000/api/users
+```
 
 ---
 
@@ -259,13 +336,17 @@ main                    # הברנץ' הראשי - רק קוד יציב
 - [x] שלד בסיסי של דף הבית
 - [x] תפריט ניווט
 - [x] דף הבית מלא עם כל הסקשנים
-- [x] דף הרשמה
-- [x] דף התחברות
+- [x] דף הרשמה עם טופס מלא
+- [x] דף התחברות עם טופס
+- [x] **מערכת Backend מקצועית (Flask + SQLite)** ✨
+- [x] **אימות משתמשים עם הצפנת סיסמאות** ✨
+- [x] **API RESTful מלא** ✨
+- [x] **בסיס נתונים SQLite** ✨
 
 ### 🚧 בתהליך
 - [ ] דף ניהול אירועים (Dashboard)
 - [ ] דף יצירת אירוע חדש
-- [ ] חיבור לבסיס נתונים
+- [ ] אזור אישי למשתמש מחובר
 
 ### 📅 לעתיד
 - [ ] מערכת ניהול תקציב

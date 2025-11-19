@@ -3,18 +3,19 @@ EasyVents - Backend API Server
 Flask server for user authentication and management
 """
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import re
+import os
 from datetime import datetime
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend', static_url_path='')
 CORS(app)  # Enable CORS for all routes
 
 # Database configuration
-DATABASE = 'easyevents.db'
+DATABASE = '../database/easyevents.db'
 
 def get_db_connection():
     """Create a database connection"""
@@ -262,6 +263,22 @@ def get_stats():
         'total_users': user_count,
         'database': DATABASE
     })
+
+# Static routes for serving HTML pages
+@app.route('/')
+def index():
+    """Serve the index page"""
+    return send_from_directory('../frontend/pages', 'index.html')
+
+@app.route('/register.html')
+def register_page():
+    """Serve the register page"""
+    return send_from_directory('../frontend/pages', 'register.html')
+
+@app.route('/login.html')
+def login_page():
+    """Serve the login page"""
+    return send_from_directory('../frontend/pages', 'login.html')
 
 if __name__ == '__main__':
     print("🚀 Starting EasyVents API Server...")
