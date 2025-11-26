@@ -74,20 +74,6 @@ def validate_phone(phone):
 
 # API Routes
 
-@app.route('/')
-def home():
-    """API home route"""
-    return jsonify({
-        'message': 'EasyVents API Server',
-        'version': '1.0',
-        'endpoints': {
-            'register': '/api/register (POST)',
-            'login': '/api/login (POST)',
-            'check_user': '/api/check_user (POST)',
-            'get_users': '/api/users (GET)'
-        }
-    })
-
 @app.route('/api/register', methods=['POST'])
 def register():
     """Register a new user"""
@@ -266,6 +252,7 @@ def get_stats():
 
 # Static routes for serving HTML pages
 @app.route('/')
+@app.route('/index.html')
 def index():
     """Serve the index page"""
     return send_from_directory('../frontend/pages', 'index.html')
