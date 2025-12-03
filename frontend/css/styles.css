@@ -330,40 +330,46 @@ body {
 }
 
 .event-type-card {
-    background: linear-gradient(135deg, rgba(128, 0, 32, 0.08) 0%, rgba(128, 0, 32, 0.05) 100%);
+    background: transparent;
     color: #660018;
-    padding: 2.5rem 2rem;
+    padding: 0;
     border-radius: 12px;
     text-align: center;
     transition: all 0.3s ease;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(128, 0, 32, 0.1);
-    border: 2px solid #800020;
     position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
-.event-type-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
+.event-image {
     width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(232, 215, 193, 0.1) 0%, transparent 70%);
+    height: 250px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(128, 0, 32, 0.15);
     transition: all 0.3s ease;
 }
 
+.event-type-card:hover .event-image {
+    transform: scale(1.05);
+    box-shadow: 0 12px 30px rgba(128, 0, 32, 0.25);
+}
+
+.event-type-card::before {
+    content: none;
+}
+
 .event-type-card:hover {
-    transform: scale(1.08) translateY(-5px);
-    box-shadow: 0 12px 30px rgba(128, 0, 32, 0.2);
-    background: linear-gradient(135deg, rgba(128, 0, 32, 0.12) 0%, rgba(128, 0, 32, 0.08) 100%);
+    transform: none;
 }
 
 .event-type-card h3 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    margin: 0;
     position: relative;
     z-index: 2;
     font-weight: 600;
@@ -371,11 +377,7 @@ body {
 }
 
 .event-type-card p {
-    opacity: 0.9;
-    line-height: 1.5;
-    position: relative;
-    z-index: 2;
-    color: #333333;
+    display: none;
 }
 
 /* ========================================
@@ -389,10 +391,12 @@ body {
 
 .steps-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
     position: relative;
     z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .step-card {
