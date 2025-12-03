@@ -1,4 +1,57 @@
 /* ========================================
+   CSS Variables - צבעים (מתואם עם styles.css)
+   ======================================== */
+:root {
+    --primary: #800020;
+    --primary-dark: #660018;
+    --beige: #F0E6D2;
+    --light-gray: #D3D3D3;
+    --soft-gray: #E0E0E0;
+    --background: #F9F7F4;
+    --dark-text: #333333;
+    --white: #ffffff;
+}
+
+/* ========================================
+   Body Styling
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark-text);
+    /* Ombre Gradient - אותו גרדיאנט כמו בעמוד הבית */
+    background: linear-gradient(180deg, 
+        #4a0015 0%,      /* בורדו כהה מאוד */
+        #660018 10%,     /* בורדו כהה */
+        #800020 20%,     /* בורדו בהיר קצת */
+        #8B1A32 35%,     /* בורדו בהיר */
+        #D4C4B0 50%,     /* בז' לכיוון לבן באמצע */
+        #E8DCC8 60%,     /* בז' לבן */
+        #F0E6D2 75%,     /* בז' בהיר מאוד */
+        #F5F0E8 85%,     /* כמעט לבן */
+        #FAFAF8 100%);   /* לבן */
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ========================================
    Authentication Pages Styles
    ======================================== */
 
@@ -14,7 +67,7 @@
     align-items: center;
     justify-content: center;
     padding: 3rem 1rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: transparent;
 }
 
 .auth-container {
@@ -23,18 +76,29 @@
     margin: 0 auto;
 }
 
-/* Auth Card */
+/* Auth Card - לבן מעל הגרדיאנט */
 .auth-card {
     background-color: white;
     border-radius: 16px;
     padding: 3rem 2.5rem;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
 /* Auth Header */
 .auth-header {
     text-align: center;
     margin-bottom: 2rem;
+}
+
+.auth-logo {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.auth-header h1 {
+    font-size: 2.2rem;
+    color: #660018;
+    margin-bottom: 0.5rem;
 }
 
 .auth-header h2 {
@@ -66,7 +130,7 @@
 .form-group label {
     display: block;
     font-weight: 600;
-    color: #333;
+    color: #800020;
     margin-bottom: 0.5rem;
     font-size: 0.95rem;
 }
@@ -77,20 +141,24 @@
 .form-group input[type="tel"] {
     width: 100%;
     padding: 0.75rem 1rem;
-    border: 2px solid #e5e7eb;
+    border: 2px solid #ddd;
     border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: white;
+    color: #333333;
+    transition: all 0.3s ease;
 }
 
 .form-group input:focus {
     outline: none;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    border-color: #800020;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(128, 0, 32, 0.1);
 }
 
 .form-group input::placeholder {
-    color: #9ca3af;
+    color: rgba(51, 51, 51, 0.5);
 }
 
 /* Checkbox Group */
@@ -119,7 +187,7 @@
 }
 
 .checkbox-label a {
-    color: #6366f1;
+    color: #800020;
     text-decoration: none;
 }
 
@@ -148,7 +216,7 @@
 }
 
 .auth-footer a {
-    color: #6366f1;
+    color: #800020;
     text-decoration: none;
     font-weight: 600;
 }
@@ -204,7 +272,7 @@
 }
 
 .btn-social:hover {
-    border-color: #6366f1;
+    border-color: #800020;
     background-color: #f9fafb;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -212,14 +280,6 @@
 
 .btn-social span {
     font-size: 1.3rem;
-}
-
-.btn-google:hover {
-    border-color: #ea4335;
-}
-
-.btn-facebook:hover {
-    border-color: #1877f2;
 }
 
 /* Forgot Password Link */
@@ -230,7 +290,7 @@
 }
 
 .forgot-password a {
-    color: #6366f1;
+    color: #800020;
     text-decoration: none;
     font-size: 0.9rem;
 }
@@ -259,7 +319,58 @@
     border: 1px solid #fca5a5;
 }
 
-/* Responsive Design */
+/* ========================================
+   Buttons
+   ======================================== */
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #800020 0%, #660018 100%);
+    color: var(--white);
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(128, 0, 32, 0.3);
+    font-weight: 700;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(128, 0, 32, 0.5);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background-color: white;
+    color: #800020;
+    border: 2px solid #800020;
+    width: 100%;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #800020 0%, #660018 100%);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(128, 0, 32, 0.4);
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
 @media (max-width: 768px) {
     .auth-card {
         padding: 2rem 1.5rem;
@@ -275,5 +386,27 @@
 
     .auth-main {
         padding: 2rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .auth-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"] {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
     }
 }
