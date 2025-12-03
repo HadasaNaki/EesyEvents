@@ -79,6 +79,21 @@ body {
     text-shadow: 1px 1px 2px rgba(128, 0, 32, 0.1);
 }
 
+/* Logo Image */
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    max-width: 200px;
+}
+
 /* Navigation */
 .main-nav ul {
     display: flex;
