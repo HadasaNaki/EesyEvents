@@ -15,7 +15,8 @@ app = Flask(__name__, static_folder='../frontend', static_url_path='')
 CORS(app)  # Enable CORS for all routes
 
 # Database configuration
-DATABASE = '../database/easyevents.db'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.path.join(BASE_DIR, '..', 'database', 'easyevents.db')
 
 def get_db_connection():
     """Create a database connection"""
