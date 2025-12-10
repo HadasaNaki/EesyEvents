@@ -1,131 +1,130 @@
-# 🎉 EasyVents - פלטפורמה לניהול אירועים
+# 🎉 EasyVents - Platform for Event Management & Production
 
 [![GitHub](https://img.shields.io/badge/GitHub-EesyEvents-blue)](https://github.com/HadasaNaki/EesyEvents)
-[![Status](https://img.shields.io/badge/Status-In%20Development-yellow)]()
+[![Status](https://img.shields.io/badge/Status-Active%20Development-success)]()
+[![Tech Stack](https://img.shields.io/badge/Stack-React%20%2B%20Python-blueviolet)]()
 
-## 📖 תיאור הפרויקט
+## 📖 Project Description
 
-**EasyVents** היא פלטפורמה חכמה לתכנון וניהול אירועים - חתונות, בר/בת מצוות, מסיבות רווקות ואירועים עסקיים.
+**EasyVents** is a professional platform for planning and managing events - weddings, bar/bat mitzvahs, bachelorette parties, and business events.
 
-המערכת מרכזת את כל שלבי ההפקה במקום אחד:
-- ✅ תכנון תקציב
-- 👥 בחירת ספקים
-- 📋 ניהול משימות
-- 📧 הזמנות דיגיטליות
-- 📅 תיאומים ועוד
+The system centralizes all production stages in one place:
+- ✅ Budget planning
+- 👥 Vendor selection
+- 📋 Task management
+- 📧 Digital invitations
+- 📅 Scheduling and coordination
+- 🎨 Luxury event design features
 
-### 🎯 מטרת הפרויקט
-לספק למשתמשים חוויית תכנון פשוטה, נוחה ומקצועית, תוך חיסכון בזמן ומניעת טעויות.
-
----
-
-## 👥 צוות הפיתוח
-
-- **אפרת ברינקמן** - 215704883
-- **הלל אוחנה** - 327605234
-- **הדסה נקי** - 327787628
-
-**מוסד:** המכון האקדמי לב (JCT)  
-**תאריך התחלה:** 22/10/2025
+### 🎯 Project Goal
+To provide users with a simple, comfortable, and professional planning experience, while saving time and preventing errors. With a focus on **modern luxury design** and **seamless user experience**.
 
 ---
 
-## 🛠️ טכנולוגיות
+## 👥 Development Team
 
-| רכיב | טכנולוגיה | גרסה |
-|------|-----------|------|
-| צד שרת (Backend) | Python Flask | 3.1.2 |
-| בסיס נתונים | SQLite | Built-in |
-| אבטחה | Werkzeug (Password Hashing) | 3.1.3 |
-| CORS | Flask-CORS | 6.0.1 |
-| צד לקוח (Frontend) | HTML5, CSS3, JavaScript (ES6+) | - |
-| ניהול גרסאות | Git & GitHub | - |
-| סביבת פיתוח | VS Code (מומלץ) | - |
+- **Efrat Brinkman** - 215704883
+- **Hillel Uchana** - 327605234
+- **Hadasa Naki** - 327787628
 
-### 📦 חבילות Python
-ראה `requirements.txt` לרשימה מלאה של כל החבילות והגרסאות.
+**Institution:** Lev Academic Center (JCT)  
+**Start Date:** October 22, 2025
 
 ---
 
-## 📁 מבנה הפרויקט
+## 🛠️ Tech Stack
+
+### Architecture: Full Stack (React + Python)
+The application uses a **modern, professional separation** between frontend and backend:
+
+| Component | Technology | Version | Purpose |
+|-----------|-----------|---------|---------|
+| **Frontend** | React 18.2 + Vite | Latest | Modern, fast UI with smooth animations |
+| **State Management** | Framer Motion | 11.0.0 | Luxury animations & transitions |
+| **Routing** | React Router DOM | 6.22.0 | Client-side navigation |
+| **Styling** | Tailwind CSS + Custom CSS | 3.4.1 | Modern responsive design |
+| **Backend** | Python Flask | 3.1.2 | REST API server |
+| **Database** | SQLite | Built-in | User data & event management |
+| **Security** | Werkzeug (Password Hashing) | 3.1.3 | Secure authentication |
+| **CORS** | Flask-CORS | 6.0.1 | Cross-origin requests |
+| **Build Tool** | Vite | 5.4.21 | Fast development & production builds |
+| **Version Control** | Git & GitHub | - | Collaborative development |
+
+### Design Features
+- **Typography:** Heebo (Modern Bold Sans-Serif) for luxury presentation
+- **Color Scheme:** Burgundy (#800020) & Beige (#F0E6D2) gradient
+- **Visual Effects:** Gold accents, sophisticated shadows, smooth animations
+- **Responsive:** Mobile-first design with Tailwind CSS
+
+### 📦 Python Dependencies
+See `requirements.txt` for complete list of all packages and versions.
+
+---
+
+## 📁 Project Structure
 
 ```
 easyevent/
 │
-├── Frontend (Client Side):
-│   ├── index.html              # דף הבית הראשי
-│   ├── register.html           # דף הרשמה למערכת
-│   ├── login.html              # דף התחברות למערכת
+├── 📂 frontend/                    # React + Vite Frontend (Modern SPA)
+│   ├── index.html                  # Main HTML entry point
+│   ├── package.json                # Frontend dependencies (React, Vite, etc)
+│   ├── vite.config.js              # Vite build configuration
+│   ├── tailwind.config.js          # Tailwind CSS configuration
+│   ├── postcss.config.js           # PostCSS configuration
 │   │
-│   ├── styles.css              # עיצוב כללי לכל האתר
-│   ├── auth.css                # עיצוב מיוחד לדפי הזדהות
-│   └── auth.js                 # לוגיקת אימות משתמשים (Frontend)
+│   ├── 📂 public/                  # Static assets
+│   │   └── logo.png                # Company logo
+│   │
+│   └── 📂 src/                     # React source code
+│       ├── main.jsx                # React app entry point
+│       ├── App.jsx                 # Main App component
+│       ├── index.css               # Global styles + custom design
+│       │
+│       └── 📂 components/          # React Components
+│           ├── Header.jsx          # Navigation header (Framer Motion)
+│           ├── Hero.jsx            # Hero section with luxury title
+│           ├── LandingPage.jsx      # Main landing page layout
+│           ├── Footer.jsx          # Footer component
+│           ├── Login.jsx           # User login form
+│           └── Register.jsx        # User registration form
 │
-├── Backend (Server Side):
-│   ├── app.py                  # שרת Flask - API endpoints
-│   └── view_users.py           # סקריפט עזר לצפייה במשתמשים
+├── 📂 backend/                     # Python Flask API Server
+│   └── app.py                      # Flask REST API with endpoints
 │
-├── Database:
-│   └── easyevents.db           # בסיס נתונים SQLite (לא ב-Git)
+├── 📂 database/                    # Database files
+│   └── easyevents.db               # SQLite database (auto-created)
 │
-├── Configuration:
-│   ├── .gitignore              # קבצים שלא נכללים בגיט
-│   ├── requirements.txt        # חבילות Python נדרשות
-│   └── README.md               # התיעוד הזה
+├── 📂 docs/                        # Documentation
 │
-└── Environment:
-    └── .venv/                  # סביבה וירטואלית של Python
-```
-
-### 📂 מבנה עתידי מתוכנן
-
-```
-easyevent/
+├── Configuration Files:
+│   ├── .gitignore                  # Git ignore rules
+│   ├── requirements.txt            # Python dependencies
+│   └── README.md                   # This file
 │
-├── /assets/            # תמונות, אייקונים, פונטים
-│   ├── /images/
-│   ├── /icons/
-│   └── /fonts/
-│
-├── /css/               # קבצי CSS מאורגנים
-│   ├── main.css
-│   ├── auth.css
-│   └── dashboard.css
-│
-├── /js/                # קבצי JavaScript
-│   ├── main.js
-│   ├── auth.js
-│   └── validation.js
-│
-├── /pages/             # דפי HTML נוספים
-│   ├── dashboard.html
-│   ├── events.html
-│   └── profile.html
-│
-└── /docs/              # תיעוד נוסף
-    ├── API.md
-    └── CONTRIBUTING.md
+└── 📂 .venv/                       # Python virtual environment (auto-created)
 ```
 
 ---
 
-## 🚀 התקנה והרצה
+## 🚀 Installation & Setup Guide
 
-### ✅ דרישות מקדימות
-- **Python 3.8+** מותקן במחשב
-- **Git** מותקן במחשב
-- דפדפן מודרני (Chrome, Firefox, Edge)
-- עורך קוד (VS Code מומלץ)
+### ✅ Prerequisites
+- **Python 3.8+** installed
+- **Node.js 16+** and **npm** installed (for React/Vite)
+- **Git** installed
+- Modern web browser (Chrome, Firefox, Edge)
+- Code editor (VS Code recommended)
 
-### 📥 שלבי התקנה
+### 📥 Installation Steps
 
-#### 1. **שכפול הפרויקט:**
+#### Step 1: Clone the Repository
 ```bash
 git clone https://github.com/HadasaNaki/EesyEvents.git
-cd EesyEvents
+cd easyevent
 ```
 
-#### 2. **יצירת סביבה וירטואלית:**
+#### Step 2: Create Python Virtual Environment
 ```bash
 # Windows
 python -m venv .venv
@@ -136,210 +135,305 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-#### 3. **התקנת חבילות Python:**
+#### Step 3: Install Python Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-#### 4. **הפעלת שרת Backend:**
+#### Step 4: Install Frontend Dependencies (React/Vite)
 ```bash
-# ודא שהסביבה הוירטואלית פעילה
-python app.py
-```
-השרת ירוץ על: `http://localhost:5000`
-
-#### 5. **פתיחת האתר:**
-בטרמינל נפרד או בדפדפן:
-```bash
-# פתיחה ישירה
-start index.html
-
-# או גלוש אל
-file:///path/to/your/project/index.html
+cd frontend
+npm install
+cd ..
 ```
 
----
-
-### 🔄 עדכון הפרויקט
-
-כשיש עדכונים חדשים:
+#### Step 5: Start the Backend Server
+**In a terminal window (venv activated):**
 ```bash
-# משוך את השינויים האחרונים
-git pull origin main
+python backend/app.py
+```
+✅ Backend runs on: `http://localhost:5000`
 
-# עדכן את החבילות
-pip install -r requirements.txt --upgrade
-
-# הפעל מחדש את השרת
-python app.py
+You'll see:
+```
+✅ Database initialized successfully!
+🚀 Starting EasyVents API Server...
+📍 Server running on: http://localhost:5000
 ```
 
----
-
-### 🛠️ פקודות שימושיות
-
-#### צפייה במשתמשים בבסיס הנתונים:
+#### Step 6: Start the Frontend Development Server
+**In a new terminal window (from the frontend folder):**
 ```bash
-python view_users.py
+cd frontend
+npm run dev
+```
+✅ Frontend runs on: `http://localhost:5173`
+
+You'll see:
+```
+VITE v5.4.21  ready in 2116 ms
+➜  Local:   http://localhost:5173/
 ```
 
-#### בדיקת סטטיסטיקות:
-```bash
-# בדפדפן
-http://localhost:5000/api/stats
+#### ✨ Access the Application
+Open your browser and navigate to:
 ```
-
-#### רשימת כל המשתמשים (API):
-```bash
-# בדפדפן
-http://localhost:5000/api/users
+http://localhost:5173
 ```
 
 ---
 
-## 🔄 Git Workflow - זרימת עבודה
+## 📖 Available Scripts
 
-### 1️⃣ יצירת ברנץ' חדש לפיצר
-
-**תמיד צור ברנץ' חדש לכל פיצר!**
-
+### Frontend Commands
 ```bash
-# עדכן את main
+cd frontend
+
+# Development mode (with hot reload)
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Run ESLint
+npm run lint
+```
+
+### Backend Commands
+```bash
+# Start Flask server (from project root, with venv activated)
+python backend/app.py
+
+# Server runs on http://localhost:5000
+```
+
+### ⚙️ Troubleshooting
+
+#### Issue: Port 5000 already in use
+```bash
+# Windows - Find and kill process on port 5000
+netstat -ano | findstr :5000
+taskkill /PID <PID> /F
+
+# macOS/Linux
+lsof -i :5000
+kill -9 <PID>
+```
+
+#### Issue: Port 5173 already in use
+```bash
+# Kill Vite development server or use a different port
+cd frontend
+npm run dev -- --port 5174
+```
+
+#### Issue: npm install fails
+```bash
+# Clear npm cache
+npm cache clean --force
+
+# Delete node_modules and package-lock.json
+rm -r node_modules package-lock.json
+
+# Reinstall
+npm install
+```
+
+#### Issue: Python dependencies not installing
+```bash
+# Ensure venv is activated, then upgrade pip
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+---
+
+## 🔄 Git Workflow
+
+### Creating a Feature Branch
+```bash
+# Update main
 git checkout main
 git pull origin main
 
-# צור ברנץ' חדש
+# Create feature branch
 git checkout -b feature/your_feature_name
 
-# דוגמאות:
-git checkout -b feature/user_profile
-git checkout -b feature/event_creation
-git checkout -b fix/login_bug
+# Examples:
+git checkout -b feature/event_dashboard
+git checkout -b fix/styling_issue
 ```
 
-### 2️⃣ עבודה על הפיצר
-
+### Making Changes & Committing
 ```bash
-# בדוק מצב הקבצים
+# Check status
 git status
 
-# הוסף קבצים ספציפיים
-git add file1.html file2.css
-
-# או הוסף הכל
+# Add files
 git add .
 
-# צור קומיט עם הודעה ברורה
-git commit -m "Add user profile page with edit functionality"
-
-# קומיט עם תיאור מפורט
-git commit -m "Add user profile page" -m "- Add profile form" -m "- Add avatar upload" -m "- Add save functionality"
+# Commit with clear message
+git commit -m "Descriptive message about changes"
 ```
 
-### 3️⃣ דחיפה לברנץ' המרוחק
-
+### Pushing Changes
 ```bash
-# דחיפה ראשונה
+# Push to remote
 git push -u origin feature/your_feature_name
 
-# דחיפות נוספות (אחרי -u)
+# Subsequent pushes
 git push
 ```
 
-### 4️⃣ יצירת Pull Request
+---
 
-1. גש ל-GitHub: https://github.com/HadasaNaki/EesyEvents
-2. לחץ על "Compare & pull request"
-3. כתוב תיאור של השינויים
-4. המתן לסקירה ואישור מחבר הצוות
+## 📚 API Documentation
 
-### 5️⃣ מיזוג לאחר אישור
-
-**דרך GitHub (מומלץ):**
-- לחץ על "Merge pull request" ב-GitHub
-- אשר את המיזוג
-
-**דרך קונסול:**
-```bash
-# עבור ל-main
-git checkout main
-
-# מזג את הברנץ'
-git merge feature/your_feature_name
-
-# דחוף ל-main המרוחק
-git push origin main
+### Base URL
+```
+http://localhost:5000
 ```
 
-### 6️⃣ ניקיון לאחר מיזוג
+### Endpoints
 
-```bash
-# מחק את הברנץ' המקומי
-git branch -d feature/your_feature_name
+#### User Registration
+```
+POST /api/register
+Content-Type: application/json
 
-# מחק את הברנץ' המרוחק
-git push origin --delete feature/your_feature_name
+{
+  "username": "john_doe",
+  "email": "john@example.com",
+  "password": "secure_password"
+}
+```
+
+#### User Login
+```
+POST /api/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "secure_password"
+}
+```
+
+#### Get All Users (for development)
+```
+GET /api/users
 ```
 
 ---
 
-## 📝 כללי כתיבת קוד
+## 🎨 Design System
 
-### שמות ברנצ'ים
-```
-feature/     - לפיצרים חדשים
-fix/         - לתיקוני באגים
-hotfix/      - לתיקונים דחופים
-docs/        - לשינויי תיעוד
-style/       - לשינויי עיצוב
-refactor/    - לשיפור קוד קיים
-```
+### Color Palette
+- **Primary Burgundy:** `#800020`
+- **Dark Burgundy:** `#660018`
+- **Beige/Cream:** `#F0E6D2`
+- **Gold Accent:** `#C5A059`
+- **Background Gradient:** `#4a0015 → #F0E6D2`
 
-**דוגמאות:**
-- `feature/user_dashboard`
-- `fix/login_validation`
-- `docs/update_readme`
+### Typography
+- **Display Font:** Heebo (Bold, Black 900)
+- **Body Font:** Rubik (Regular, 400-700)
+- **UI Font:** Assistant (Clean, Modern)
 
-### הודעות קומיט
-
-**✅ טוב:**
-```bash
-git commit -m "Add event creation form with date picker"
-git commit -m "Fix login button alignment on mobile"
-git commit -m "Update README with Git workflow instructions"
-```
-
-**❌ לא טוב:**
-```bash
-git commit -m "changes"
-git commit -m "fix"
-git commit -m "update"
-```
+### Visual Effects
+- **Shadows:** Gold accents with soft drop shadows
+- **Animations:** Framer Motion for smooth transitions
+- **Responsive:** Mobile-first design approach
 
 ---
 
-## 🌲 מבנה ברנצ'ים
+## 📊 Project Status
 
-```
-main                    # הברנץ' הראשי - רק קוד יציב
-├── feature/home_page_structure
-├── feature/user_account
-├── feature/event_management
-└── feature/supplier_search
-```
+| Component | Status | Notes |
+|-----------|--------|-------|
+| **Frontend (React + Vite)** | ✅ Active | Modern SPA with luxury design |
+| **Backend (Flask API)** | ✅ Active | User authentication & database |
+| **Database (SQLite)** | ✅ Active | User management |
+| **Authentication** | ✅ Complete | Secure password hashing |
+| **Responsive Design** | ✅ Complete | Mobile & desktop support |
+| **Animations** | ✅ Complete | Framer Motion integration |
 
 ---
 
-## 📋 רשימת המשימות (TODO)
+## 📝 TODO List
 
-### ✅ הושלם
-- [x] שלד בסיסי של דף הבית
-- [x] תפריט ניווט
-- [x] דף הבית מלא עם כל הסקשנים
-- [x] דף הרשמה עם טופס מלא
-- [x] דף התחברות עם טופס
-- [x] **מערכת Backend מקצועית (Flask + SQLite)** ✨
-- [x] **אימות משתמשים עם הצפנת סיסמאות** ✨
+### ✅ Completed
+- [x] Basic HTML/CSS structure
+- [x] Navigation menu
+- [x] Complete landing page
+- [x] Registration form
+- [x] Login form
+- [x] **Professional Backend (Flask + SQLite)** ✨
+- [x] **User authentication with password hashing** ✨
+- [x] **React + Vite Setup** ✨
+- [x] **Luxury Visual Design (Heebo font, gold accents)** ✨
+
+### 🔄 In Progress
+- [ ] User dashboard
+- [ ] Event creation & management
+- [ ] Vendor marketplace
+- [ ] Budget planning tools
+- [ ] Task management system
+- [ ] Digital invitations
+
+### 📅 Planned
+- [ ] Mobile app (React Native)
+- [ ] AI-powered vendor recommendations
+- [ ] Payment integration
+- [ ] Email notifications
+- [ ] Analytics & reporting
+
+---
+
+## 🤝 Contributing
+
+1. **Fork the repository**
+2. **Create a feature branch** (`git checkout -b feature/AmazingFeature`)
+3. **Commit changes** (`git commit -m 'Add AmazingFeature'`)
+4. **Push to branch** (`git push origin feature/AmazingFeature`)
+5. **Open a Pull Request**
+
+### Development Rules
+- Always create a new branch for features
+- Write clear commit messages
+- Test your changes before pushing
+- Update README if adding new features
+
+---
+
+## 📞 Support & Contact
+
+For issues or questions:
+1. Check existing GitHub issues
+2. Create a new GitHub issue with detailed description
+3. Contact the development team
+
+---
+
+## 📄 License
+
+This project is part of the JCT Lev Academic Center curriculum.
+
+---
+
+## 🎯 Next Steps
+
+1. **Clone the repository**
+2. **Follow the Installation section above**
+3. **Start coding!** 🚀
+
+---
+
+**Last Updated:** December 10, 2025  
+**Version:** 2.0.0 (React + Python)
 - [x] **API RESTful מלא** ✨
 - [x] **בסיס נתונים SQLite** ✨
 
