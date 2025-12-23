@@ -1,403 +1,102 @@
-# 🎉 EasyVents - פלטפורמה לניהול אירועים
+# 🎉 EasyVents - Platform for Event Management & Production
 
 [![GitHub](https://img.shields.io/badge/GitHub-EesyEvents-blue)](https://github.com/HadasaNaki/EesyEvents)
-[![Status](https://img.shields.io/badge/Status-In%20Development-yellow)]()
+[![Status](https://img.shields.io/badge/Status-Active%20Development-success)]()
+[![Tech Stack](https://img.shields.io/badge/Stack-Python%20Flask-blueviolet)]()
 
-## 📖 תיאור הפרויקט
+## 📖 Project Description
 
-**EasyVents** היא פלטפורמה חכמה לתכנון וניהול אירועים - חתונות, בר/בת מצוות, מסיבות רווקות ואירועים עסקיים.
+**EasyVents** is a professional platform for planning and managing events - weddings, bar/bat mitzvahs, bachelorette parties, and business events.
 
-המערכת מרכזת את כל שלבי ההפקה במקום אחד:
-- ✅ תכנון תקציב
-- 👥 בחירת ספקים
-- 📋 ניהול משימות
-- 📧 הזמנות דיגיטליות
-- 📅 תיאומים ועוד
+The system centralizes all production stages in one place:
+- ✅ Budget planning
+- 👥 Vendor selection
+- 📋 Task management
+- 📧 Digital invitations
+- 📅 Scheduling and coordination
+- 🎨 Luxury event design features
 
-### 🎯 מטרת הפרויקט
-לספק למשתמשים חוויית תכנון פשוטה, נוחה ומקצועית, תוך חיסכון בזמן ומניעת טעויות.
-
----
-
-## 👥 צוות הפיתוח
-
-- **אפרת ברינקמן** - 215704883
-- **הלל אוחנה** - 327605234
-- **הדסה נקי** - 327787628
-
-**מוסד:** המכון האקדמי לב (JCT)  
-**תאריך התחלה:** 22/10/2025
+### 🎯 Project Goal
+To provide users with a simple, comfortable, and professional planning experience, while saving time and preventing errors. With a focus on **modern luxury design** and **seamless user experience**.
 
 ---
 
-## 🛠️ טכנולוגיות
+## 👥 Development Team
 
-| רכיב | טכנולוגיה | גרסה |
-|------|-----------|------|
-| צד שרת (Backend) | Python Flask | 3.1.2 |
-| בסיס נתונים | SQLite | Built-in |
-| אבטחה | Werkzeug (Password Hashing) | 3.1.3 |
-| CORS | Flask-CORS | 6.0.1 |
-| צד לקוח (Frontend) | HTML5, CSS3, JavaScript (ES6+) | - |
-| ניהול גרסאות | Git & GitHub | - |
-| סביבת פיתוח | VS Code (מומלץ) | - |
+- **Efrat Brinkman** - 215704883
+- **Hillel Uchana** - 327605234
+- **Hadasa Naki** - 327787628
 
-### 📦 חבילות Python
-ראה `requirements.txt` לרשימה מלאה של כל החבילות והגרסאות.
+**Institution:** Lev Academic Center (JCT)
+**Start Date:** October 22, 2025
 
 ---
 
-## 📁 מבנה הפרויקט
+## 🛠️ Tech Stack
+
+### Architecture: Python Flask (SSR)
+The application uses a robust **Flask** backend with server-side rendering:
+
+| Component | Technology | Version | Purpose |
+|-----------|-----------|---------|---------|
+| **Backend** | Python Flask | 3.1.2 | Web Server & API |
+| **Templating** | Jinja2 | Built-in | HTML Rendering |
+| **Styling** | Tailwind CSS | 3.4.1 | Modern responsive design (Pre-compiled) |
+| **Database** | SQLite | Built-in | User data & event management |
+| **Security** | Werkzeug | 3.1.3 | Secure authentication |
+| **CORS** | Flask-CORS | 6.0.1 | Cross-origin requests |
+
+---
+
+## 📁 **מבנה הפרויקט - איפה כל דבר נמצא**
 
 ```
 easyevent/
-│
-├── Frontend (Client Side):
-│   ├── index.html              # דף הבית הראשי
-│   ├── register.html           # דף הרשמה למערכת
-│   ├── login.html              # דף התחברות למערכת
-│   │
-│   ├── styles.css              # עיצוב כללי לכל האתר
-│   ├── auth.css                # עיצוב מיוחד לדפי הזדהות
-│   └── auth.js                 # לוגיקת אימות משתמשים (Frontend)
-│
-├── Backend (Server Side):
-│   ├── app.py                  # שרת Flask - API endpoints
-│   └── view_users.py           # סקריפט עזר לצפייה במשתמשים
-│
-├── Database:
-│   └── easyevents.db           # בסיס נתונים SQLite (לא ב-Git)
-│
-├── Configuration:
-│   ├── .gitignore              # קבצים שלא נכללים בגיט
-│   ├── requirements.txt        # חבילות Python נדרשות
-│   └── README.md               # התיעוד הזה
-│
-└── Environment:
-    └── .venv/                  # סביבה וירטואלית של Python
-```
-
-### 📂 מבנה עתידי מתוכנן
-
-```
-easyevent/
-│
-├── /assets/            # תמונות, אייקונים, פונטים
-│   ├── /images/
-│   ├── /icons/
-│   └── /fonts/
-│
-├── /css/               # קבצי CSS מאורגנים
-│   ├── main.css
-│   ├── auth.css
-│   └── dashboard.css
-│
-├── /js/                # קבצי JavaScript
-│   ├── main.js
-│   ├── auth.js
-│   └── validation.js
-│
-├── /pages/             # דפי HTML נוספים
-│   ├── dashboard.html
-│   ├── events.html
-│   └── profile.html
-│
-└── /docs/              # תיעוד נוסף
-    ├── API.md
-    └── CONTRIBUTING.md
+├── backend/
+│   ├── app.py                    # שרת Flask ראשי
+│   ├── templates/                # קבצי HTML
+│   │   ├── base.html             # תבנית בסיס
+│   │   ├── index.html            # דף הבית
+│   │   ├── login.html            # דף התחברות
+│   │   └── register.html         # דף הרשמה
+│   └── static/                   # קבצים סטטיים
+│       ├── css/                  # סגנונות
+│       ├── js/                   # סקריפטים
+│       └── images/               # תמונות
+├── database/
+│   └── easyevents.db             # מסד הנתונים
+└── README.md                     # קובץ זה
 ```
 
 ---
 
-## 🚀 התקנה והרצה
+## 🚀 **איך להריץ את הפרויקט**
 
-### ✅ דרישות מקדימות
-- **Python 3.8+** מותקן במחשב
-- **Git** מותקן במחשב
-- דפדפן מודרני (Chrome, Firefox, Edge)
-- עורך קוד (VS Code מומלץ)
-
-### 📥 שלבי התקנה
-
-#### 1. **שכפול הפרויקט:**
+### התקנה ראשונית:
 ```bash
-git clone https://github.com/HadasaNaki/EesyEvents.git
-cd EesyEvents
-```
-
-#### 2. **יצירת סביבה וירטואלית:**
-```bash
-# Windows
-python -m venv .venv
-.venv\Scripts\activate
-
-# macOS/Linux
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-#### 3. **התקנת חבילות Python:**
-```bash
+# התקן תלויות Python
 pip install -r requirements.txt
 ```
 
-#### 4. **הפעלת שרת Backend:**
+### הרצה:
 ```bash
-# ודא שהסביבה הוירטואלית פעילה
-python app.py
+# הרץ את השרת
+python backend/app.py
 ```
-השרת ירוץ על: `http://localhost:5000`
 
-#### 5. **פתיחת האתר:**
-בטרמינל נפרד או בדפדפן:
-```bash
-# פתיחה ישירה
-start index.html
-
-# או גלוש אל
-file:///path/to/your/project/index.html
-```
+האתר יהיה זמין בכתובת: `http://localhost:5000`
 
 ---
 
-### 🔄 עדכון הפרויקט
+## 🎨 עיצוב וממשק משתמש
 
-כשיש עדכונים חדשים:
-```bash
-# משוך את השינויים האחרונים
-git pull origin main
-
-# עדכן את החבילות
-pip install -r requirements.txt --upgrade
-
-# הפעל מחדש את השרת
-python app.py
-```
+הפרויקט משתמש בעיצוב יוקרתי המבוסס על פלטת צבעים של בורדו, זהב ובז'.
+העיצוב מיושם באמצעות Tailwind CSS וכולל אנימציות CSS מותאמות אישית לחווית משתמש חלקה.
 
 ---
 
-### 🛠️ פקודות שימושיות
+## 🔒 אבטחה
 
-#### צפייה במשתמשים בבסיס הנתונים:
-```bash
-python view_users.py
-```
-
-#### בדיקת סטטיסטיקות:
-```bash
-# בדפדפן
-http://localhost:5000/api/stats
-```
-
-#### רשימת כל המשתמשים (API):
-```bash
-# בדפדפן
-http://localhost:5000/api/users
-```
-
----
-
-## 🔄 Git Workflow - זרימת עבודה
-
-### 1️⃣ יצירת ברנץ' חדש לפיצר
-
-**תמיד צור ברנץ' חדש לכל פיצר!**
-
-```bash
-# עדכן את main
-git checkout main
-git pull origin main
-
-# צור ברנץ' חדש
-git checkout -b feature/your_feature_name
-
-# דוגמאות:
-git checkout -b feature/user_profile
-git checkout -b feature/event_creation
-git checkout -b fix/login_bug
-```
-
-### 2️⃣ עבודה על הפיצר
-
-```bash
-# בדוק מצב הקבצים
-git status
-
-# הוסף קבצים ספציפיים
-git add file1.html file2.css
-
-# או הוסף הכל
-git add .
-
-# צור קומיט עם הודעה ברורה
-git commit -m "Add user profile page with edit functionality"
-
-# קומיט עם תיאור מפורט
-git commit -m "Add user profile page" -m "- Add profile form" -m "- Add avatar upload" -m "- Add save functionality"
-```
-
-### 3️⃣ דחיפה לברנץ' המרוחק
-
-```bash
-# דחיפה ראשונה
-git push -u origin feature/your_feature_name
-
-# דחיפות נוספות (אחרי -u)
-git push
-```
-
-### 4️⃣ יצירת Pull Request
-
-1. גש ל-GitHub: https://github.com/HadasaNaki/EesyEvents
-2. לחץ על "Compare & pull request"
-3. כתוב תיאור של השינויים
-4. המתן לסקירה ואישור מחבר הצוות
-
-### 5️⃣ מיזוג לאחר אישור
-
-**דרך GitHub (מומלץ):**
-- לחץ על "Merge pull request" ב-GitHub
-- אשר את המיזוג
-
-**דרך קונסול:**
-```bash
-# עבור ל-main
-git checkout main
-
-# מזג את הברנץ'
-git merge feature/your_feature_name
-
-# דחוף ל-main המרוחק
-git push origin main
-```
-
-### 6️⃣ ניקיון לאחר מיזוג
-
-```bash
-# מחק את הברנץ' המקומי
-git branch -d feature/your_feature_name
-
-# מחק את הברנץ' המרוחק
-git push origin --delete feature/your_feature_name
-```
-
----
-
-## 📝 כללי כתיבת קוד
-
-### שמות ברנצ'ים
-```
-feature/     - לפיצרים חדשים
-fix/         - לתיקוני באגים
-hotfix/      - לתיקונים דחופים
-docs/        - לשינויי תיעוד
-style/       - לשינויי עיצוב
-refactor/    - לשיפור קוד קיים
-```
-
-**דוגמאות:**
-- `feature/user_dashboard`
-- `fix/login_validation`
-- `docs/update_readme`
-
-### הודעות קומיט
-
-**✅ טוב:**
-```bash
-git commit -m "Add event creation form with date picker"
-git commit -m "Fix login button alignment on mobile"
-git commit -m "Update README with Git workflow instructions"
-```
-
-**❌ לא טוב:**
-```bash
-git commit -m "changes"
-git commit -m "fix"
-git commit -m "update"
-```
-
----
-
-## 🌲 מבנה ברנצ'ים
-
-```
-main                    # הברנץ' הראשי - רק קוד יציב
-├── feature/home_page_structure
-├── feature/user_account
-├── feature/event_management
-└── feature/supplier_search
-```
-
----
-
-## 📋 רשימת המשימות (TODO)
-
-### ✅ הושלם
-- [x] שלד בסיסי של דף הבית
-- [x] תפריט ניווט
-- [x] דף הבית מלא עם כל הסקשנים
-- [x] דף הרשמה עם טופס מלא
-- [x] דף התחברות עם טופס
-- [x] **מערכת Backend מקצועית (Flask + SQLite)** ✨
-- [x] **אימות משתמשים עם הצפנת סיסמאות** ✨
-- [x] **API RESTful מלא** ✨
-- [x] **בסיס נתונים SQLite** ✨
-
-### 🚧 בתהליך
-- [ ] דף ניהול אירועים (Dashboard)
-- [ ] דף יצירת אירוע חדש
-- [ ] אזור אישי למשתמש מחובר
-
-### 📅 לעתיד
-- [ ] מערכת ניהול תקציב
-- [ ] חיפוש וסינון ספקים
-- [ ] מערכת משימות (To-Do)
-- [ ] הזמנות דיגיטליות
-- [ ] אינטגרציה עם Google Calendar
-- [ ] מערכת דירוגים וחוות דעת
-
----
-
-## 🐛 דיווח על באגים
-
-אם מצאת באג, פתח issue ב-GitHub עם:
-1. תיאור הבעיה
-2. צעדים לשחזור
-3. התנהגות צפויה vs. התנהגות בפועל
-4. צילומי מסך (אם רלוונטי)
-
----
-
-## 📞 צור קשר
-
-- **Repository:** https://github.com/HadasaNaki/EesyEvents
-- **Issues:** https://github.com/HadasaNaki/EesyEvents/issues
-
----
-
-## 📄 רישיון
-
-© 2025 EasyVents. כל הזכויות שמורות.
-
-פרויקט אקדמי - המכון האקדמי לב (JCT)
-
----
-
-## 🎓 הערות למפתחים
-
-### שימושיות
-- **כל שינוי צריך להיות בברנץ' נפרד**
-- **אל תעבוד ישירות על main**
-- **תמיד עדכן את הברנץ' שלך לפני תחילת עבודה**
-- **כתוב הודעות קומיט ברורות ומפורטות**
-- **סקור את הקוד של חברי הצוות**
-
-### טיפים
-- השתמש ב-Git Extensions או SourceTree לניהול ויזואלי
-- הגדר .gitignore נכון כדי לא להעלות קבצים מיותרים
-- צור commits קטנים ותכופים במקום אחד גדול
-- בדוק את הקוד לפני push (בדיקת syntax, styling)
-
----
-
-**בהצלחה בפיתוח! 🚀**
+- **סיסמאות**: מוצפנות באמצעות `Werkzeug` (PBKDF2).
+- **אימות**: בדיקות תקינות בצד הלקוח ובצד השרת.
+- **SQL Injection**: שימוש בפרמטרים מוגנים בשאילתות.

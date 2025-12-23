@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
+    <div class="bg-white/90 backdrop-blur-xl p-8 md:p-12 rounded-2xl shadow-2xl text-center max-w-md w-full relative z-10 border border-white/50 fade-in-up">
+        <h2 class="text-3xl font-bold text-[#800020] mb-2">ברוכים השבים</h2>
+        <p class="text-gray-500 mb-8">התחברו לחשבון שלכם</p>
+
+        <form id="loginForm" class="space-y-4">
+            <div id="error-message" class="text-red-500 text-sm hidden"></div>
+
+            <div>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="אימייל"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none transition-all"
+                    required
+                />
+            </div>
+
+            <div>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="סיסמה"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none transition-all"
+                    required
+                />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full px-6 py-3 rounded-lg bg-[#800020] text-white font-bold hover:bg-[#660018] transition-all">
+                התחבר
+            </button>
+        </form>
+
+        <div class="mt-6 text-sm text-gray-500">
+            עדיין אין לך חשבון?
+            <a href="/register" class="text-[#800020] font-bold hover:underline">
+                הירשם עכשיו
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const errorDiv = document.getElementById('error-message');
+
+    errorDiv.classList.add('hidden');
+    errorDiv.textContent = '';
+
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log('Login successful:', data);
+            window.location.href = '/';
+        } else {
+            errorDiv.textContent = data.error || 'שגיאה בהתחברות';
+            errorDiv.classList.remove('hidden');
+        }
+    } catch (err) {
+        errorDiv.textContent = 'שגיאה בתקשורת עם השרת';
+        errorDiv.classList.remove('hidden');
+        console.error('Login error:', err);
+    }
+});
+</script>
+{% endblock %}

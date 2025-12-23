@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
+    <div class="bg-white/90 backdrop-blur-xl p-8 md:p-12 rounded-2xl shadow-2xl text-center max-w-md w-full relative z-10 border border-white/50 fade-in-up">
+        <h2 class="text-3xl font-bold text-[#800020] mb-2">יצירת חשבון</h2>
+        <p class="text-gray-500 mb-8">הצטרפו לקהילה שלנו</p>
+
+        <form id="registerForm" class="space-y-4">
+            <div id="error-message" class="text-red-500 text-sm hidden"></div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <input
+                    type="text"
+                    id="firstName"
+                    placeholder="שם פרטי"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none transition-all"
+                    required
+                />
+                <input
+                    type="text"
+                    id="lastName"
+                    placeholder="שם משפחה"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none transition-all"
+                    required
+                />
+            </div>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="אימייל"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none transition-all"
+                required
+            />
+
+            <input
+                type="tel"
+                id="phone"
+                placeholder="טלפון"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none transition-all"
+            />
+
+            <input
+                type="password"
+                id="password"
+                placeholder="סיסמה"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none transition-all"
+                required
+            />
+
+            <input
+                type="password"
+                id="confirmPassword"
+                placeholder="אימות סיסמה"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none transition-all"
+                required
+            />
+
+            <button type="submit" class="btn btn-primary w-full px-6 py-3 rounded-lg bg-[#800020] text-white font-bold hover:bg-[#660018] transition-all">
+                הירשם
+            </button>
+        </form>
+
+        <div class="mt-6 text-sm text-gray-500">
+            כבר יש לך חשבון?
+            <a href="/login" class="text-[#800020] font-bold hover:underline">
+                התחבר
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const errorDiv = document.getElementById('error-message');
+
+    errorDiv.classList.add('hidden');
+    errorDiv.textContent = '';
+
+    if (password !== confirmPassword) {
+        errorDiv.textContent = 'הסיסמאות אינן תואמות';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                first_name: firstName,
+                last_name: lastName,
+                email: email,
+                phone: phone,
+                password: password
+            }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log('Registration successful:', data);
+            window.location.href = '/login';
+        } else {
+            errorDiv.textContent = data.error || 'שגיאה בהרשמה';
+            errorDiv.classList.remove('hidden');
+        }
+    } catch (err) {
+        errorDiv.textContent = 'שגיאה בתקשורת עם השרת';
+        errorDiv.classList.remove('hidden');
+        console.error('Registration error:', err);
+    }
+});
+</script>
+{% endblock %}

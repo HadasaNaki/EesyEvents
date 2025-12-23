@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section relative min-h-[90vh] flex items-center justify-center text-center px-4" id="home">
+        <div class="container mx-auto">
+            <div class="hero-content max-w-4xl mx-auto">
+                <h2 class="hero-title text-5xl md:text-7xl font-bold mb-6 fade-in-up" style="color: #800020;">
+                    תכנון אירוע מושלם מתחיל מכאן
+                </h2>
+                <p class="hero-subtitle text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed fade-in-up delay-100" style="color: #cb4a6b;">
+                    חוויה אקסקלוסיבית של דיוק, אלגנטיות וטעם משובח.<br/>
+                    הפלטפורמה שמעניקה לאירוע שלך את המעמד הראוי לו.
+                </p>
+                <div class="hero-buttons flex gap-4 justify-center fade-in-up delay-200">
+                    <a href="/register" class="btn btn-hero-primary px-8 py-4 bg-[#800020] text-white rounded-full text-lg font-bold hover:bg-[#660018] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 no-underline">
+                        התחל לתכנן
+                    </a>
+                    <button class="btn btn-hero-secondary px-8 py-4 bg-white text-[#800020] border-2 border-[#800020] rounded-full text-lg font-bold hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        גלה עוד
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Types Section -->
+    <section class="event-types-section py-20 bg-white" id="features">
+        <div class="container mx-auto px-8">
+            <h2 class="section-title text-4xl font-bold text-center text-[#800020] mb-4">סוגי אירועים שאנחנו תומכים בהם</h2>
+            <p class="section-subtitle text-center text-gray-500 mb-16 text-xl">תכנון מקצועי לכל סוג של אירוע</p>
+            <div class="event-types-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card 1 -->
+                <div class="event-type-card group cursor-pointer">
+                    <div class="overflow-hidden rounded-2xl shadow-lg mb-4">
+                        <img
+                            src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop"
+                            alt="חתונות"
+                            class="event-image w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                    </div>
+                    <h3 class="text-xl font-bold text-center text-gray-800 group-hover:text-[#800020] transition-colors">חתונות</h3>
+                </div>
+                <!-- Card 2 -->
+                <div class="event-type-card group cursor-pointer">
+                    <div class="overflow-hidden rounded-2xl shadow-lg mb-4">
+                        <img
+                            src="https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=2070&auto=format&fit=crop"
+                            alt="בר/בת מצווה"
+                            class="event-image w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                    </div>
+                    <h3 class="text-xl font-bold text-center text-gray-800 group-hover:text-[#800020] transition-colors">בר/בת מצווה</h3>
+                </div>
+                <!-- Card 3 -->
+                <div class="event-type-card group cursor-pointer">
+                    <div class="overflow-hidden rounded-2xl shadow-lg mb-4">
+                        <img
+                            src="https://images.unsplash.com/photo-1541532713592-79a0317b6b77?q=80&w=1888&auto=format&fit=crop"
+                            alt="מסיבות רווקות"
+                            class="event-image w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                    </div>
+                    <h3 class="text-xl font-bold text-center text-gray-800 group-hover:text-[#800020] transition-colors">מסיבות רווקות</h3>
+                </div>
+                <!-- Card 4 -->
+                <div class="event-type-card group cursor-pointer">
+                    <div class="overflow-hidden rounded-2xl shadow-lg mb-4">
+                        <img
+                            src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2069&auto=format&fit=crop"
+                            alt="אירועים עסקיים"
+                            class="event-image w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                    </div>
+                    <h3 class="text-xl font-bold text-center text-gray-800 group-hover:text-[#800020] transition-colors">אירועים עסקיים</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works-section py-20 bg-[#F9F7F4]">
+        <div class="container mx-auto px-8">
+            <h2 class="section-title text-4xl font-bold text-center text-[#800020] mb-4">איך זה עובד?</h2>
+            <p class="section-subtitle text-center text-gray-500 mb-16 text-xl">4 שלבים פשוטים לאירוע מושלם</p>
+            <div class="steps-grid grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="step-card bg-white p-8 rounded-2xl shadow-md text-center relative fade-in-up delay-100">
+                    <div class="step-number w-12 h-12 bg-[#800020] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">1</div>
+                    <h3 class="text-xl font-bold mb-2">הירשם והתחבר</h3>
+                    <p class="text-gray-600">פתח חשבון אישי בקלות תוך דקה</p>
+                </div>
+                <div class="step-card bg-white p-8 rounded-2xl shadow-md text-center relative fade-in-up delay-200">
+                    <div class="step-number w-12 h-12 bg-[#800020] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">2</div>
+                    <h3 class="text-xl font-bold mb-2">צור אירוע חדש</h3>
+                    <p class="text-gray-600">הגדר את סוג האירוע, תאריך ותקציב</p>
+                </div>
+                <div class="step-card bg-white p-8 rounded-2xl shadow-md text-center relative fade-in-up delay-300">
+                    <div class="step-number w-12 h-12 bg-[#800020] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">3</div>
+                    <h3 class="text-xl font-bold mb-2">נהל ותכנן</h3>
+                    <p class="text-gray-600">בחר ספקים, נהל מוזמנים ומשימות</p>
+                </div>
+                <div class="step-card bg-white p-8 rounded-2xl shadow-md text-center relative fade-in-up delay-300">
+                    <div class="step-number w-12 h-12 bg-[#800020] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">4</div>
+                    <h3 class="text-xl font-bold mb-2">חגוג בראש שקט</h3>
+                    <p class="text-gray-600">הגיע לאירוע רגוע כשהכל מוכן</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyVents - תכנון אירועים יוקרתי</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@900&family=Bellefair&family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@300;400;500;700;900&family=Rubik:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Animation classes to replace Framer Motion */
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .fade-in-down {
+            animation: fadeInDown 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(-100px);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stagger delays */
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body class="bg-[#F9F7F4] text-[#333333] font-sans">
+
+    <!-- Header -->
+    <header class="main-header fade-in-down">
+        <div class="container mx-auto px-8">
+            <div class="header-content flex justify-between items-center py-4">
+                <div class="logo">
+                    <a href="/" class="flex items-center no-underline">
+                        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EasyVents" class="logo-img h-12">
+                    </a>
+                </div>
+
+                <nav class="main-nav hidden md:block">
+                    <ul class="flex gap-8 list-none m-0 p-0">
+                        <li><a href="/#home" class="text-gray-700 hover:text-[#800020] transition-colors no-underline">דף הבית</a></li>
+                        <li><a href="/#features" class="text-gray-700 hover:text-[#800020] transition-colors no-underline">תכונות</a></li>
+                        <li><a href="/#about" class="text-gray-700 hover:text-[#800020] transition-colors no-underline">אודות</a></li>
+                        <li><a href="/#contact" class="text-gray-700 hover:text-[#800020] transition-colors no-underline">צור קשר</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-actions flex gap-4">
+                    <a href="/login" class="btn btn-secondary px-6 py-2 rounded-full border border-[#800020] text-[#800020] hover:bg-[#800020] hover:text-white transition-all no-underline">
+                        התחבר
+                    </a>
+                    <a href="/register" class="btn btn-primary px-6 py-2 rounded-full bg-[#800020] text-white hover:bg-[#660018] transition-all no-underline">
+                        הרשם
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    <footer class="main-footer bg-white py-12 mt-20 border-t border-gray-200">
+        <div class="container mx-auto px-8">
+            <div class="footer-content grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="footer-section">
+                    <h3 class="text-xl font-bold mb-4 text-[#800020]">🎉 EasyVents</h3>
+                    <p class="text-gray-600">פלטפורמה חכמה לניהול אירועים - חתונות, בר/בת מצוות ואירועים עסקיים</p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="font-bold mb-4">קישורים מהירים</h4>
+                    <ul class="space-y-2 list-none p-0">
+                        <li><a href="/#home" class="text-gray-600 hover:text-[#800020] no-underline">דף הבית</a></li>
+                        <li><a href="/#features" class="text-gray-600 hover:text-[#800020] no-underline">תכונות</a></li>
+                        <li><a href="/#about" class="text-gray-600 hover:text-[#800020] no-underline">אודות</a></li>
+                        <li><a href="/#contact" class="text-gray-600 hover:text-[#800020] no-underline">צור קשר</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="font-bold mb-4">תמיכה</h4>
+                    <ul class="space-y-2 list-none p-0">
+                        <li><a href="#" class="text-gray-600 hover:text-[#800020] no-underline">מרכז עזרה</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-[#800020] no-underline">שאלות נפוצות</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-[#800020] no-underline">תנאי שימוש</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-[#800020] no-underline">מדיניות פרטיות</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="font-bold mb-4">צור קשר</h4>
+                    <ul class="space-y-2 list-none p-0">
+                        <li>📧 info@easyvents.co.il</li>
+                        <li>📱 03-1234567</li>
+                        <li>📍 תל אביב, ישראל</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom text-center mt-12 pt-8 border-t border-gray-100 text-gray-500">
+                <p>&copy; 2025 EasyVents. כל הזכויות שמורות.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
