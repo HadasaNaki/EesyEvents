@@ -325,6 +325,11 @@ def plan_page():
     """Serve the event planning/filtering page"""
     return render_template('plan.html')
 
+@app.route('/results')
+def results_page():
+    """Serve the results page"""
+    return render_template('results.html')
+
 if __name__ == '__main__':
     print("🚀 Starting EasyVents API Server...")
     print("📍 Server running on: http://localhost:5000")

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="padding-top: 4rem; padding-bottom: 4rem;">
+    <div class="text-center mb-12 fade-in-up">
+        <h2 class="section-title text-4xl font-bold text-[#800020] mb-4">התוצאות שלך</h2>
+        <p class="section-subtitle text-xl text-gray-600">מצאנו עבורך את הספקים המושלמים לאירוע</p>
+    </div>
+
+    <div class="results-summary bg-white p-6 rounded-xl shadow-lg mb-12 fade-in-up delay-100 border border-gray-100">
+        <h3 class="text-xl font-bold mb-4 text-[#800020]">פרטי הסינון שלך:</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-gray-700">
+            <div>
+                <span class="font-bold block">סוג אירוע:</span>
+                {{ request.args.get('event_type', 'לא נבחר') }}
+            </div>
+            <div>
+                <span class="font-bold block">אזור:</span>
+                {{ request.args.get('region', 'לא נבחר') }}
+            </div>
+            <div>
+                <span class="font-bold block">תקציב:</span>
+                {{ request.args.get('budget', 'לא נבחר') }}
+            </div>
+            <div>
+                <span class="font-bold block">אורחים:</span>
+                {{ request.args.get('guests', 'לא צוין') }}
+            </div>
+        </div>
+    </div>
+
+    <div class="results-grid grid grid-cols-1 md:grid-cols-3 gap-8 fade-in-up delay-200">
+        <!-- Placeholder Result 1 -->
+        <div class="vendor-card bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group">
+            <div class="relative h-64 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2098&auto=format&fit=crop" alt="Venue" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-sm font-bold text-[#800020]">
+                    אולם אירועים
+                </div>
+            </div>
+            <div class="p-6">
+                <h3 class="text-xl font-bold mb-2 text-gray-800">אחוזת הגן הקסום</h3>
+                <p class="text-gray-600 mb-4 text-sm">גן אירועים יוקרתי בלב השרון, מתאים לאירועים של עד 500 מוזמנים.</p>
+                <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                    <span class="text-[#800020] font-bold">החל מ-350 ₪ למנה</span>
+                    <button class="text-gray-500 hover:text-[#800020]">❤️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Placeholder Result 2 -->
+        <div class="vendor-card bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group">
+            <div class="relative h-64 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop" alt="Venue" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-sm font-bold text-[#800020]">
+                    צילום
+                </div>
+            </div>
+            <div class="p-6">
+                <h3 class="text-xl font-bold mb-2 text-gray-800">סטודיו אור</h3>
+                <p class="text-gray-600 mb-4 text-sm">צילום אמנותי ומרגש, תופסים את הרגעים הקטנים והגדולים.</p>
+                <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                    <span class="text-[#800020] font-bold">חבילות החל מ-5,000 ₪</span>
+                    <button class="text-gray-500 hover:text-[#800020]">❤️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Placeholder Result 3 -->
+        <div class="vendor-card bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group">
+            <div class="relative h-64 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop" alt="Venue" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-sm font-bold text-[#800020]">
+                    קייטרינג
+                </div>
+            </div>
+            <div class="p-6">
+                <h3 class="text-xl font-bold mb-2 text-gray-800">טעמים של בית</h3>
+                <p class="text-gray-600 mb-4 text-sm">קייטרינג בוטיק חלבי/דגים עם תפריט עשיר ומגוון.</p>
+                <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                    <span class="text-[#800020] font-bold">החל מ-250 ₪ למנה</span>
+                    <button class="text-gray-500 hover:text-[#800020]">❤️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
