@@ -1,107 +1,257 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container" style="padding-top: 4rem; padding-bottom: 4rem;">
-    <div class="auth-card fade-in-up" style="max-width: 800px; margin: 0 auto;">
-        <h2 class="auth-title">תכנון האירוע שלך</h2>
-        <p class="auth-subtitle">ספר לנו על החזון שלך, ואנחנו נדאג לשאר</p>
+<div class="container" style="padding-top: 4rem; padding-bottom: 4rem; background-color: #FDFBF7;">
+    <div class="auth-card fade-in-up" style="max-width: 900px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); padding: 3rem;">
+        <h2 class="auth-title text-center text-[#800020] font-serif text-4xl mb-2">תכנון האירוע שלך</h2>
+        <p class="auth-subtitle text-center text-gray-500 mb-10 text-lg">ספר לנו על החזון שלך, ואנחנו נדאג לשאר</p>
 
-        <form action="/results" method="GET" class="planning-form">
+        <form action="/results" method="GET" class="planning-form space-y-10">
             
             <!-- Event Type Selection -->
-            <div class="form-section mb-8">
-                <h3 class="text-xl mb-4 font-serif">סוג האירוע</h3>
+            <div class="form-section">
+                <h3 class="text-2xl mb-6 font-serif text-[#800020] border-b border-gray-100 pb-2">סוג האירוע</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <label class="selection-card">
                         <input type="radio" name="event_type" value="wedding" class="hidden-radio" {% if request.args.get('type') == 'wedding' %}checked{% endif %}>
                         <div class="card-content">
-                            <span>💍</span>
-                            <span>חתונה</span>
+                            <span class="text-3xl">💍</span>
+                            <span class="font-bold">חתונה</span>
                         </div>
                     </label>
                     <label class="selection-card">
                         <input type="radio" name="event_type" value="bar-mitzvah" class="hidden-radio" {% if request.args.get('type') == 'bar-mitzvah' %}checked{% endif %}>
                         <div class="card-content">
-                            <span>✡️</span>
-                            <span>בר/בת מצווה</span>
+                            <span class="text-3xl">✡️</span>
+                            <span class="font-bold">בר/בת מצווה</span>
+                        </div>
+                    </label>
+                    <label class="selection-card">
+                        <input type="radio" name="event_type" value="brit" class="hidden-radio" {% if request.args.get('type') == 'brit' %}checked{% endif %}>
+                        <div class="card-content">
+                            <span class="text-3xl">👶</span>
+                            <span class="font-bold">ברית/ה</span>
+                        </div>
+                    </label>
+                    <label class="selection-card">
+                        <input type="radio" name="event_type" value="engagement" class="hidden-radio" {% if request.args.get('type') == 'engagement' %}checked{% endif %}>
+                        <div class="card-content">
+                            <span class="text-3xl">💑</span>
+                            <span class="font-bold">אירוסין/חינה</span>
                         </div>
                     </label>
                     <label class="selection-card">
                         <input type="radio" name="event_type" value="party" class="hidden-radio" {% if request.args.get('type') == 'party' %}checked{% endif %}>
                         <div class="card-content">
-                            <span>🥂</span>
-                            <span>מסיבה</span>
+                            <span class="text-3xl">🥂</span>
+                            <span class="font-bold">מסיבה פרטית</span>
                         </div>
                     </label>
                     <label class="selection-card">
                         <input type="radio" name="event_type" value="business" class="hidden-radio" {% if request.args.get('type') == 'business' %}checked{% endif %}>
                         <div class="card-content">
-                            <span>💼</span>
-                            <span>אירוע עסקי</span>
+                            <span class="text-3xl">💼</span>
+                            <span class="font-bold">אירוע עסקי</span>
+                        </div>
+                    </label>
+                    <label class="selection-card">
+                        <input type="radio" name="event_type" value="birthday" class="hidden-radio" {% if request.args.get('type') == 'birthday' %}checked{% endif %}>
+                        <div class="card-content">
+                            <span class="text-3xl">🎂</span>
+                            <span class="font-bold">יום הולדת</span>
+                        </div>
+                    </label>
+                    <label class="selection-card">
+                        <input type="radio" name="event_type" value="other" class="hidden-radio" {% if request.args.get('type') == 'other' %}checked{% endif %}>
+                        <div class="card-content">
+                            <span class="text-3xl">✨</span>
+                            <span class="font-bold">אחר</span>
                         </div>
                     </label>
                 </div>
             </div>
 
-            <!-- Style/Vibe -->
-            <div class="form-section mb-8">
-                <h3 class="text-xl mb-4 font-serif">סגנון ועיצוב</h3>
-                <select name="style" class="form-input">
-                    <option value="" disabled selected>בחר סגנון מועדף</option>
-                    <option value="luxury">יוקרתי וקלאסי (Luxury)</option>
-                    <option value="boho">בוהו שיק (Boho Chic)</option>
-                    <option value="modern">מודרני ומינימליסטי</option>
-                    <option value="rustic">כפרי וטבעי</option>
-                    <option value="urban">אורבני ותעשייתי</option>
-                </select>
+            <!-- Date & Time -->
+            <div class="form-section">
+                <h3 class="text-2xl mb-6 font-serif text-[#800020] border-b border-gray-100 pb-2">מועד האירוע</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="form-group">
+                        <label class="block text-gray-700 mb-2 font-bold">תאריך משוער</label>
+                        <input type="date" name="date" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:border-[#800020] outline-none">
+                    </div>
+                    <div class="form-group">
+                        <label class="block text-gray-700 mb-2 font-bold">זמן ביום</label>
+                        <div class="grid grid-cols-3 gap-4">
+                            <label class="selection-card-small">
+                                <input type="radio" name="time_of_day" value="morning" class="hidden-radio">
+                                <div class="card-content-small">☀️ בוקר</div>
+                            </label>
+                            <label class="selection-card-small">
+                                <input type="radio" name="time_of_day" value="noon" class="hidden-radio">
+                                <div class="card-content-small">🌤️ צהריים</div>
+                            </label>
+                            <label class="selection-card-small">
+                                <input type="radio" name="time_of_day" value="evening" class="hidden-radio">
+                                <div class="card-content-small">🌙 ערב</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Budget & Guests Row -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <!-- Venue & Atmosphere -->
+            <div class="form-section">
+                <h3 class="text-2xl mb-6 font-serif text-[#800020] border-b border-gray-100 pb-2">אווירה ומיקום</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                    <div class="form-group">
+                        <label class="block text-gray-700 mb-2 font-bold">סוג מתחם</label>
+                        <select name="venue_type" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:border-[#800020] outline-none">
+                            <option value="" disabled selected>בחר סוג מתחם</option>
+                            <option value="hall">אולם אירועים סגור</option>
+                            <option value="garden">גן אירועים פתוח</option>
+                            <option value="combined">משולב (גן ואולם)</option>
+                            <option value="hotel">מלון</option>
+                            <option value="restaurant">מסעדה</option>
+                            <option value="nature">בטבע / יער / ים</option>
+                            <option value="synagogue">בית כנסת</option>
+                            <option value="home">בבית פרטי</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="block text-gray-700 mb-2 font-bold">סגנון עיצובי</label>
+                        <select name="style" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:border-[#800020] outline-none">
+                            <option value="" disabled selected>בחר סגנון מועדף</option>
+                            <option value="luxury">יוקרתי וקלאסי (Luxury)</option>
+                            <option value="boho">בוהו שיק (Boho Chic)</option>
+                            <option value="modern">מודרני ומינימליסטי</option>
+                            <option value="rustic">כפרי וטבעי</option>
+                            <option value="urban">אורבני ותעשייתי</option>
+                            <option value="vintage">וינטג' ורומנטי</option>
+                        </select>
+                    </div>
+                </div>
+                
                 <div class="form-group">
-                    <h3 class="text-xl mb-4 font-serif">תקציב משוער</h3>
-                    <select name="budget" class="form-input">
-                        <option value="" disabled selected>בחר טווח תקציב</option>
-                        <option value="low">עד 50,000 ₪</option>
-                        <option value="medium">50,000 ₪ - 100,000 ₪</option>
-                        <option value="high">100,000 ₪ - 200,000 ₪</option>
-                        <option value="premium">מעל 200,000 ₪</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <h3 class="text-xl mb-4 font-serif">מספר אורחים</h3>
-                    <input type="number" name="guests" placeholder="לדוגמה: 300" class="form-input" min="10">
-                </div>
-            </div>
-
-            <!-- Location -->
-            <div class="form-section mb-12">
-                <h3 class="text-xl mb-4 font-serif">אזור מועדף</h3>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <label class="checkbox-card">
-                        <input type="checkbox" name="region" value="north" class="hidden-checkbox">
-                        <span class="checkmark">צפון</span>
-                    </label>
-                    <label class="checkbox-card">
-                        <input type="checkbox" name="region" value="center" class="hidden-checkbox">
-                        <span class="checkmark">מרכז</span>
-                    </label>
-                    <label class="checkbox-card">
-                        <input type="checkbox" name="region" value="jerusalem" class="hidden-checkbox">
-                        <span class="checkmark">ירושלים</span>
-                    </label>
-                    <label class="checkbox-card">
-                        <input type="checkbox" name="region" value="south" class="hidden-checkbox">
-                        <span class="checkmark">דרום</span>
-                    </label>
-                    <label class="checkbox-card">
-                        <input type="checkbox" name="region" value="sharon" class="hidden-checkbox">
-                        <span class="checkmark">השרון</span>
-                    </label>
+                    <label class="block text-gray-700 mb-2 font-bold">אזור בארץ</label>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="region" value="north" class="hidden-checkbox">
+                            <span class="checkmark">צפון</span>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="region" value="sharon" class="hidden-checkbox">
+                            <span class="checkmark">השרון</span>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="region" value="center" class="hidden-checkbox">
+                            <span class="checkmark">מרכז</span>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="region" value="jerusalem" class="hidden-checkbox">
+                            <span class="checkmark">ירושלים</span>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="region" value="south" class="hidden-checkbox">
+                            <span class="checkmark">דרום</span>
+                        </label>
+                    </div>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary w-full text-lg py-4">
+            <!-- Budget & Guests -->
+            <div class="form-section">
+                <h3 class="text-2xl mb-6 font-serif text-[#800020] border-b border-gray-100 pb-2">פרטים טכניים</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="form-group">
+                        <label class="block text-gray-700 mb-2 font-bold">תקציב משוער</label>
+                        <select name="budget" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:border-[#800020] outline-none">
+                            <option value="" disabled selected>בחר טווח תקציב</option>
+                            <option value="low">עד 50,000 ₪</option>
+                            <option value="medium">50,000 ₪ - 100,000 ₪</option>
+                            <option value="high">100,000 ₪ - 200,000 ₪</option>
+                            <option value="premium">200,000 ₪ - 350,000 ₪</option>
+                            <option value="luxury">מעל 350,000 ₪</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="block text-gray-700 mb-2 font-bold">מספר אורחים</label>
+                        <input type="number" name="guests" placeholder="לדוגמה: 300" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:border-[#800020] outline-none" min="10">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services & Add-ons -->
+            <div class="form-section">
+                <h3 class="text-2xl mb-6 font-serif text-[#800020] border-b border-gray-100 pb-2">שירותים נוספים</h3>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-3 font-bold">מוזיקה והגברה</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <label class="checkbox-card-small">
+                            <input type="checkbox" name="music" value="dj" class="hidden-checkbox">
+                            <span class="checkmark-small">🎧 DJ</span>
+                        </label>
+                        <label class="checkbox-card-small">
+                            <input type="checkbox" name="music" value="live_band" class="hidden-checkbox">
+                            <span class="checkmark-small">🎸 להקה חיה</span>
+                        </label>
+                        <label class="checkbox-card-small">
+                            <input type="checkbox" name="music" value="orchestra" class="hidden-checkbox">
+                            <span class="checkmark-small">🎻 תזמורת</span>
+                        </label>
+                        <label class="checkbox-card-small">
+                            <input type="checkbox" name="music" value="singer" class="hidden-checkbox">
+                            <span class="checkmark-small">🎤 זמר/ת</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-3 font-bold">קייטרינג והסעדה</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <label class="checkbox-card-small">
+                            <input type="checkbox" name="catering" value="meat" class="hidden-checkbox">
+                            <span class="checkmark-small">🥩 בשרי</span>
+                        </label>
+                        <label class="checkbox-card-small">
+                            <input type="checkbox" name="catering" value="dairy" class="hidden-checkbox">
+                            <span class="checkmark-small">🧀 חלבי</span>
+                        </label>
+                        <label class="checkbox-card-small">
+                            <input type="checkbox" name="catering" value="chef" class="hidden-checkbox">
+                            <span class="checkmark-small">👨‍🍳 שף פרטי</span>
+                        </label>
+                        <label class="checkbox-card-small">
+                            <input type="checkbox" name="catering" value="vegan" class="hidden-checkbox">
+                            <span class="checkmark-small">🥗 טבעוני/צמחוני</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 mb-3 font-bold">תוספות מיוחדות</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <label class="checkbox-card-small">
+                            <input type="checkbox" name="extras" value="photographer" class="hidden-checkbox">
+                            <span class="checkmark-small">📸 צלם</span>
+                        </label>
+                        <label class="checkbox-card-small">
+                            <input type="checkbox" name="extras" value="magnets" class="hidden-checkbox">
+                            <span class="checkmark-small">🧲 מגנטים</span>
+                        </label>
+                        <label class="checkbox-card-small">
+                            <input type="checkbox" name="extras" value="design" class="hidden-checkbox">
+                            <span class="checkmark-small">🌸 עיצוב אירוע</span>
+                        </label>
+                        <label class="checkbox-card-small">
+                            <input type="checkbox" name="extras" value="attractions" class="hidden-checkbox">
+                            <span class="checkmark-small">🎪 אטרקציות</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full text-xl py-4 mt-8 bg-[#800020] text-white rounded-full hover:bg-[#660018] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-bold">
                 הצג תוצאות מותאמות אישית
             </button>
         </form>
@@ -112,10 +262,12 @@
     /* Custom Styles for the Planning Form */
     .selection-card {
         cursor: pointer;
+        height: 100%;
     }
     
     .card-content {
-        border: 1px solid var(--border-color);
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
         padding: 1.5rem;
         text-align: center;
         transition: all 0.3s ease;
@@ -123,23 +275,46 @@
         flex-direction: column;
         gap: 0.5rem;
         height: 100%;
+        background-color: white;
+        align-items: center;
+        justify-content: center;
     }
 
     .hidden-radio:checked + .card-content {
-        background-color: var(--black);
-        color: var(--white);
-        border-color: var(--black);
-    }
-
-    .hidden-radio:checked + .card-content span {
-        color: var(--white);
+        background-color: #800020;
+        color: white;
+        border-color: #800020;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(128, 0, 32, 0.2);
     }
 
     .card-content:hover {
-        border-color: var(--black);
+        border-color: #800020;
+        transform: translateY(-2px);
     }
 
-    .checkbox-card {
+    /* Small Selection Cards (Time of Day) */
+    .selection-card-small {
+        cursor: pointer;
+    }
+
+    .card-content-small {
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 0.75rem;
+        text-align: center;
+        transition: all 0.2s ease;
+        background-color: white;
+    }
+
+    .hidden-radio:checked + .card-content-small {
+        background-color: #800020;
+        color: white;
+        border-color: #800020;
+    }
+
+    /* Checkbox Cards */
+    .checkbox-card, .checkbox-card-small {
         cursor: pointer;
         display: block;
     }
@@ -151,40 +326,39 @@
     .checkmark {
         display: block;
         padding: 1rem;
-        border: 1px solid var(--border-color);
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
         text-align: center;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
+        background-color: white;
     }
 
-    .hidden-checkbox:checked + .checkmark {
-        background-color: var(--black);
-        color: var(--white);
-        border-color: var(--black);
+    .checkmark-small {
+        display: block;
+        padding: 0.75rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        text-align: center;
+        transition: all 0.2s ease;
+        background-color: white;
+        font-size: 0.9rem;
     }
 
-    .hidden-checkbox:checked + .checkmark:before {
+    .hidden-checkbox:checked + .checkmark,
+    .hidden-checkbox:checked + .checkmark-small {
+        background-color: #800020;
+        color: white;
+        border-color: #800020;
+    }
+
+    .hidden-checkbox:checked + .checkmark:before,
+    .hidden-checkbox:checked + .checkmark-small:before {
         content: "✓ ";
+        margin-left: 4px;
     }
 
-    .grid {
-        display: grid;
-    }
-    .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-    .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-    .md\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
-    .gap-4 { gap: 1rem; }
-    .gap-8 { gap: 2rem; }
-    .mb-4 { margin-bottom: 1rem; }
-    .mb-8 { margin-bottom: 2rem; }
-    .mb-12 { margin-bottom: 3rem; }
-    .text-xl { font-size: 1.25rem; }
-    .font-serif { font-family: var(--font-serif); }
-    .w-full { width: 100%; }
-    
-    @media (min-width: 768px) {
-        .md\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-        .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-        .md\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+    .checkmark:hover, .checkmark-small:hover, .card-content-small:hover {
+        border-color: #800020;
     }
 </style>
 {% endblock %}
