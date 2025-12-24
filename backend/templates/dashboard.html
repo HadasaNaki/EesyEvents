@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-[color:var(--color-beige)] py-20">
+    <div class="container px-4 md:px-8">
+        <!-- Header -->
+        <div class="text-center mb-16 fade-in-up">
+            <h2 class="font-serif text-4xl md:text-5xl mb-6 text-[color:var(--color-black)]">האירועים שלי</h2>
+            <p class="font-sans text-gray-500 text-sm tracking-widest uppercase">ניהול ומעקב אחר האירועים שלך</p>
+        </div>
+
+        {% if events %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto fade-in-up delay-100">
+            {% for event in events %}
+            <div class="bg-white p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group relative">
+                <!-- Status Badge -->
+                <div class="absolute top-4 left-4">
+                    <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-widest
+                        {% if event.status == 'planning' %}bg-yellow-100 text-yellow-800
+                        {% elif event.status == 'booked' %}bg-green-100 text-green-800
+                        {% else %}bg-gray-100 text-gray-800{% endif %}">
+                        {{ event.status }}
+                    </span>
+                </div>
+
+                <!-- Icon -->
+                <div class="text-4xl mb-6 text-center">
+                    {% if event.event_type == 'wedding' %}💍
+                    {% elif event.event_type == 'bar-mitzvah' %}✡️
+                    {% elif event.event_type == 'brit' %}👶
+                    {% elif event.event_type == 'engagement' %}💑
+                    {% elif event.event_type == 'party' %}🥂
+                    {% elif event.event_type == 'business' %}💼
+                    {% elif event.event_type == 'birthday' %}🎂
+                    {% else %}✨{% endif %}
+                </div>
+
+                <!-- Title -->
+                <h3 class="font-serif text-2xl text-center mb-2 text-[color:var(--color-black)]">
+                    {% if event.event_type == 'wedding' %}חתונה
+                    {% elif event.event_type == 'bar-mitzvah' %}בר/בת מצווה
+                    {% elif event.event_type == 'brit' %}ברית/ה
+                    {% elif event.event_type == 'engagement' %}אירוסין/חינה
+                    {% elif event.event_type == 'party' %}מסיבה פרטית
+                    {% elif event.event_type == 'business' %}אירוע עסקי
+                    {% elif event.event_type == 'birthday' %}יום הולדת
+                    {% else %}אירוע כללי{% endif %}
+                </h3>
+
+                <p class="text-center text-gray-400 text-xs uppercase tracking-widest mb-8">
+                    {{ event.date or 'תאריך לא נקבע' }}
+                </p>
+
+                <!-- Details -->
+                <div class="space-y-4 mb-8 border-t border-gray-100 pt-6">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-400">אורחים</span>
+                        <span class="font-bold text-[color:var(--color-black)]">{{ event.guests or '-' }}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-400">תקציב</span>
+                        <span class="font-bold text-[color:var(--color-black)]">
+                            {% if event.budget == 'low' %}עד 50k
+                            {% elif event.budget == 'medium' %}50k - 100k
+                            {% elif event.budget == 'high' %}100k - 200k
+                            {% elif event.budget == 'premium' %}200k - 350k
+                            {% elif event.budget == 'luxury' %}350k+
+                            {% else %}-{% endif %}
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-400">אזור</span>
+                        <span class="font-bold text-[color:var(--color-black)]">
+                            {% if event.region == 'north' %}צפון
+                            {% elif event.region == 'sharon' %}השרון
+                            {% elif event.region == 'center' %}מרכז
+                            {% elif event.region == 'jerusalem' %}ירושלים
+                            {% elif event.region == 'south' %}דרום
+                            {% else %}{{ event.region or '-' }}{% endif %}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Action -->
+                <a href="/event/{{ event.id }}/manage" class="block w-full py-3 border border-[color:var(--color-black)] text-[color:var(--color-black)] hover:bg-[color:var(--color-black)] hover:text-white transition-colors text-[10px] uppercase tracking-[0.2em] font-bold text-center">
+                    ניהול אירוע
+                </a>
+            </div>
+            {% endfor %}
+
+            <!-- Add New Event Card -->
+            <a href="/plan" class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-200 hover:border-[color:var(--color-black)] transition-colors group min-h-[400px]">
+                <div class="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4 group-hover:bg-[color:var(--color-beige)] transition-colors">
+                    <span class="text-2xl text-gray-400 group-hover:text-[color:var(--color-black)]">+</span>
+                </div>
+                <span class="font-serif text-xl text-gray-400 group-hover:text-[color:var(--color-black)]">יצירת אירוע חדש</span>
+            </a>
+        </div>
+        {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-20 bg-white max-w-2xl mx-auto shadow-sm border border-gray-100 fade-in-up delay-100">
+            <div class="text-6xl mb-6">📅</div>
+            <h3 class="font-serif text-2xl mb-4 text-[color:var(--color-black)]">עדיין אין לך אירועים</h3>
+            <p class="text-gray-500 mb-8 font-sans">זה הזמן להתחיל לתכנן את האירוע המושלם שלך</p>
+            <a href="/plan" class="inline-block bg-[color:var(--color-black)] text-white px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-opacity-90 transition-opacity">
+                צור אירוע ראשון
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -3,21 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EasyVents - תכנון אירועים יוקרתי</title>
+    <title>EasyVents | The Art of Celebration</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@900&family=Bellefair&family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@300;400;500;700;900&family=Rubik:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Playfair Display (Serif) & Lato (Sans) for that Editorial Look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Animation classes to replace Framer Motion */
+        :root {
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Lato', sans-serif;
+            --color-black: #6B5B4F; /* Lighter Stone Brown */
+            --color-text: #7D6E63;  /* Soft Brown Text */
+            --color-stone: #8F8177; /* Pale Stone */
+            --color-beige: #f4f1ea;
+            --color-white: #ffffff;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--color-text);
+            background-color: var(--color-white);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            color: var(--color-black);
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid #f0f0f0;
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link {
+            font-family: var(--font-sans);
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            color: var(--color-black);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--color-black);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .logo-text {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            color: var(--color-black);
+            text-decoration: none;
+        }
+
+        /* Button Styles */
+        .btn-editorial {
+            background-color: var(--color-black);
+            color: #fff;
+            font-family: var(--font-sans);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            padding: 1rem 2rem;
+            border: 1px solid var(--color-black);
+            transition: all 0.3s ease;
+            font-weight: 700;
+        }
+
+        .btn-editorial:hover {
+            background-color: #fff;
+            color: var(--color-black);
+        }
+
+        .btn-editorial-outline {
+            background-color: transparent;
+            color: var(--color-black);
+            font-family: var(--font-sans);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            padding: 1rem 2rem;
+            border: 1px solid var(--color-black);
+            transition: all 0.3s ease;
+            font-weight: 700;
+        }
+
+        .btn-editorial-outline:hover {
+            background-color: var(--color-black);
+            color: #fff;
+        }
+
+        /* Footer Styles */
+        .main-footer {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            border-top: 1px solid #eaeaea;
+            padding: 4rem 0;
+            font-family: var(--font-sans);
+        }
+
+        .footer-heading {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-white);
+        }
+
+        .footer-link {
+            display: block;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-link:hover {
+            color: var(--color-white);
+            text-decoration: underline;
+        }
+
+        /* Utility */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
         .fade-in-up {
             animation: fadeInUp 0.8s ease-out forwards;
             opacity: 0;
             transform: translateY(20px);
-        }
-
-        .fade-in-down {
-            animation: fadeInDown 0.5s ease-out forwards;
-            opacity: 0;
-            transform: translateY(-100px);
         }
 
         @keyframes fadeInUp {
@@ -26,59 +170,41 @@
                 transform: translateY(0);
             }
         }
-
-        @keyframes fadeInDown {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Stagger delays */
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-300 { animation-delay: 0.3s; }
     </style>
 </head>
-<body class="bg-[#F9F7F4] text-[#333333] font-sans">
+<body class="antialiased">
 
     <!-- Header -->
-    <header class="main-header fade-in-down">
-        <div class="container mx-auto px-8">
-            <div class="header-content flex justify-between items-center py-4">
-                <div class="logo">
-                    <a href="/" class="flex items-center no-underline">
-                        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EasyVents" class="logo-img h-12">
-                    </a>
-                </div>
-
-                <nav class="main-nav hidden md:block">
-                    <ul class="flex gap-8 list-none m-0 p-0">
-                        <li><a href="/#home" class="text-gray-700 hover:text-[#800020] transition-colors no-underline">דף הבית</a></li>
-                        <li><a href="/#features" class="text-gray-700 hover:text-[#800020] transition-colors no-underline">תכונות</a></li>
-                        <li><a href="/#about" class="text-gray-700 hover:text-[#800020] transition-colors no-underline">אודות</a></li>
-                        <li><a href="/#contact" class="text-gray-700 hover:text-[#800020] transition-colors no-underline">צור קשר</a></li>
-                    </ul>
-                </nav>
-
-                <div class="header-actions flex gap-4">
-                    {% if current_user.is_authenticated %}
-                        <span class="flex items-center text-[#800020] font-bold">
-                            שלום, {{ current_user.first_name }}
-                        </span>
-                        <button onclick="logout()" class="btn btn-secondary px-6 py-2 rounded-full border border-[#800020] text-[#800020] hover:bg-[#800020] hover:text-white transition-all no-underline">
-                            התנתק
-                        </button>
-                    {% else %}
-                        <a href="/login" class="btn btn-secondary px-6 py-2 rounded-full border border-[#800020] text-[#800020] hover:bg-[#800020] hover:text-white transition-all no-underline">
-                            התחבר
-                        </a>
-                        <a href="/register" class="btn btn-primary px-6 py-2 rounded-full bg-[#800020] text-white hover:bg-[#660018] transition-all no-underline">
-                            הרשם
-                        </a>
-                    {% endif %}
-                </div>
+    <header class="main-header">
+        <div class="container flex justify-between items-center relative">
+            <!-- Left: Auth/Actions -->
+            <div class="hidden md:flex gap-6 items-center">
+                {% if current_user.is_authenticated %}
+                    <span class="nav-link cursor-default">שלום, {{ current_user.first_name }}</span>
+                    <button onclick="logout()" class="nav-link bg-transparent border-0 cursor-pointer">התנתק</button>
+                {% else %}
+                    <a href="/login" class="nav-link">התחברות</a>
+                    <a href="/register" class="nav-link">הרשמה</a>
+                {% endif %}
             </div>
+
+            <!-- Center: Logo -->
+            <div class="absolute left-1/2 transform -translate-x-1/2">
+                <a href="/" class="logo-text">EasyVents</a>
+            </div>
+
+            <!-- Right: Navigation -->
+            <nav class="hidden md:flex gap-8">
+                {% if current_user.is_authenticated %}
+                    <a href="/dashboard" class="nav-link text-[color:var(--color-black)] border-b-2 border-transparent hover:border-[color:var(--color-black)]">האירועים שלי</a>
+                {% endif %}
+                <a href="/plan" class="nav-link">תכנון אירוע</a>
+                <a href="/#vendors" class="nav-link">ספקים</a>
+                <a href="/#inspiration" class="nav-link">השראה</a>
+            </nav>
+
+            <!-- Mobile Menu Button (Placeholder) -->
+            <button class="md:hidden text-2xl">☰</button>
         </div>
     </header>
 
@@ -86,47 +212,46 @@
     {% block content %}{% endblock %}
 
     <!-- Footer -->
-    <footer class="main-footer bg-white py-12 mt-20 border-t border-gray-200">
-        <div class="container mx-auto px-8">
-            <div class="footer-content grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="footer-section">
-                    <h3 class="text-xl font-bold mb-4 text-[#800020]">🎉 EasyVents</h3>
-                    <p class="text-gray-600">פלטפורמה חכמה לניהול אירועים - חתונות, בר/בת מצוות ואירועים עסקיים</p>
-                </div>
-                <div class="footer-section">
-                    <h4 class="font-bold mb-4">קישורים מהירים</h4>
-                    <ul class="space-y-2 list-none p-0">
-                        <li><a href="/#home" class="text-gray-600 hover:text-[#800020] no-underline">דף הבית</a></li>
-                        <li><a href="/#features" class="text-gray-600 hover:text-[#800020] no-underline">תכונות</a></li>
-                        <li><a href="/#about" class="text-gray-600 hover:text-[#800020] no-underline">אודות</a></li>
-                        <li><a href="/#contact" class="text-gray-600 hover:text-[#800020] no-underline">צור קשר</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4 class="font-bold mb-4">תמיכה</h4>
-                    <ul class="space-y-2 list-none p-0">
-                        <li><a href="#" class="text-gray-600 hover:text-[#800020] no-underline">מרכז עזרה</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-[#800020] no-underline">שאלות נפוצות</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-[#800020] no-underline">תנאי שימוש</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-[#800020] no-underline">מדיניות פרטיות</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4 class="font-bold mb-4">צור קשר</h4>
-                    <ul class="space-y-2 list-none p-0">
-                        <li>📧 info@easyvents.co.il</li>
-                        <li>📱 03-1234567</li>
-                        <li>📍 תל אביב, ישראל</li>
-                    </ul>
+    <footer class="main-footer">
+        <div class="container grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+                <h3 class="footer-heading">EasyVents</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                    הפלטפורמה המובילה לתכנון אירועים יוקרתיים.
+                    אנחנו מחברים בין חזון למציאות, עם הספקים הטובים ביותר בתעשייה.
+                </p>
+            </div>
+            <div>
+                <h3 class="footer-heading">ספקים</h3>
+                <a href="#" class="footer-link">צלמים</a>
+                <a href="#" class="footer-link">אולמות אירועים</a>
+                <a href="#" class="footer-link">קייטרינג</a>
+                <a href="#" class="footer-link">מוזיקה</a>
+                <a href="#" class="footer-link">עיצוב והפקה</a>
+            </div>
+            <div>
+                <h3 class="footer-heading">השראה</h3>
+                <a href="#" class="footer-link">חתונות אמיתיות</a>
+                <a href="#" class="footer-link">כתבות ומדריכים</a>
+                <a href="#" class="footer-link">טרנדים חמים</a>
+                <a href="#" class="footer-link">גלריית תמונות</a>
+            </div>
+            <div>
+                <h3 class="footer-heading">צור קשר</h3>
+                <a href="#" class="footer-link">אודותינו</a>
+                <a href="#" class="footer-link">פרסם אצלנו</a>
+                <a href="#" class="footer-link">תמיכה טכנית</a>
+                <div class="flex gap-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-[color:var(--color-black)] text-xl">Instagram</a>
+                    <a href="#" class="text-gray-400 hover:text-[color:var(--color-black)] text-xl">Facebook</a>
                 </div>
             </div>
-            <div class="footer-bottom text-center mt-12 pt-8 border-t border-gray-100 text-gray-500">
-                <p>&copy; 2025 EasyVents. כל הזכויות שמורות.</p>
-            </div>
+        </div>
+        <div class="container mt-12 pt-8 border-t border-gray-200 text-center text-xs text-gray-400 uppercase tracking-widest">
+            &copy; 2025 EasyVents. All Rights Reserved.
         </div>
     </footer>
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script>
         async function logout() {
             try {

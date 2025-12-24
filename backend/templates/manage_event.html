@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-[color:var(--color-beige)] py-12">
+    <div class="container px-4 md:px-8">
+
+        <!-- Back Link -->
+        <div class="mb-8 fade-in-up">
+            <a href="/dashboard" class="text-gray-400 hover:text-[color:var(--color-black)] text-xs uppercase tracking-widest transition-colors">
+                ← חזרה לאירועים שלי
+            </a>
+        </div>
+
+        <!-- Event Header -->
+        <div class="bg-white p-8 md:p-12 shadow-sm border border-gray-100 mb-8 fade-in-up">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div>
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="text-3xl">
+                            {% if event.event_type == 'wedding' %}💍
+                            {% elif event.event_type == 'bar-mitzvah' %}✡️
+                            {% elif event.event_type == 'brit' %}👶
+                            {% elif event.event_type == 'engagement' %}💑
+                            {% elif event.event_type == 'party' %}🥂
+                            {% elif event.event_type == 'business' %}💼
+                            {% elif event.event_type == 'birthday' %}🎂
+                            {% else %}✨{% endif %}
+                        </span>
+                        <h1 class="font-serif text-3xl md:text-4xl text-[color:var(--color-black)]">
+                            {% if event.event_type == 'wedding' %}חתונה
+                            {% elif event.event_type == 'bar-mitzvah' %}בר/בת מצווה
+                            {% elif event.event_type == 'brit' %}ברית/ה
+                            {% elif event.event_type == 'engagement' %}אירוסין/חינה
+                            {% elif event.event_type == 'party' %}מסיבה פרטית
+                            {% elif event.event_type == 'business' %}אירוע עסקי
+                            {% elif event.event_type == 'birthday' %}יום הולדת
+                            {% else %}אירוע כללי{% endif %}
+                        </h1>
+                    </div>
+                    <p class="text-gray-500 font-sans">{{ event.date or 'תאריך לא נקבע' }} • {{ event.guests or '?' }} אורחים</p>
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="text-center px-6 py-3 bg-gray-50 border border-gray-100">
+                        <span class="block text-2xl font-serif text-[color:var(--color-black)]">{{ completed_count }}</span>
+                        <span class="text-[10px] uppercase tracking-widest text-gray-400">הושלמו</span>
+                    </div>
+                    <div class="text-center px-6 py-3 bg-gray-50 border border-gray-100">
+                        <span class="block text-2xl font-serif text-[color:var(--color-black)]">{{ total_count }}</span>
+                        <span class="text-[10px] uppercase tracking-widest text-gray-400">משימות</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="mt-8 h-1 w-full bg-gray-100 overflow-hidden">
+                <div class="h-full bg-[color:var(--color-black)] transition-all duration-1000" style="width: {{ (completed_count / total_count * 100) if total_count > 0 else 0 }}%"></div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 fade-in-up delay-100">
+
+            <!-- Checklist Section -->
+            <div class="lg:col-span-2">
+                <div class="bg-white p-8 shadow-sm border border-gray-100 min-h-[500px]">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="font-serif text-2xl text-[color:var(--color-black)]">רשימת משימות</h2>
+                        <button onclick="openAddItemModal()" class="text-[color:var(--color-black)] hover:bg-gray-50 p-2 rounded-full transition-colors text-xl">+</button>
+                    </div>
+
+                    <!-- Checklist Items -->
+                    <div class="space-y-4" id="checklist-container">
+                        {% for item in checklist_items %}
+                        <div class="group flex items-center gap-4 p-4 border border-gray-50 hover:border-gray-200 transition-all bg-white hover:shadow-sm" id="item-{{ item.id }}">
+                            <label class="cursor-pointer relative flex items-center">
+                                <input type="checkbox"
+                                       class="peer sr-only"
+                                       {% if item.is_completed %}checked{% endif %}
+                                       onchange="toggleItem({{ item.id }}, this.checked)">
+                                <div class="w-6 h-6 border-2 border-gray-300 peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] transition-all flex items-center justify-center">
+                                    <span class="text-white text-xs opacity-0 peer-checked:opacity-100">✓</span>
+                                </div>
+                            </label>
+
+                            <span class="flex-grow font-sans text-gray-700 peer-checked:text-gray-400 peer-checked:line-through transition-colors">
+                                {{ item.title }}
+                            </span>
+
+                            <button onclick="deleteItem({{ item.id }})" class="text-gray-300 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all px-2">
+                                ×
+                            </button>
+                        </div>
+                        {% else %}
+                        <div class="text-center py-12 text-gray-400">
+                            <p>אין משימות ברשימה</p>
+                            <button onclick="openAddItemModal()" class="text-[color:var(--color-black)] underline mt-2 text-sm">הוסף משימה ראשונה</button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar (Budget / Vendors Summary - Placeholder for next steps) -->
+            <div class="lg:col-span-1 space-y-8">
+                <!-- Budget Summary -->
+                <div class="bg-white p-8 shadow-sm border border-gray-100">
+                    <h3 class="font-serif text-xl mb-6 text-[color:var(--color-black)]">תקציב</h3>
+                    <div class="flex justify-between items-end mb-2">
+                        <span class="text-gray-500 text-sm">תקציב משוער</span>
+                        <span class="font-bold text-lg">
+                            {% if event.budget == 'low' %}50k
+                            {% elif event.budget == 'medium' %}100k
+                            {% elif event.budget == 'high' %}200k
+                            {% elif event.budget == 'premium' %}350k
+                            {% elif event.budget == 'luxury' %}350k+
+                            {% else %}0{% endif %} ₪
+                        </span>
+                    </div>
+                    <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                        <div class="bg-gray-300 h-full w-0"></div>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-4 text-center">ניהול תקציב יתווסף בקרוב</p>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-[color:var(--color-black)] p-8 text-white">
+                    <h3 class="font-serif text-xl mb-6">פעולות מהירות</h3>
+                    <ul class="space-y-4 text-sm font-sans">
+                        <li><a href="#" class="block hover:opacity-70 transition-opacity">→ חיפוש ספקים</a></li>
+                        <li><a href="#" class="block hover:opacity-70 transition-opacity">→ ניהול מוזמנים</a></li>
+                        <li><a href="#" class="block hover:opacity-70 transition-opacity">→ השראות ועיצוב</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Item Modal -->
+<div id="addItemModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 backdrop-blur-sm">
+    <div class="bg-white p-8 max-w-md w-full mx-4 shadow-2xl">
+        <h3 class="font-serif text-2xl mb-6 text-[color:var(--color-black)]">הוספת משימה חדשה</h3>
+        <input type="text" id="newItemTitle" placeholder="מה צריך לעשות?" class="w-full p-4 border border-gray-200 mb-6 outline-none focus:border-[color:var(--color-black)]">
+        <div class="flex gap-4">
+            <button onclick="closeAddItemModal()" class="flex-1 py-3 border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors">ביטול</button>
+            <button onclick="addItem()" class="flex-1 py-3 bg-[color:var(--color-black)] text-white hover:opacity-90 transition-opacity">הוסף</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const eventId = {{ event.id }};
+
+    function openAddItemModal() {
+        document.getElementById('addItemModal').classList.remove('hidden');
+        document.getElementById('addItemModal').classList.add('flex');
+        document.getElementById('newItemTitle').focus();
+    }
+
+    function closeAddItemModal() {
+        document.getElementById('addItemModal').classList.add('hidden');
+        document.getElementById('addItemModal').classList.remove('flex');
+        document.getElementById('newItemTitle').value = '';
+    }
+
+    async function addItem() {
+        const title = document.getElementById('newItemTitle').value;
+        if (!title) return;
+
+        try {
+            const response = await fetch(`/api/event/${eventId}/checklist`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: title })
+            });
+
+            if (response.ok) {
+                location.reload();
+            }
+        } catch (error) {
+            console.error('Error adding item:', error);
+        }
+    }
+
+    async function toggleItem(itemId, isCompleted) {
+        try {
+            await fetch(`/api/checklist/${itemId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ is_completed: isCompleted })
+            });
+            // Optional: Update progress bar without reload
+            location.reload();
+        } catch (error) {
+            console.error('Error toggling item:', error);
+        }
+    }
+
+    async function deleteItem(itemId) {
+        if (!confirm('האם למחוק את המשימה?')) return;
+
+        try {
+            const response = await fetch(`/api/checklist/${itemId}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                document.getElementById(`item-${itemId}`).remove();
+                location.reload();
+            }
+        } catch (error) {
+            console.error('Error deleting item:', error);
+        }
+    }
+</script>
+{% endblock %}

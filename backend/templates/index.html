@@ -1,111 +1,190 @@
 {% extends "base.html" %}
 
 {% block content %}
-<main class="main-content">
+<main>
     <!-- Hero Section -->
-    <section class="hero-section relative min-h-[90vh] flex items-center justify-center text-center px-4" id="home">
-        <div class="container mx-auto">
-            <div class="hero-content max-w-4xl mx-auto">
-                <h2 class="hero-title text-5xl md:text-7xl font-bold mb-6 fade-in-up" style="color: #800020;">
-                    תכנון אירוע מושלם מתחיל מכאן
-                </h2>
-                <p class="hero-subtitle text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed fade-in-up delay-100" style="color: #cb4a6b;">
-                    חוויה אקסקלוסיבית של דיוק, אלגנטיות וטעם משובח.<br/>
-                    הפלטפורמה שמעניקה לאירוע שלך את המעמד הראוי לו.
-                </p>
-                <div class="hero-buttons flex gap-4 justify-center fade-in-up delay-200">
-                    <a href="/plan" class="btn btn-hero-primary px-8 py-4 bg-[#800020] text-white rounded-full text-lg font-bold hover:bg-[#660018] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 no-underline">
-                        התחל לתכנן
-                    </a>
-                    <button class="btn btn-hero-secondary px-8 py-4 bg-white text-[#800020] border-2 border-[#800020] rounded-full text-lg font-bold hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                        גלה עוד
-                    </button>
+    <section class="relative h-screen w-full overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1519225468359-69632974758f?q=80&w=2070&auto=format&fit=crop"
+                 alt="Luxury Wedding"
+                 class="w-full h-full object-cover object-center" />
+            <div class="absolute inset-0 bg-[color:var(--color-black)]/10"></div>
+        </div>
+
+        <div class="relative z-10 h-full flex flex-col items-center justify-center text-center text-white px-4 fade-in-up">
+            <h2 class="font-serif text-xs md:text-sm tracking-[0.3em] uppercase mb-6">The Art of Celebration</h2>
+            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl mb-10 leading-none">
+                EasyVents
+            </h1>
+            <a href="/plan" class="bg-white text-[color:var(--color-black)] px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[color:var(--color-black)] hover:text-white transition-colors duration-300">
+                התחל לתכנן
+            </a>
+        </div>
+    </section>
+
+    <!-- Intro Text -->
+    <section class="py-32 bg-white text-center">
+        <div class="container max-w-4xl mx-auto px-6">
+            <h3 class="font-serif text-4xl md:text-5xl mb-8 text-[color:var(--color-black)] leading-tight">Get Lost in the Beauty<br/>of these Curated Moments</h3>
+            <p class="font-sans text-gray-500 text-sm md:text-base tracking-wide leading-loose max-w-2xl mx-auto">
+                גלו את החתונות המרגשות ביותר, הספקים המוכשרים והלוקיישנים עוצרי הנשימה.
+                ההשראה שלכם מתחילה כאן.
+            </p>
+        </div>
+    </section>
+
+    <!-- Featured Real Weddings (Grid) -->
+    <section class="py-20 bg-[#f4f1ea]" id="inspiration">
+        <div class="container px-4 md:px-8">
+            <div class="flex justify-between items-end mb-16 border-b border-[color:var(--color-black)]/5 pb-6">
+                <h2 class="font-serif text-3xl md:text-4xl text-[color:var(--color-black)]">חתונות אמיתיות</h2>
+                <a href="#" class="font-sans text-xs font-bold tracking-widest uppercase hover:text-gray-500 transition-colors">צפה בכל החתונות</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+                <!-- Item 1 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding in Jerusalem">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">ירושלים, ישראל</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">נועה ודניאל</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding in Tel Aviv">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">תל אביב, יפו</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">מאיה ותומר</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=2070&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding in Caesarea">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">קיסריה, ישראל</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">עדי ויונתן</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2070&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding in Negev">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">מצפה רמון</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">שירה ואיתי</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?q=80&w=2043&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding in Galilee">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">ראש פינה</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">רוני וגיא</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1507915977619-6ccfe8003ae6?q=80&w=1974&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding in Eilat">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">אילת</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">דנה ועומר</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Event Types Section -->
-        <!-- Event Types Section -->
-    <section class="event-types-section" id="features">
-        <div class="container">
-            <h2 class="section-title">סוגי אירועים</h2>
-            <p class="section-subtitle">תכנון מקצועי לכל סוג של אירוע</p>
-            <div class="event-types-grid">
-                <!-- Card 1 -->
-                <a href="/plan?type=wedding" class="event-type-card">
-                    <div class="event-image-wrapper">
-                        <img
-                            src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop"
-                            alt="חתונות"
-                            class="event-image"
-                        />
-                    </div>
-                    <h3>חתונות</h3>
-                </a>
-                <!-- Card 2 -->
-                <a href="/plan?type=bar-mitzvah" class="event-type-card">
-                    <div class="event-image-wrapper">
-                        <img
-                            src="https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=2070&auto=format&fit=crop"
-                            alt="בר/בת מצווה"
-                            class="event-image"
-                        />
-                    </div>
-                    <h3>בר/בת מצווה</h3>
-                </a>
-                <!-- Card 3 -->
-                <a href="/plan?type=party" class="event-type-card">
-                    <div class="event-image-wrapper">
-                        <img
-                            src="https://images.unsplash.com/photo-1541532713592-79a0317b6b77?q=80&w=1888&auto=format&fit=crop"
-                            alt="מסיבות רווקות"
-                            class="event-image"
-                        />
-                    </div>
-                    <h3>מסיבות רווקות</h3>
-                </a>
-                <!-- Card 4 -->
-                <a href="/plan?type=business" class="event-type-card">
-                    <div class="event-image-wrapper">
-                        <img
-                            src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2069&auto=format&fit=crop"
-                            alt="אירועים עסקיים"
-                            class="event-image"
-                        />
-                    </div>
-                    <h3>אירועים עסקיים</h3>
-                </a>
-            </div>
-        </div>
-    </section>
+    <!-- Vendor Categories (Curated List) -->
+    <section class="py-24 bg-white" id="vendors">
+        <div class="container px-4 md:px-8">
+            <h2 class="font-serif text-3xl md:text-4xl text-center mb-4 text-[color:var(--color-black)]">הנבחרת שלנו</h2>
+            <p class="text-center font-sans text-gray-400 text-sm tracking-widest uppercase mb-16">ספקים נבחרים לאירוע מושלם</p>
 
-    <!-- How It Works Section -->
-    <section class="how-it-works-section py-20 bg-[#F9F7F4]">
-        <div class="container mx-auto px-8">
-            <h2 class="section-title text-4xl font-bold text-center text-[#800020] mb-4">איך זה עובד?</h2>
-            <p class="section-subtitle text-center text-gray-500 mb-16 text-xl">4 שלבים פשוטים לאירוע מושלם</p>
-            <div class="steps-grid grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="step-card bg-white p-8 rounded-2xl shadow-md text-center relative fade-in-up delay-100">
-                    <div class="step-number w-12 h-12 bg-[#800020] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">1</div>
-                    <h3 class="text-xl font-bold mb-2">הירשם והתחבר</h3>
-                    <p class="text-gray-600">פתח חשבון אישי בקלות תוך דקה</p>
-                </div>
-                <div class="step-card bg-white p-8 rounded-2xl shadow-md text-center relative fade-in-up delay-200">
-                    <div class="step-number w-12 h-12 bg-[#800020] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">2</div>
-                    <h3 class="text-xl font-bold mb-2">צור אירוע חדש</h3>
-                    <p class="text-gray-600">הגדר את סוג האירוע, תאריך ותקציב</p>
-                </div>
-                <div class="step-card bg-white p-8 rounded-2xl shadow-md text-center relative fade-in-up delay-300">
-                    <div class="step-number w-12 h-12 bg-[#800020] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">3</div>
-                    <h3 class="text-xl font-bold mb-2">נהל ותכנן</h3>
-                    <p class="text-gray-600">בחר ספקים, נהל מוזמנים ומשימות</p>
-                </div>
-                <div class="step-card bg-white p-8 rounded-2xl shadow-md text-center relative fade-in-up delay-300">
-                    <div class="step-number w-12 h-12 bg-[#800020] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">4</div>
-                    <h3 class="text-xl font-bold mb-2">חגוג בראש שקט</h3>
-                    <p class="text-gray-600">הגיע לאירוע רגוע כשהכל מוכן</p>
-                </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Category 1 -->
+                <a href="/plan?type=venue" class="group block relative aspect-square overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2098&auto=format&fit=crop"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                         alt="Venues">
+                    <div class="absolute inset-0 bg-[color:var(--color-black)]/20 group-hover:bg-[color:var(--color-black)]/30 transition-colors"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <h3 class="font-serif text-2xl text-white tracking-wider uppercase">Venues</h3>
+                    </div>
+                </a>
+
+                <!-- Category 2 -->
+                <a href="/plan?type=photo" class="group block relative aspect-square overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?q=80&w=2070&auto=format&fit=crop"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                         alt="Photography">
+                    <div class="absolute inset-0 bg-[color:var(--color-black)]/20 group-hover:bg-[color:var(--color-black)]/30 transition-colors"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <h3 class="font-serif text-2xl text-white tracking-wider uppercase">Photo</h3>
+                    </div>
+                </a>
+
+                <!-- Category 3 -->
+                <a href="/plan?type=catering" class="group block relative aspect-square overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                         alt="Catering">
+                    <div class="absolute inset-0 bg-[color:var(--color-black)]/20 group-hover:bg-[color:var(--color-black)]/30 transition-colors"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <h3 class="font-serif text-2xl text-white tracking-wider uppercase">Food</h3>
+                    </div>
+                </a>
+
+                <!-- Category 4 -->
+                <a href="/plan?type=music" class="group block relative aspect-square overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2070&auto=format&fit=crop"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                         alt="Music">
+                    <div class="absolute inset-0 bg-[color:var(--color-black)]/20 group-hover:bg-[color:var(--color-black)]/30 transition-colors"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <h3 class="font-serif text-2xl text-white tracking-wider uppercase">Music</h3>
+                    </div>
+                </a>
             </div>
         </div>
     </section>
