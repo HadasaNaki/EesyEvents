@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="padding-top: 4rem; padding-bottom: 4rem;">
+    <div class="auth-card fade-in-up" style="max-width: 800px; margin: 0 auto;">
+        <h2 class="auth-title">תכנון האירוע שלך</h2>
+        <p class="auth-subtitle">ספר לנו על החזון שלך, ואנחנו נדאג לשאר</p>
+
+        <form action="/results" method="GET" class="planning-form">
+            
+            <!-- Event Type Selection -->
+            <div class="form-section mb-8">
+                <h3 class="text-xl mb-4 font-serif">סוג האירוע</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <label class="selection-card">
+                        <input type="radio" name="event_type" value="wedding" class="hidden-radio" {% if request.args.get('type') == 'wedding' %}checked{% endif %}>
+                        <div class="card-content">
+                            <span>💍</span>
+                            <span>חתונה</span>
+                        </div>
+                    </label>
+                    <label class="selection-card">
+                        <input type="radio" name="event_type" value="bar-mitzvah" class="hidden-radio" {% if request.args.get('type') == 'bar-mitzvah' %}checked{% endif %}>
+                        <div class="card-content">
+                            <span>✡️</span>
+                            <span>בר/בת מצווה</span>
+                        </div>
+                    </label>
+                    <label class="selection-card">
+                        <input type="radio" name="event_type" value="party" class="hidden-radio" {% if request.args.get('type') == 'party' %}checked{% endif %}>
+                        <div class="card-content">
+                            <span>🥂</span>
+                            <span>מסיבה</span>
+                        </div>
+                    </label>
+                    <label class="selection-card">
+                        <input type="radio" name="event_type" value="business" class="hidden-radio" {% if request.args.get('type') == 'business' %}checked{% endif %}>
+                        <div class="card-content">
+                            <span>💼</span>
+                            <span>אירוע עסקי</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Style/Vibe -->
+            <div class="form-section mb-8">
+                <h3 class="text-xl mb-4 font-serif">סגנון ועיצוב</h3>
+                <select name="style" class="form-input">
+                    <option value="" disabled selected>בחר סגנון מועדף</option>
+                    <option value="luxury">יוקרתי וקלאסי (Luxury)</option>
+                    <option value="boho">בוהו שיק (Boho Chic)</option>
+                    <option value="modern">מודרני ומינימליסטי</option>
+                    <option value="rustic">כפרי וטבעי</option>
+                    <option value="urban">אורבני ותעשייתי</option>
+                </select>
+            </div>
+
+            <!-- Budget & Guests Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="form-group">
+                    <h3 class="text-xl mb-4 font-serif">תקציב משוער</h3>
+                    <select name="budget" class="form-input">
+                        <option value="" disabled selected>בחר טווח תקציב</option>
+                        <option value="low">עד 50,000 ₪</option>
+                        <option value="medium">50,000 ₪ - 100,000 ₪</option>
+                        <option value="high">100,000 ₪ - 200,000 ₪</option>
+                        <option value="premium">מעל 200,000 ₪</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <h3 class="text-xl mb-4 font-serif">מספר אורחים</h3>
+                    <input type="number" name="guests" placeholder="לדוגמה: 300" class="form-input" min="10">
+                </div>
+            </div>
+
+            <!-- Location -->
+            <div class="form-section mb-12">
+                <h3 class="text-xl mb-4 font-serif">אזור מועדף</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <label class="checkbox-card">
+                        <input type="checkbox" name="region" value="north" class="hidden-checkbox">
+                        <span class="checkmark">צפון</span>
+                    </label>
+                    <label class="checkbox-card">
+                        <input type="checkbox" name="region" value="center" class="hidden-checkbox">
+                        <span class="checkmark">מרכז</span>
+                    </label>
+                    <label class="checkbox-card">
+                        <input type="checkbox" name="region" value="jerusalem" class="hidden-checkbox">
+                        <span class="checkmark">ירושלים</span>
+                    </label>
+                    <label class="checkbox-card">
+                        <input type="checkbox" name="region" value="south" class="hidden-checkbox">
+                        <span class="checkmark">דרום</span>
+                    </label>
+                    <label class="checkbox-card">
+                        <input type="checkbox" name="region" value="sharon" class="hidden-checkbox">
+                        <span class="checkmark">השרון</span>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full text-lg py-4">
+                הצג תוצאות מותאמות אישית
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* Custom Styles for the Planning Form */
+    .selection-card {
+        cursor: pointer;
+    }
+    
+    .card-content {
+        border: 1px solid var(--border-color);
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        height: 100%;
+    }
+
+    .hidden-radio:checked + .card-content {
+        background-color: var(--black);
+        color: var(--white);
+        border-color: var(--black);
+    }
+
+    .hidden-radio:checked + .card-content span {
+        color: var(--white);
+    }
+
+    .card-content:hover {
+        border-color: var(--black);
+    }
+
+    .checkbox-card {
+        cursor: pointer;
+        display: block;
+    }
+
+    .hidden-checkbox {
+        display: none;
+    }
+
+    .checkmark {
+        display: block;
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .hidden-checkbox:checked + .checkmark {
+        background-color: var(--black);
+        color: var(--white);
+        border-color: var(--black);
+    }
+
+    .hidden-checkbox:checked + .checkmark:before {
+        content: "✓ ";
+    }
+
+    .grid {
+        display: grid;
+    }
+    .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .md\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+    .gap-4 { gap: 1rem; }
+    .gap-8 { gap: 2rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mb-8 { margin-bottom: 2rem; }
+    .mb-12 { margin-bottom: 3rem; }
+    .text-xl { font-size: 1.25rem; }
+    .font-serif { font-family: var(--font-serif); }
+    .w-full { width: 100%; }
+    
+    @media (min-width: 768px) {
+        .md\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .md\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+    }
+</style>
+{% endblock %}

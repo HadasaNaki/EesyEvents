@@ -29,6 +29,11 @@
                 />
             </div>
 
+            <div class="flex items-center justify-start gap-2">
+                <input type="checkbox" id="remember" class="w-4 h-4 rounded border-gray-300 text-[#800020] focus:ring-[#800020]">
+                <label for="remember" class="text-sm text-gray-600">זכור אותי</label>
+            </div>
+
             <button type="submit" class="btn btn-primary w-full px-6 py-3 rounded-lg bg-[#800020] text-white font-bold hover:bg-[#660018] transition-all">
                 התחבר
             </button>
@@ -48,6 +53,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const remember = document.getElementById('remember').checked;
     const errorDiv = document.getElementById('error-message');
 
     errorDiv.classList.add('hidden');
@@ -59,7 +65,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email, password, remember }),
         });
 
         const data = await response.json();

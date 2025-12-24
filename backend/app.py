@@ -5,6 +5,7 @@ Flask server for user authentication and management
 
 from flask import Flask, request, jsonify, send_from_directory, render_template
 from flask_cors import CORS
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import re
@@ -12,7 +13,13 @@ import os
 from datetime import datetime
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
+app.secret_key = 'super_secret_key_for_easyevents_session'  # Required for Flask-Login
 CORS(app)  # Enable CORS for all routes
+
+# Initialize Flask-Login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login_page'
 
 # Database configuration
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -23,6 +30,28 @@ def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
+
+# User Class for Flask-Login
+class User(UserMixin):
+    def __init__(self, id, first_name, last_name, email, phone):
+        self.id = str(id)
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.phone = phone
+    
+    @staticmethod
+    def get(user_id):
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
+        conn.close()
+        if not user:
+            return None
+        return User(user['id'], user['first_name'], user['last_name'], user['email'], user['phone'])
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
 
 def init_db():
     """Initialize the database with users table"""
@@ -165,6 +194,7 @@ def login():
     
     email = data.get('email', '').strip().lower()
     password = data.get('password', '')
+    remember = data.get('remember', False)
     
     # Validate required fields
     if not email or not password:
@@ -182,10 +212,10 @@ def login():
     
     # Check if user exists
     conn = get_db_connection()
-    user = conn.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
+    user_data = conn.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
     conn.close()
     
-    if not user:
+    if not user_data:
         return jsonify({
             'success': False,
             'message': 'המשתמש אינו קיים במערכת. האם תרצה להירשם?',
@@ -193,24 +223,47 @@ def login():
         }), 404
     
     # Verify password
-    if not check_password_hash(user['password_hash'], password):
+    if not check_password_hash(user_data['password_hash'], password):
         return jsonify({
             'success': False,
             'message': 'הסיסמה שגויה. נסה שוב.'
         }), 401
     
     # Login successful
+    user_obj = User(user_data['id'], user_data['first_name'], user_data['last_name'], user_data['email'], user_data['phone'])
+    login_user(user_obj, remember=remember)
+
     return jsonify({
         'success': True,
-        'message': f'שלום {user["first_name"]}! התחברת בהצלחה',
+        'message': f'שלום {user_data["first_name"]}! התחברת בהצלחה',
         'user': {
-            'id': user['id'],
-            'firstName': user['first_name'],
-            'lastName': user['last_name'],
-            'email': user['email'],
-            'phone': user['phone']
+            'id': user_data['id'],
+            'firstName': user_data['first_name'],
+            'lastName': user_data['last_name'],
+            'email': user_data['email'],
+            'phone': user_data['phone']
         }
     }), 200
+
+@app.route('/api/logout', methods=['POST'])
+@login_required
+def logout():
+    logout_user()
+    return jsonify({'success': True, 'message': 'התנתקת בהצלחה'})
+
+@app.route('/api/current_user', methods=['GET'])
+def get_current_user_api():
+    if current_user.is_authenticated:
+        return jsonify({
+            'authenticated': True,
+            'user': {
+                'id': current_user.id,
+                'firstName': current_user.first_name,
+                'lastName': current_user.last_name,
+                'email': current_user.email
+            }
+        })
+    return jsonify({'authenticated': False})
 
 @app.route('/api/check_user', methods=['POST'])
 def check_user():
@@ -266,6 +319,11 @@ def login_page():
 def register_page():
     """Serve the register page"""
     return render_template('register.html')
+
+@app.route('/plan')
+def plan_page():
+    """Serve the event planning/filtering page"""
+    return render_template('plan.html')
 
 if __name__ == '__main__':
     print("🚀 Starting EasyVents API Server...")

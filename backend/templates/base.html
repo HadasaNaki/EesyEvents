@@ -62,12 +62,21 @@
                 </nav>
 
                 <div class="header-actions flex gap-4">
-                    <a href="/login" class="btn btn-secondary px-6 py-2 rounded-full border border-[#800020] text-[#800020] hover:bg-[#800020] hover:text-white transition-all no-underline">
-                        התחבר
-                    </a>
-                    <a href="/register" class="btn btn-primary px-6 py-2 rounded-full bg-[#800020] text-white hover:bg-[#660018] transition-all no-underline">
-                        הרשם
-                    </a>
+                    {% if current_user.is_authenticated %}
+                        <span class="flex items-center text-[#800020] font-bold">
+                            שלום, {{ current_user.first_name }}
+                        </span>
+                        <button onclick="logout()" class="btn btn-secondary px-6 py-2 rounded-full border border-[#800020] text-[#800020] hover:bg-[#800020] hover:text-white transition-all no-underline">
+                            התנתק
+                        </button>
+                    {% else %}
+                        <a href="/login" class="btn btn-secondary px-6 py-2 rounded-full border border-[#800020] text-[#800020] hover:bg-[#800020] hover:text-white transition-all no-underline">
+                            התחבר
+                        </a>
+                        <a href="/register" class="btn btn-primary px-6 py-2 rounded-full bg-[#800020] text-white hover:bg-[#660018] transition-all no-underline">
+                            הרשם
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -118,5 +127,17 @@
     </footer>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        async function logout() {
+            try {
+                const response = await fetch('/api/logout', { method: 'POST' });
+                if (response.ok) {
+                    window.location.href = '/';
+                }
+            } catch (error) {
+                console.error('Logout failed:', error);
+            }
+        }
+    </script>
 </body>
 </html>
