@@ -100,7 +100,7 @@ def init_db():
     ''')
     conn.commit()
     conn.close()
-    print("✅ Database initialized successfully!")
+    print("[OK] Database initialized successfully!")
 
 # Initialize database on startup
 init_db()
@@ -530,8 +530,8 @@ def results_page():
     return render_template('results.html')
 
 if __name__ == '__main__':
-    print("🚀 Starting EasyVents API Server...")
-    print("📍 Server running on: http://localhost:5000")
-    print("📚 API Documentation: http://localhost:5000")
-    print("⚠️  Press CTRL+C to stop the server")
+    print("[START] EasyEvents API Server")
+    print("[INFO] Server running on: http://localhost:5000")
+    print("[INFO] API Documentation: http://localhost:5000")
+    print("[INFO] Press CTRL+C to stop the server")
     app.run(debug=True, port=5000)
