@@ -1,27 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
-    <div class="bg-white/90 backdrop-blur-xl p-8 md:p-12 rounded-2xl shadow-2xl text-center max-w-md w-full relative z-10 border border-white/50 fade-in-up">
-        <h2 class="text-3xl font-bold text-[#800020] mb-2">יצירת חשבון</h2>
-        <p class="text-gray-500 mb-8">הצטרפו לקהילה שלנו</p>
+<div class="min-h-[80vh] flex items-center justify-center bg-[#fcfcfc]">
+    <div class="w-full max-w-md p-8 fade-in-up">
+        <div class="text-center mb-10">
+            <h2 class="font-serif text-3xl mb-3 text-[color:var(--color-black)]">יצירת חשבון</h2>
+            <p class="font-sans text-gray-400 text-sm tracking-wide">הצטרפו לקהילה שלנו</p>
+        </div>
 
-        <form id="registerForm" class="space-y-4">
-            <div id="error-message" class="text-red-500 text-sm hidden"></div>
+        <form id="registerForm" class="space-y-6">
+            <div id="error-message" class="text-red-500 text-xs text-center hidden font-bold tracking-wide"></div>
 
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 gap-6">
                 <input
                     type="text"
                     id="firstName"
                     placeholder="שם פרטי"
-                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none transition-all"
+                    class="w-full px-4 py-3 border-b border-gray-200 bg-transparent focus:border-[color:var(--color-black)] outline-none transition-colors placeholder-gray-400 font-sans"
                     required
                 />
                 <input
                     type="text"
                     id="lastName"
                     placeholder="שם משפחה"
-                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none transition-all"
+                    class="w-full px-4 py-3 border-b border-gray-200 bg-transparent focus:border-[color:var(--color-black)] outline-none transition-colors placeholder-gray-400 font-sans"
                     required
                 />
             </div>
@@ -30,7 +32,7 @@
                 type="email"
                 id="email"
                 placeholder="אימייל"
-                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none transition-all"
+                class="w-full px-4 py-3 border-b border-gray-200 bg-transparent focus:border-[color:var(--color-black)] outline-none transition-colors placeholder-gray-400 font-sans"
                 required
             />
 
@@ -38,14 +40,14 @@
                 type="tel"
                 id="phone"
                 placeholder="טלפון"
-                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none transition-all"
+                class="w-full px-4 py-3 border-b border-gray-200 bg-transparent focus:border-[color:var(--color-black)] outline-none transition-colors placeholder-gray-400 font-sans"
             />
 
             <input
                 type="password"
                 id="password"
                 placeholder="סיסמה"
-                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none transition-all"
+                class="w-full px-4 py-3 border-b border-gray-200 bg-transparent focus:border-[color:var(--color-black)] outline-none transition-colors placeholder-gray-400 font-sans"
                 required
             />
 
@@ -53,18 +55,18 @@
                 type="password"
                 id="confirmPassword"
                 placeholder="אימות סיסמה"
-                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none transition-all"
+                class="w-full px-4 py-3 border-b border-gray-200 bg-transparent focus:border-[color:var(--color-black)] outline-none transition-colors placeholder-gray-400 font-sans"
                 required
             />
 
-            <button type="submit" class="btn btn-primary w-full px-6 py-3 rounded-lg bg-[#800020] text-white font-bold hover:bg-[#660018] transition-all">
+            <button type="submit" class="w-full py-4 bg-[color:var(--color-black)] text-white text-xs font-bold uppercase tracking-[0.2em] hover:bg-gray-800 transition-colors mt-8">
                 הירשם
             </button>
         </form>
 
-        <div class="mt-6 text-sm text-gray-500">
-            כבר יש לך חשבון?
-            <a href="/login" class="text-[#800020] font-bold hover:underline">
+        <div class="mt-10 text-center border-t border-gray-100 pt-8">
+            <p class="text-xs text-gray-400 font-sans mb-4">כבר יש לך חשבון?</p>
+            <a href="/login" class="inline-block border border-[color:var(--color-black)] px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-[color:var(--color-black)] hover:text-white transition-colors">
                 התחבר
             </a>
         </div>

@@ -1,98 +1,104 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container" style="padding-top: 4rem; padding-bottom: 4rem; background-color: #FDFBF7;">
-    <div class="auth-card fade-in-up" style="max-width: 900px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); padding: 3rem;">
-        <h2 class="auth-title text-center text-[#800020] font-serif text-4xl mb-2">תכנון האירוע שלך</h2>
-        <p class="auth-subtitle text-center text-gray-500 mb-10 text-lg">ספר לנו על החזון שלך, ואנחנו נדאג לשאר</p>
+<div class="container py-16 bg-[#f4f1ea]">
+    <div class="max-w-4xl mx-auto bg-white p-12 shadow-sm border border-gray-100">
+        <h2 class="text-center font-serif text-4xl mb-2 text-[color:var(--color-black)]">תכנון האירוע שלך</h2>
+        <p class="text-center text-gray-400 mb-12 text-lg font-sans">ספר לנו על החזון שלך, ואנחנו נדאג לשאר</p>
 
-        <form action="/results" method="GET" class="planning-form space-y-10">
+        <form action="/create_event" method="POST" class="space-y-12">
             
             <!-- Event Type Selection -->
-            <div class="form-section">
-                <h3 class="text-2xl mb-6 font-serif text-[#800020] border-b border-gray-100 pb-2">סוג האירוע</h3>
+            <div class="border-b border-gray-100 pb-12">
+                <h3 class="text-2xl mb-8 font-serif text-[color:var(--color-black)]">סוג האירוע</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <label class="selection-card">
-                        <input type="radio" name="event_type" value="wedding" class="hidden-radio" {% if request.args.get('type') == 'wedding' %}checked{% endif %}>
-                        <div class="card-content">
-                            <span class="text-3xl">💍</span>
-                            <span class="font-bold">חתונה</span>
+                    <label class="cursor-pointer group">
+                        <input type="radio" name="event_type" value="wedding" class="peer hidden" {% if request.args.get('type') == 'wedding' %}checked{% endif %}>
+                        <div class="h-full p-6 border border-gray-200 text-center transition-all peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)]">
+                            <span class="block text-3xl mb-2">💍</span>
+                            <span class="font-bold font-sans text-sm uppercase tracking-wider">חתונה</span>
                         </div>
                     </label>
-                    <label class="selection-card">
-                        <input type="radio" name="event_type" value="bar-mitzvah" class="hidden-radio" {% if request.args.get('type') == 'bar-mitzvah' %}checked{% endif %}>
-                        <div class="card-content">
-                            <span class="text-3xl">✡️</span>
-                            <span class="font-bold">בר/בת מצווה</span>
+                    <label class="cursor-pointer group">
+                        <input type="radio" name="event_type" value="bar-mitzvah" class="peer hidden" {% if request.args.get('type') == 'bar-mitzvah' %}checked{% endif %}>
+                        <div class="h-full p-6 border border-gray-200 text-center transition-all peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)]">
+                            <span class="block text-3xl mb-2">✡️</span>
+                            <span class="font-bold font-sans text-sm uppercase tracking-wider">בר/בת מצווה</span>
                         </div>
                     </label>
-                    <label class="selection-card">
-                        <input type="radio" name="event_type" value="brit" class="hidden-radio" {% if request.args.get('type') == 'brit' %}checked{% endif %}>
-                        <div class="card-content">
-                            <span class="text-3xl">👶</span>
-                            <span class="font-bold">ברית/ה</span>
+                    <label class="cursor-pointer group">
+                        <input type="radio" name="event_type" value="brit" class="peer hidden" {% if request.args.get('type') == 'brit' %}checked{% endif %}>
+                        <div class="h-full p-6 border border-gray-200 text-center transition-all peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)]">
+                            <span class="block text-3xl mb-2">👶</span>
+                            <span class="font-bold font-sans text-sm uppercase tracking-wider">ברית/ה</span>
                         </div>
                     </label>
-                    <label class="selection-card">
-                        <input type="radio" name="event_type" value="engagement" class="hidden-radio" {% if request.args.get('type') == 'engagement' %}checked{% endif %}>
-                        <div class="card-content">
-                            <span class="text-3xl">💑</span>
-                            <span class="font-bold">אירוסין/חינה</span>
+                    <label class="cursor-pointer group">
+                        <input type="radio" name="event_type" value="engagement" class="peer hidden" {% if request.args.get('type') == 'engagement' %}checked{% endif %}>
+                        <div class="h-full p-6 border border-gray-200 text-center transition-all peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)]">
+                            <span class="block text-3xl mb-2">💑</span>
+                            <span class="font-bold font-sans text-sm uppercase tracking-wider">אירוסין/חינה</span>
                         </div>
                     </label>
-                    <label class="selection-card">
-                        <input type="radio" name="event_type" value="party" class="hidden-radio" {% if request.args.get('type') == 'party' %}checked{% endif %}>
-                        <div class="card-content">
-                            <span class="text-3xl">🥂</span>
-                            <span class="font-bold">מסיבה פרטית</span>
+                    <label class="cursor-pointer group">
+                        <input type="radio" name="event_type" value="party" class="peer hidden" {% if request.args.get('type') == 'party' %}checked{% endif %}>
+                        <div class="h-full p-6 border border-gray-200 text-center transition-all peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)]">
+                            <span class="block text-3xl mb-2">🥂</span>
+                            <span class="font-bold font-sans text-sm uppercase tracking-wider">מסיבה פרטית</span>
                         </div>
                     </label>
-                    <label class="selection-card">
-                        <input type="radio" name="event_type" value="business" class="hidden-radio" {% if request.args.get('type') == 'business' %}checked{% endif %}>
-                        <div class="card-content">
-                            <span class="text-3xl">💼</span>
-                            <span class="font-bold">אירוע עסקי</span>
+                    <label class="cursor-pointer group">
+                        <input type="radio" name="event_type" value="business" class="peer hidden" {% if request.args.get('type') == 'business' %}checked{% endif %}>
+                        <div class="h-full p-6 border border-gray-200 text-center transition-all peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)]">
+                            <span class="block text-3xl mb-2">💼</span>
+                            <span class="font-bold font-sans text-sm uppercase tracking-wider">אירוע עסקי</span>
                         </div>
                     </label>
-                    <label class="selection-card">
-                        <input type="radio" name="event_type" value="birthday" class="hidden-radio" {% if request.args.get('type') == 'birthday' %}checked{% endif %}>
-                        <div class="card-content">
-                            <span class="text-3xl">🎂</span>
-                            <span class="font-bold">יום הולדת</span>
+                    <label class="cursor-pointer group">
+                        <input type="radio" name="event_type" value="birthday" class="peer hidden" {% if request.args.get('type') == 'birthday' %}checked{% endif %}>
+                        <div class="h-full p-6 border border-gray-200 text-center transition-all peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)]">
+                            <span class="block text-3xl mb-2">🎂</span>
+                            <span class="font-bold font-sans text-sm uppercase tracking-wider">יום הולדת</span>
                         </div>
                     </label>
-                    <label class="selection-card">
-                        <input type="radio" name="event_type" value="other" class="hidden-radio" {% if request.args.get('type') == 'other' %}checked{% endif %}>
-                        <div class="card-content">
-                            <span class="text-3xl">✨</span>
-                            <span class="font-bold">אחר</span>
+                    <label class="cursor-pointer group">
+                        <input type="radio" name="event_type" value="other" class="peer hidden" {% if request.args.get('type') == 'other' %}checked{% endif %}>
+                        <div class="h-full p-6 border border-gray-200 text-center transition-all peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)]">
+                            <span class="block text-3xl mb-2">✨</span>
+                            <span class="font-bold font-sans text-sm uppercase tracking-wider">אחר</span>
                         </div>
                     </label>
                 </div>
             </div>
 
             <!-- Date & Time -->
-            <div class="form-section">
-                <h3 class="text-2xl mb-6 font-serif text-[#800020] border-b border-gray-100 pb-2">מועד האירוע</h3>
+            <div class="border-b border-gray-100 pb-12">
+                <h3 class="text-2xl mb-8 font-serif text-[color:var(--color-black)]">מועד האירוע</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="form-group">
-                        <label class="block text-gray-700 mb-2 font-bold">תאריך משוער</label>
-                        <input type="date" name="date" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:border-[#800020] outline-none">
+                    <div>
+                        <label class="block text-gray-500 text-xs uppercase tracking-widest mb-2 font-bold">תאריך משוער</label>
+                        <input type="date" name="date" class="w-full p-4 border border-gray-200 focus:border-[color:var(--color-black)] outline-none transition-colors bg-gray-50">
                     </div>
-                    <div class="form-group">
-                        <label class="block text-gray-700 mb-2 font-bold">זמן ביום</label>
+                    <div>
+                        <label class="block text-gray-500 text-xs uppercase tracking-widest mb-2 font-bold">זמן ביום</label>
                         <div class="grid grid-cols-3 gap-4">
-                            <label class="selection-card-small">
-                                <input type="radio" name="time_of_day" value="morning" class="hidden-radio">
-                                <div class="card-content-small">☀️ בוקר</div>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="time_of_day" value="morning" class="peer hidden">
+                                <div class="p-3 border border-gray-200 text-center peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)] transition-all">
+                                    <span class="text-sm font-bold">בוקר</span>
+                                </div>
                             </label>
-                            <label class="selection-card-small">
-                                <input type="radio" name="time_of_day" value="noon" class="hidden-radio">
-                                <div class="card-content-small">🌤️ צהריים</div>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="time_of_day" value="noon" class="peer hidden">
+                                <div class="p-3 border border-gray-200 text-center peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)] transition-all">
+                                    <span class="text-sm font-bold">צהריים</span>
+                                </div>
                             </label>
-                            <label class="selection-card-small">
-                                <input type="radio" name="time_of_day" value="evening" class="hidden-radio">
-                                <div class="card-content-small">🌙 ערב</div>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="time_of_day" value="evening" class="peer hidden">
+                                <div class="p-3 border border-gray-200 text-center peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)] transition-all">
+                                    <span class="text-sm font-bold">ערב</span>
+                                </div>
                             </label>
                         </div>
                     </div>
@@ -100,12 +106,12 @@
             </div>
 
             <!-- Venue & Atmosphere -->
-            <div class="form-section">
-                <h3 class="text-2xl mb-6 font-serif text-[#800020] border-b border-gray-100 pb-2">אווירה ומיקום</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-                    <div class="form-group">
-                        <label class="block text-gray-700 mb-2 font-bold">סוג מתחם</label>
-                        <select name="venue_type" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:border-[#800020] outline-none">
+            <div class="border-b border-gray-100 pb-12">
+                <h3 class="text-2xl mb-8 font-serif text-[color:var(--color-black)]">אווירה ומיקום</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <label class="block text-gray-500 text-xs uppercase tracking-widest mb-2 font-bold">סוג מתחם</label>
+                        <select name="venue_type" class="w-full p-4 border border-gray-200 focus:border-[color:var(--color-black)] outline-none transition-colors bg-gray-50">
                             <option value="" disabled selected>בחר סוג מתחם</option>
                             <option value="hall">אולם אירועים סגור</option>
                             <option value="garden">גן אירועים פתוח</option>
@@ -117,9 +123,9 @@
                             <option value="home">בבית פרטי</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label class="block text-gray-700 mb-2 font-bold">סגנון עיצובי</label>
-                        <select name="style" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:border-[#800020] outline-none">
+                    <div>
+                        <label class="block text-gray-500 text-xs uppercase tracking-widest mb-2 font-bold">סגנון עיצובי</label>
+                        <select name="style" class="w-full p-4 border border-gray-200 focus:border-[color:var(--color-black)] outline-none transition-colors bg-gray-50">
                             <option value="" disabled selected>בחר סגנון מועדף</option>
                             <option value="luxury">יוקרתי וקלאסי (Luxury)</option>
                             <option value="boho">בוהו שיק (Boho Chic)</option>
@@ -131,40 +137,28 @@
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label class="block text-gray-700 mb-2 font-bold">אזור בארץ</label>
+                <div>
+                    <label class="block text-gray-500 text-xs uppercase tracking-widest mb-4 font-bold">אזור בארץ</label>
                     <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="region" value="north" class="hidden-checkbox">
-                            <span class="checkmark">צפון</span>
+                        {% for region in [('north', 'צפון'), ('sharon', 'השרון'), ('center', 'מרכז'), ('jerusalem', 'ירושלים'), ('south', 'דרום')] %}
+                        <label class="cursor-pointer">
+                            <input type="checkbox" name="region" value="{{ region[0] }}" class="peer hidden">
+                            <div class="p-3 border border-gray-200 text-center peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)] transition-all">
+                                <span class="text-sm">{{ region[1] }}</span>
+                            </div>
                         </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="region" value="sharon" class="hidden-checkbox">
-                            <span class="checkmark">השרון</span>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="region" value="center" class="hidden-checkbox">
-                            <span class="checkmark">מרכז</span>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="region" value="jerusalem" class="hidden-checkbox">
-                            <span class="checkmark">ירושלים</span>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="region" value="south" class="hidden-checkbox">
-                            <span class="checkmark">דרום</span>
-                        </label>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
 
             <!-- Budget & Guests -->
-            <div class="form-section">
-                <h3 class="text-2xl mb-6 font-serif text-[#800020] border-b border-gray-100 pb-2">פרטים טכניים</h3>
+            <div class="border-b border-gray-100 pb-12">
+                <h3 class="text-2xl mb-8 font-serif text-[color:var(--color-black)]">פרטים טכניים</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="form-group">
-                        <label class="block text-gray-700 mb-2 font-bold">תקציב משוער</label>
-                        <select name="budget" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:border-[#800020] outline-none">
+                    <div>
+                        <label class="block text-gray-500 text-xs uppercase tracking-widest mb-2 font-bold">תקציב משוער</label>
+                        <select name="budget" class="w-full p-4 border border-gray-200 focus:border-[color:var(--color-black)] outline-none transition-colors bg-gray-50">
                             <option value="" disabled selected>בחר טווח תקציב</option>
                             <option value="low">עד 50,000 ₪</option>
                             <option value="medium">50,000 ₪ - 100,000 ₪</option>
@@ -173,197 +167,69 @@
                             <option value="luxury">מעל 350,000 ₪</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label class="block text-gray-700 mb-2 font-bold">מספר אורחים</label>
-                        <input type="number" name="guests" placeholder="לדוגמה: 300" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:border-[#800020] outline-none" min="10">
+                    <div>
+                        <label class="block text-gray-500 text-xs uppercase tracking-widest mb-2 font-bold">מספר אורחים</label>
+                        <input type="number" name="guests" placeholder="לדוגמה: 300" class="w-full p-4 border border-gray-200 focus:border-[color:var(--color-black)] outline-none transition-colors bg-gray-50" min="10">
                     </div>
                 </div>
             </div>
 
             <!-- Services & Add-ons -->
-            <div class="form-section">
-                <h3 class="text-2xl mb-6 font-serif text-[#800020] border-b border-gray-100 pb-2">שירותים נוספים</h3>
+            <div class="pb-8">
+                <h3 class="text-2xl mb-8 font-serif text-[color:var(--color-black)]">שירותים נוספים</h3>
                 
-                <div class="mb-6">
-                    <label class="block text-gray-700 mb-3 font-bold">מוזיקה והגברה</label>
+                <div class="mb-8">
+                    <label class="block text-gray-500 text-xs uppercase tracking-widest mb-4 font-bold">מוזיקה והגברה</label>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        <label class="checkbox-card-small">
-                            <input type="checkbox" name="music" value="dj" class="hidden-checkbox">
-                            <span class="checkmark-small">🎧 DJ</span>
+                        {% for item in [('dj', 'DJ'), ('live_band', 'להקה חיה'), ('orchestra', 'תזמורת'), ('singer', 'זמר/ת')] %}
+                        <label class="cursor-pointer">
+                            <input type="checkbox" name="music" value="{{ item[0] }}" class="peer hidden">
+                            <div class="p-3 border border-gray-200 text-center peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)] transition-all">
+                                <span class="text-sm">{{ item[1] }}</span>
+                            </div>
                         </label>
-                        <label class="checkbox-card-small">
-                            <input type="checkbox" name="music" value="live_band" class="hidden-checkbox">
-                            <span class="checkmark-small">🎸 להקה חיה</span>
-                        </label>
-                        <label class="checkbox-card-small">
-                            <input type="checkbox" name="music" value="orchestra" class="hidden-checkbox">
-                            <span class="checkmark-small">🎻 תזמורת</span>
-                        </label>
-                        <label class="checkbox-card-small">
-                            <input type="checkbox" name="music" value="singer" class="hidden-checkbox">
-                            <span class="checkmark-small">🎤 זמר/ת</span>
-                        </label>
+                        {% endfor %}
                     </div>
                 </div>
 
-                <div class="mb-6">
-                    <label class="block text-gray-700 mb-3 font-bold">קייטרינג והסעדה</label>
+                <div class="mb-8">
+                    <label class="block text-gray-500 text-xs uppercase tracking-widest mb-4 font-bold">קייטרינג והסעדה</label>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        <label class="checkbox-card-small">
-                            <input type="checkbox" name="catering" value="meat" class="hidden-checkbox">
-                            <span class="checkmark-small">🥩 בשרי</span>
+                        {% for item in [('meat', 'בשרי'), ('dairy', 'חלבי'), ('chef', 'שף פרטי'), ('vegan', 'טבעוני/צמחוני')] %}
+                        <label class="cursor-pointer">
+                            <input type="checkbox" name="catering" value="{{ item[0] }}" class="peer hidden">
+                            <div class="p-3 border border-gray-200 text-center peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)] transition-all">
+                                <span class="text-sm">{{ item[1] }}</span>
+                            </div>
                         </label>
-                        <label class="checkbox-card-small">
-                            <input type="checkbox" name="catering" value="dairy" class="hidden-checkbox">
-                            <span class="checkmark-small">🧀 חלבי</span>
-                        </label>
-                        <label class="checkbox-card-small">
-                            <input type="checkbox" name="catering" value="chef" class="hidden-checkbox">
-                            <span class="checkmark-small">👨‍🍳 שף פרטי</span>
-                        </label>
-                        <label class="checkbox-card-small">
-                            <input type="checkbox" name="catering" value="vegan" class="hidden-checkbox">
-                            <span class="checkmark-small">🥗 טבעוני/צמחוני</span>
-                        </label>
+                        {% endfor %}
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-gray-700 mb-3 font-bold">תוספות מיוחדות</label>
+                    <label class="block text-gray-500 text-xs uppercase tracking-widest mb-4 font-bold">תוספות מיוחדות</label>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        <label class="checkbox-card-small">
-                            <input type="checkbox" name="extras" value="photographer" class="hidden-checkbox">
-                            <span class="checkmark-small">📸 צלם</span>
+                        {% for item in [('photographer', 'צלם'), ('magnets', 'מגנטים'), ('design', 'עיצוב אירוע'), ('attractions', 'אטרקציות')] %}
+                        <label class="cursor-pointer">
+                            <input type="checkbox" name="extras" value="{{ item[0] }}" class="peer hidden">
+                            <div class="p-3 border border-gray-200 text-center peer-checked:border-[color:var(--color-black)] peer-checked:bg-[color:var(--color-black)] peer-checked:text-white hover:border-[color:var(--color-black)] transition-all">
+                                <span class="text-sm">{{ item[1] }}</span>
+                            </div>
                         </label>
-                        <label class="checkbox-card-small">
-                            <input type="checkbox" name="extras" value="magnets" class="hidden-checkbox">
-                            <span class="checkmark-small">🧲 מגנטים</span>
-                        </label>
-                        <label class="checkbox-card-small">
-                            <input type="checkbox" name="extras" value="design" class="hidden-checkbox">
-                            <span class="checkmark-small">🌸 עיצוב אירוע</span>
-                        </label>
-                        <label class="checkbox-card-small">
-                            <input type="checkbox" name="extras" value="attractions" class="hidden-checkbox">
-                            <span class="checkmark-small">🎪 אטרקציות</span>
-                        </label>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
 
-            <div class="flex flex-col md:flex-row gap-4 mt-8">
-                <a href="/plan" class="btn md:w-1/4 text-xl py-4 border-2 border-gray-300 text-gray-600 rounded-full hover:bg-gray-50 transition-all text-center font-bold no-underline flex items-center justify-center">
-                    🔄 איפוס
+            <div class="flex flex-col md:flex-row gap-4 pt-8 border-t border-gray-100">
+                <a href="/plan" class="btn-editorial-outline md:w-1/4 text-center flex items-center justify-center">
+                    איפוס
                 </a>
-                <button type="submit" class="btn btn-primary md:w-3/4 text-xl py-4 bg-[#800020] text-white rounded-full hover:bg-[#660018] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-bold">
+                <button type="submit" class="btn-editorial md:w-3/4 text-center">
                     הצג תוצאות מותאמות אישית
                 </button>
             </div>
         </form>
     </div>
 </div>
-
-<style>
-    /* Custom Styles for the Planning Form */
-    .selection-card {
-        cursor: pointer;
-        height: 100%;
-    }
-    
-    .card-content {
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 1.5rem;
-        text-align: center;
-        transition: all 0.3s ease;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        height: 100%;
-        background-color: white;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .hidden-radio:checked + .card-content {
-        background-color: #800020;
-        color: white;
-        border-color: #800020;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(128, 0, 32, 0.2);
-    }
-
-    .card-content:hover {
-        border-color: #800020;
-        transform: translateY(-2px);
-    }
-
-    /* Small Selection Cards (Time of Day) */
-    .selection-card-small {
-        cursor: pointer;
-    }
-
-    .card-content-small {
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        padding: 0.75rem;
-        text-align: center;
-        transition: all 0.2s ease;
-        background-color: white;
-    }
-
-    .hidden-radio:checked + .card-content-small {
-        background-color: #800020;
-        color: white;
-        border-color: #800020;
-    }
-
-    /* Checkbox Cards */
-    .checkbox-card, .checkbox-card-small {
-        cursor: pointer;
-        display: block;
-    }
-
-    .hidden-checkbox {
-        display: none;
-    }
-
-    .checkmark {
-        display: block;
-        padding: 1rem;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        text-align: center;
-        transition: all 0.2s ease;
-        background-color: white;
-    }
-
-    .checkmark-small {
-        display: block;
-        padding: 0.75rem;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        text-align: center;
-        transition: all 0.2s ease;
-        background-color: white;
-        font-size: 0.9rem;
-    }
-
-    .hidden-checkbox:checked + .checkmark,
-    .hidden-checkbox:checked + .checkmark-small {
-        background-color: #800020;
-        color: white;
-        border-color: #800020;
-    }
-
-    .hidden-checkbox:checked + .checkmark:before,
-    .hidden-checkbox:checked + .checkmark-small:before {
-        content: "✓ ";
-        margin-left: 4px;
-    }
-
-    .checkmark:hover, .checkmark-small:hover, .card-content-small:hover {
-        border-color: #800020;
-    }
-</style>
 {% endblock %}
