@@ -526,8 +526,20 @@ def plan_page():
 
 @app.route('/results')
 def results_page():
-    """Serve the results page"""
-    return render_template('results.html')
+    """Serve the results page with venues and suppliers"""
+    conn = get_db_connection()
+    
+    # Get all venues and suppliers from database
+    venues = conn.execute('SELECT * FROM venues ORDER BY id ASC').fetchall()
+    suppliers = conn.execute('SELECT * FROM suppliers ORDER BY id ASC').fetchall()
+    
+    # Convert to dictionaries for template
+    venues_list = [dict(v) for v in venues]
+    suppliers_list = [dict(s) for s in suppliers]
+    
+    conn.close()
+    
+    return render_template('results.html', venues=venues_list, suppliers=suppliers_list)
 
 if __name__ == '__main__':
     print("[START] EasyEvents API Server")
