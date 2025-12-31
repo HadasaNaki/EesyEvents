@@ -3,16 +3,19 @@
 :root {
     --font-serif: 'Playfair Display', serif;
     --font-sans: 'Lato', sans-serif;
-    --color-black: #6B5B4F; /* Lighter Stone Brown */
-    --color-text: #7D6E63;  /* Soft Brown Text */
-    --color-stone: #8F8177; /* Pale Stone */
+    --color-espresso: #4C2B08;      /* Dark Espresso */
+    --color-coffee: #6D3914;        /* Coffee */
+    --color-mocca: #84593D;         /* Mocca */
+    --color-almond: #8c5f42;        /* Almond */
+    --color-caramel: #AB7743;       /* Caramel */
+    --color-vanilla: #D7BDA6;       /* Vanilla */
     --color-beige: #f4f1ea;
     --color-white: #ffffff;
 }
 
 body {
     font-family: var(--font-sans);
-    color: var(--color-text);
+    color: var(--color-coffee);
     background-color: var(--color-white);
     margin: 0;
     padding: 0;
@@ -21,7 +24,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
-    color: var(--color-black);
+    color: var(--color-espresso);
 }
 
 /* Utility Classes for Editorial Design */
@@ -45,4 +48,135 @@ h1, h2, h3, h4, h5, h6 {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Hero Section Background */
+.hero-background {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+section[style*="background-image"] {
+    background-attachment: fixed !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+}
+
+/* Hero Section Text Colors */
+section[style*="background-image"] h2 {
+    color: var(--color-espresso) !important;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+section[style*="background-image"] h1 {
+    color: #2c1804 !important;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+section[style*="background-image"] a {
+    color: var(--color-espresso) !important;
+}
+
+/* Couple and Rings Animations */
+@keyframes fade-in-subtle {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes float-rings {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes spin-slow {
+    0% {
+        transform: rotateZ(0deg);
+    }
+    100% {
+        transform: rotateZ(360deg);
+    }
+}
+
+@keyframes sparkle-soft {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slide-in-from-right {
+    0% {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fireworks-fade {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1);
+    }
+}
+
+.animate-fade-in-subtle {
+    animation: fade-in-subtle 1.2s ease-out forwards;
+}
+
+.animate-slide-in-from-right {
+    animation: slide-in-from-right 1.2s ease-out forwards;
+}
+
+.animate-fireworks-left {
+    animation: fireworks-fade 1.5s ease-out forwards;
+    animation-delay: 1.2s;
+}
+
+.animate-fireworks-right {
+    animation: fireworks-fade 1.5s ease-out forwards;
+    animation-delay: 2.7s;
+}
+}
+
+.animate-float-rings {
+    animation: float-rings 3.5s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+    animation: spin-slow 8s linear infinite;
+}
+
+.no-spin {
+    animation: none !important;
+}
+
+.animate-sparkle-soft {
+    animation: sparkle-soft 2.5s ease-in-out infinite;
 }

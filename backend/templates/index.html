@@ -3,33 +3,110 @@
 {% block content %}
 <main>
     <!-- Hero Section -->
-    <section class="relative h-screen w-full overflow-hidden">
-        <div class="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1519225468359-69632974758f?q=80&w=2070&auto=format&fit=crop"
-                 alt="Luxury Wedding"
-                 class="w-full h-full object-cover object-center" />
-            <div class="absolute inset-0 bg-[color:var(--color-black)]/10"></div>
-        </div>
-
-        <div class="relative z-10 h-full flex flex-col items-center justify-center text-center text-white px-4 fade-in-up">
-            <h2 class="font-serif text-xs md:text-sm tracking-[0.3em] uppercase mb-6">The Art of Celebration</h2>
-            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl mb-10 leading-none">
+    <section class="relative h-screen w-full overflow-hidden bg-cover bg-center" style="background-image: url('{{ url_for('static', filename='images/hero-background.jpg') }}');">
+        <div class="relative z-10 h-full flex flex-col items-center justify-center text-center text-[#4C2B08] px-4 fade-in-up">
+            <h2 class="font-serif text-xs md:text-sm tracking-[0.3em] uppercase mb-6 drop-shadow-lg">The Art of Celebration</h2>
+            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl mb-10 leading-none drop-shadow-lg text-[#AB7743]">
                 EasyVents
             </h1>
-            <a href="/plan" class="bg-white text-[color:var(--color-black)] px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[color:var(--color-black)] hover:text-white transition-colors duration-300">
+            <a href="/plan" class="border-2 border-[#4C2B08] text-[#4C2B08] bg-transparent px-10 py-4 text-xs font-black uppercase tracking-[0.2em] hover:bg-[#8c5f42] hover:text-white hover:border-[#8c5f42] transition-colors duration-300 drop-shadow-lg rounded-full" style="font-weight: 900; letter-spacing: 0.05em;">
                 התחל לתכנן
             </a>
         </div>
     </section>
 
-    <!-- Intro Text -->
-    <section class="py-32 bg-white text-center">
-        <div class="container max-w-4xl mx-auto px-6">
-            <h3 class="font-serif text-4xl md:text-5xl mb-8 text-[color:var(--color-black)] leading-tight">Get Lost in the Beauty<br/>of these Curated Moments</h3>
-            <p class="font-sans text-gray-500 text-sm md:text-base tracking-wide leading-loose max-w-2xl mx-auto">
-                גלו את החתונות המרגשות ביותר, הספקים המוכשרים והלוקיישנים עוצרי הנשימה.
-                ההשראה שלכם מתחילה כאן.
-            </p>
+    <!-- Event Types Sections -->
+    
+    <!-- Weddings Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Animation with couple and rings -->
+                <div class="order-2 md:order-1 flex justify-center items-center bg-gradient-to-br from-[#f4f1ea] to-[#e8e5dc] rounded-lg shadow-lg p-6 min-h-[380px] relative overflow-hidden">
+                    <!-- Main container for couple and rings -->
+                    <div class="relative flex flex-col items-center justify-center">
+                        <!-- Couple illustration with slide-in animation from right -->
+                        <div class="animate-slide-in-from-right relative w-52">
+                            <img src="{{ url_for('static', filename='images/bride-groom-illustration.png') }}" 
+                                 alt="Bride and Groom" 
+                                 class="w-full h-auto drop-shadow-xl bg-transparent" 
+                                 style="mix-blend-mode: multiply; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));">
+                        </div>
+                        
+                        <!-- Animated rings below couple - larger and no rotation -->
+                        <div class="animate-float-rings -mt-8 relative">
+                            <img src="{{ url_for('static', filename='images/wedding-rings.png') }}" 
+                                 alt="Wedding Rings" 
+                                 class="w-64 h-auto opacity-95 no-spin" 
+                                 style="mix-blend-mode: multiply; filter: drop-shadow(0 8px 15px rgba(171, 119, 67, 0.3));">
+                        </div>
+                    </div>
+                </div>
+                <!-- Content -->
+                <div class="order-1 md:order-2">
+                    <p class="font-sans text-xs font-bold tracking-widest uppercase mb-2 text-[var(--color-espresso)]">חתונות</p>
+                    <h2 class="font-serif text-3xl md:text-4xl mb-4 leading-tight text-[var(--color-espresso)]">יום המיוחד שלכם</h2>
+                    <p class="font-sans text-sm mb-6 leading-relaxed text-[var(--color-coffee)]">
+                        החתונה היא יום שישתקע בזיכרון לנצח. מהרגע הראשון של ההכנות ועד הרקص האחרון בערב, אנחנו כאן כדי להפוך את החלום שלכם למציאות.
+                        עם קבוצה של ספקים מוכשרים ולוקיישנים מדהימים, נוצרת קסם שלא ישכח.
+                    </p>
+                    <a href="#" class="border-2 border-[#4C2B08] text-[#4C2B08] bg-transparent px-8 py-3 text-xs font-black uppercase tracking-widest hover:bg-[#8c5f42] hover:text-white hover:border-[#8c5f42] transition-colors duration-300 rounded-full inline-block" style="font-weight: 900;">
+                        גלה עוד על חתונות
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bar Mitzvah Section -->
+    <section class="py-20 bg-[#f4f1ea]">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Content -->
+                <div>
+                    <p class="font-sans text-xs font-bold tracking-widest uppercase mb-4 text-[var(--color-espresso)]">בר/בת מצווה</p>
+                    <h2 class="font-serif text-5xl mb-6 leading-tight text-[var(--color-espresso)]">יום חג מיוחד</h2>
+                    <p class="font-sans text-lg mb-8 leading-relaxed text-[var(--color-coffee)]">
+                        בר או בת מצווה - יום שמסמן מעבר משמעותי בחיי הנוער. אנחנו יוצרים אירוע שמחוגג את הגדילה ואת ההשתנות, 
+                        עם חברים ומשפחה בעיצוב שמתאים בדיוק לאישיותו של המעורבב/ת.
+                    </p>
+                    <a href="#" class="border-2 border-[#4C2B08] text-[#4C2B08] bg-transparent px-8 py-3 text-sm font-black uppercase tracking-widest hover:bg-[#8c5f42] hover:text-white hover:border-[#8c5f42] transition-colors duration-300 rounded-full inline-block" style="font-weight: 900;">
+                        גלה עוד על בר מצווה
+                    </a>
+                </div>
+                <!-- Image -->
+                <div>
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop" 
+                         alt="Bar Mitzvah Celebration" 
+                         class="w-full h-full object-cover rounded-lg shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Corporate Events Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Image -->
+                <div class="order-2 md:order-1">
+                    <img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?q=80&w=2070&auto=format&fit=crop" 
+                         alt="Corporate Event" 
+                         class="w-full h-full object-cover rounded-lg shadow-lg">
+                </div>
+                <!-- Content -->
+                <div class="order-1 md:order-2">
+                    <p class="font-sans text-xs font-bold tracking-widest uppercase mb-4 text-[var(--color-espresso)]">אירועי חברה</p>
+                    <h2 class="font-serif text-5xl mb-6 leading-tight text-[var(--color-espresso)]">הרמת כוסות לחיים</h2>
+                    <p class="font-sans text-lg mb-8 leading-relaxed text-[var(--color-coffee)]">
+                        כל חברה זקוקה ליום מיוחד שמחזק קשרים ויוצר זיכרונות. מאירועי השקה ועד חגיגות סיום, 
+                        אנחנו מתכננים אירועים שמעוררים השראה, מצחיקים וממשיכים להיות שיחת היום.
+                    </p>
+                    <a href="#" class="border-2 border-[#4C2B08] text-[#4C2B08] bg-transparent px-8 py-3 text-sm font-black uppercase tracking-widest hover:bg-[#8c5f42] hover:text-white hover:border-[#8c5f42] transition-colors duration-300 rounded-full inline-block" style="font-weight: 900;">
+                        גלה עוד על אירועי חברה
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
