@@ -91,20 +91,7 @@ def get_local_venue_image(venue_obj):
     if relative_path.startswith('/'):
         return relative_path
     return '/' + relative_path
-    
-    if not images:
-        # Ultimate fallback
-        return '/static/images/hall/hall1.jpg'
-    
-    # Select deterministically based on venue ID
-    image_index = (venue_obj.id - 1) % len(images)
-    selected_image = images[image_index]
-    
-    # Convert to relative path
-    relative_path = selected_image.replace(BASE_DIR, '').replace('\\', '/')
-    if relative_path.startswith('/'):
-        return relative_path
-    return '/' + relative_path
+
 class Venue(db.Model):
     __tablename__ = 'venues'
 
@@ -559,9 +546,7 @@ def plan_page():
     """Serve the event planning/filtering page"""
     return render_template('plan.html')
 
-from flask import Flask, request, jsonify, send_from_directory, render_template, session
 
-# ... (imports)
 
 # Add Cart Routes
 @app.route('/api/cart/add', methods=['POST'])
@@ -614,25 +599,19 @@ def save_event():
         event_type = data.get('event_type', 'other')
         cursor = conn.cursor()
         
-        cursor.execute('''
-            INSERT INTO events (user_id, event_type, status)
-            VALUES (?, ?, ?)
-        ''', (current_user.id, event_type, 'תכנון'))
+        cursor.execute(
+            'INSERT INTO events (user_id, event_type, status) VALUES (?, ?, ?)',
+            (current_user.id, event_type, 'תכנון')
+        )
         
         event_id = cursor.lastrowid
         
         # Add vendors to event
         for item in cart:
-            cursor.execute('''
-                INSERT INTO event_vendors (event_id, vendor_type, vendor_id, vendor_name, vendor_price)
-                VALUES (?, ?, ?, ?, ?)
-            ''', (
-                event_id,
-                item.get('type'),
-                item.get('id'),
-                item.get('name'),
-                item.get('price')
-            ))
+            cursor.execute(
+                'INSERT INTO event_vendors (event_id, vendor_type, vendor_id, vendor_name, vendor_price) VALUES (?, ?, ?, ?, ?)',
+                (event_id, item.get('type'), item.get('id'), item.get('name'), item.get('price'))
+            )
         
         conn.commit()
         conn.close()
@@ -684,11 +663,10 @@ def manage_event(event_id):
                           (event_id,)).fetchall()
     
     # Get checklist items
-    checklist_items = conn.execute('''
-        SELECT * FROM checklist_items
-        WHERE event_id = ?
-        ORDER BY is_completed ASC, created_at DESC
-    ''', (event_id,)).fetchall()
+    checklist_items = conn.execute(
+        'SELECT * FROM checklist_items WHERE event_id = ? ORDER BY is_completed ASC, created_at DESC',
+        (event_id,)
+    ).fetchall()
     
     # Calculate progress
     total_count = len(checklist_items)
@@ -781,10 +759,10 @@ def checklist_items_api(event_id):
             return jsonify({'error': 'Title required'}), 400
         
         cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO checklist_items (event_id, title)
-            VALUES (?, ?)
-        ''', (event_id, title))
+        cursor.execute(
+            'INSERT INTO checklist_items (event_id, title) VALUES (?, ?)',
+            (event_id, title)
+        )
         conn.commit()
         
         item_id = cursor.lastrowid
