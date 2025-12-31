@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    <!-- Hero Section for Inspirations -->
+    <section class="py-20 bg-[#f4f1ea]">
+        <div class="container mx-auto px-4 md:px-8 text-center">
+            <h1 class="font-serif text-5xl md:text-6xl text-[#4C2B08] mb-6" style="font-family: 'Playfair Display', Georgia, serif; font-weight: 500;">חתונות אמיתיות</h1>
+            <p class="text-xl text-[#84593D] max-w-2xl mx-auto" style="font-family: 'Playfair Display', Georgia, serif;">
+                השראה מחתונות אמיתיות שיצרנו יחד עם הזוגות שלנו
+            </p>
+        </div>
+    </section>
+
+    <!-- Featured Real Weddings (Grid) -->
+    <section class="py-20 bg-white" id="inspiration">
+        <div class="container px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+                <!-- Item 1 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding in Jerusalem">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">ירושלים, ישראל</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">נועה ודניאל</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding in Tel Aviv">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">תל אביב, יפו</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">מאיה ותומר</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=2070&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding in Caesarea">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">קיסריה, ישראל</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">עדי ויונתן</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2070&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding in Negev">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">מצפה רמון</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">שירה ואיתי</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?q=80&w=2071&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding in Galilee">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">ראש פינה</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">רוני וגיא</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1507915977619-6ccfe8003ae6?q=80&w=1974&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding in Eilat">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">אילת</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">דנה ועומר</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Home -->
+    <section class="py-12 bg-[#f4f1ea] text-center">
+        <a href="/" class="border-2 border-[#4C2B08] text-[#4C2B08] bg-transparent px-10 py-4 text-xs font-black uppercase tracking-[0.2em] hover:bg-[#8c5f42] hover:text-white hover:border-[#8c5f42] transition-colors duration-300 rounded-full inline-block" style="font-weight: 900;">
+            חזרה לדף הבית
+        </a>
+    </section>
+</main>
+{% endblock %}
