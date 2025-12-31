@@ -3,10 +3,20 @@
 :root {
     --font-serif: 'Playfair Display', serif;
     --font-sans: 'Lato', sans-serif;
-    --color-black: #6B5B4F; /* Lighter Stone Brown */
-    --color-text: #7D6E63;  /* Soft Brown Text */
-    --color-stone: #8F8177; /* Pale Stone */
-    --color-beige: #f4f1ea;
+    
+    /* New Palette */
+    --color-vanilla: #D7BDA6;
+    --color-caramel: #AB7743;
+    --color-almond: #B7957F;
+    --color-coffee: #6D3914;
+    --color-mocca: #84593D;
+    --color-espresso: #4C2B08;
+
+    /* Semantic Variables */
+    --color-black: var(--color-espresso);
+    --color-text: var(--color-coffee);
+    --color-stone: var(--color-almond);
+    --color-beige: #f9f7f5; /* Very light vanilla tint */
     --color-white: #ffffff;
 }
 

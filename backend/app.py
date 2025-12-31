@@ -26,9 +26,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATABASE = os.path.join(BASE_DIR, '..', 'database', 'easyevents.db')
 
 def get_db_connection():
-    """Create a database connection"""
-    conn = sqlite3.connect(DATABASE)
+    """Create a database connection with timeout to prevent locking"""
+    conn = sqlite3.connect(DATABASE, timeout=30)
     conn.row_factory = sqlite3.Row
+    conn.execute('PRAGMA journal_mode=WAL')  # Better concurrency
     return conn
 
 # User Class for Flask-Login
