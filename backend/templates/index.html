@@ -10,11 +10,18 @@
         <div class="absolute inset-0 bg-black/30"></div>
         <!-- Content overlay -->
         <div class="relative z-10 h-full flex flex-col items-center justify-center text-center text-[#4C2B08] px-4 fade-in-up">
-            <h2 class="font-serif text-xs md:text-sm tracking-[0.3em] uppercase mb-6 drop-shadow-lg text-[#331e07]">The Art of Celebration</h2>
-            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl mb-10 leading-none drop-shadow-lg text-[#331e07]">
+            <h2 class="font-serif text-xs md:text-sm tracking-[0.3em] uppercase mb-6 text-[#331e07]" style="text-shadow: 0 0 10px rgba(255,255,255,0.7), 0 0 20px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.3);">The Art of Celebration</h2>
+            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl mb-10 leading-none text-[#331e07]" style="text-shadow: 0 0 15px rgba(255,255,255,0.6), 0 0 30px rgba(255,255,255,0.4);">
                 EasyVents
             </h1>
-            <a href="/plan" class="border-2 border-[#4C2B08] text-[#4C2B08] bg-transparent px-10 py-4 text-xs font-black uppercase tracking-[0.2em] hover:bg-[#8c5f42] hover:text-white hover:border-[#8c5f42] transition-colors duration-300 drop-shadow-lg rounded-full" style="font-weight: 900; letter-spacing: 0.05em;">
+            <style>
+                .hero-btn:hover {
+                    background-color: #3e1e09 !important;
+                    border-color: #442510 !important;
+                    color: white !important;
+                }
+            </style>
+            <a href="/plan" class="hero-btn border-2 border-[#4C2B08] text-[#4C2B08] bg-transparent px-8 py-3 text-xs font-black uppercase tracking-widest hover:bg-[#8c5f42] hover:text-white hover:border-[#8c5f42] transition-colors duration-300 rounded-full inline-block" style="font-weight: 900; background-color: transparent;">
                 התחל לתכנן
             </a>
         </div>
@@ -32,57 +39,57 @@
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Bar Mitzvah Card -->
-                <div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow duration-300">
+                <a href="/plan?type=bar-mitzvah" class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow duration-300 block cursor-pointer">
                     <div class="h-56 mx-auto mb-6 flex items-center justify-center overflow-hidden">
                         <img src="{{ url_for('static', filename='images/tfilin.png') }}" 
                              alt="בר מצווה" 
-                             class="h-48 object-contain animate-slide-in-left-once">
+                             class="h-48 object-contain tfilin-slide">
                     </div>
-                    <h3 class="text-2xl text-[#4C2B08] mb-3" style="font-family: 'Playfair Display', Georgia, serif; font-weight: 600;">בר & בת מצווה</h3>
+                    <h3 class="text-2xl text-[#4C2B08] mb-3" style="font-family: 'Playfair Display', Georgia, serif; font-weight: 600;">בר מצווה</h3>
                     <p class="text-sm text-[#84593D] leading-relaxed" style="font-family: 'Lato', sans-serif;">
                         חוגגים בגרות
                     </p>
-                </div>
+                </a>
 
                 <!-- Pool Party Card -->
-                <div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow duration-300">
+                <a href="/plan?type=party" class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow duration-300 block cursor-pointer">
                     <div class="h-56 mx-auto mb-6 flex items-center justify-center relative">
-                        <!-- Summer image - large at top with slow pulse -->
+                        <!-- Summer image -->
                         <img src="{{ url_for('static', filename='images/summer.png') }}" 
                              alt="קיץ" 
-                             class="h-48 object-contain animate-slow-pulse absolute -top-2">
+                             class="h-48 object-contain absolute -top-2 summer-pulse">
                         <!-- Pool image -->
                         <img src="{{ url_for('static', filename='images/pool.png') }}" 
                              alt="בריכה" 
-                             class="h-28 object-contain animate-slide-from-right absolute bottom-0 left-4">
+                             class="h-28 object-contain absolute bottom-0 left-4">
                         <!-- Ball bouncing -->
                         <img src="{{ url_for('static', filename='images/ball.png') }}" 
                              alt="כדור" 
-                             class="h-16 object-contain animate-ball-bounce absolute bottom-2 right-4">
+                             class="h-16 object-contain absolute bottom-2 right-4 ball-bounce">
                     </div>
                     <h3 class="text-2xl text-[#4C2B08] mb-3" style="font-family: 'Playfair Display', Georgia, serif; font-weight: 600;">מסיבת בריכה</h3>
                     <p class="text-sm text-[#84593D] leading-relaxed" style="font-family: 'Lato', sans-serif;">
                         שמש, מים, מוזיקה ואווירה של חופש.
                     </p>
-                </div>
+                </a>
 
                 <!-- Corporate Toast Card -->
-                <div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow duration-300">
+                <a href="/plan?type=business" class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow duration-300 block cursor-pointer">
                     <div class="h-56 mx-auto mb-6 flex items-center justify-center relative">
-                        <!-- Left glass - tilts right -->
+                        <!-- Left glass -->
                         <img src="{{ url_for('static', filename='images/Lcheers.png') }}" 
                              alt="כוסית שמאל" 
-                             class="h-44 object-contain animate-cheers-left absolute left-12">
-                        <!-- Right glass - tilts left -->
+                             class="h-44 object-contain absolute left-12 cheers-left">
+                        <!-- Right glass -->
                         <img src="{{ url_for('static', filename='images/Rcheers.png') }}" 
                              alt="כוסית ימין" 
-                             class="h-44 object-contain animate-cheers-right absolute right-12">
+                             class="h-44 object-contain absolute right-12 cheers-right">
                     </div>
                     <h3 class="text-2xl text-[#4C2B08] mb-3" style="font-family: 'Playfair Display', Georgia, serif; font-weight: 600;">הרמת כוסית</h3>
                     <p class="text-sm text-[#84593D] leading-relaxed" style="font-family: 'Lato', sans-serif;">
                         אירועים עסקיים בסטייל אחר.
                     </p>
-                </div>
+                </a>
             </div>
         </div>
     </section>
@@ -91,192 +98,36 @@
     <section class="py-12 bg-white">
         <div class="container mx-auto px-4 md:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <!-- Animation with couple and rings -->
-                <div class="order-2 md:order-1 flex justify-center items-center bg-gradient-to-br from-[#f4f1ea] to-[#e8e5dc] rounded-lg shadow-lg p-6 min-h-[380px] relative overflow-hidden">
+                <!-- Animation with couple and rings - Clickable -->
+                <a href="/plan?type=wedding" class="order-2 md:order-1 flex justify-center items-center bg-gradient-to-br from-[#f4f1ea] to-[#e8e5dc] rounded-lg shadow-lg p-6 min-h-[380px] relative overflow-hidden cursor-pointer hover:shadow-2xl transition-shadow duration-300 block">
                     <!-- Main container for couple and rings -->
                     <div class="relative flex flex-col items-center justify-center">
-                        <!-- Couple illustration with slide-in animation from right -->
-                        <div class="animate-slide-in-from-right relative w-52">
+                        <!-- Couple illustration -->
+                        <div class="relative w-52 couple-slide">
                             <img src="{{ url_for('static', filename='images/bride-groom-illustration.png') }}" 
                                  alt="Bride and Groom" 
                                  class="w-full h-auto drop-shadow-xl bg-transparent" 
                                  style="mix-blend-mode: multiply; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));">
                         </div>
                         
-                        <!-- Animated rings below couple - larger and no rotation -->
-                        <div class="animate-float-rings -mt-8 relative">
+                        <!-- Animated rings -->
+                        <div class="-mt-8 relative rings-float">
                             <img src="{{ url_for('static', filename='images/wedding-rings.png') }}" 
                                  alt="Wedding Rings" 
-                                 class="w-64 h-auto opacity-95 no-spin" 
+                                 class="w-64 h-auto opacity-95" 
                                  style="mix-blend-mode: multiply; filter: drop-shadow(0 8px 15px rgba(171, 119, 67, 0.3));">
                         </div>
                     </div>
-                </div>
+                </a>
                 <!-- Content -->
                 <div class="order-1 md:order-2">
-                    <p class="font-sans text-xs font-bold tracking-widest uppercase mb-2 text-[var(--color-espresso)]">חתונות</p>
-                    <h2 class="font-serif text-3xl md:text-4xl mb-4 leading-tight text-[var(--color-espresso)]">יום המיוחד שלכם</h2>
+                    <h2 class="font-serif text-3xl md:text-4xl mb-4 leading-tight text-[var(--color-espresso)]">חתונות</h2>
                     <p class="font-sans text-sm mb-6 leading-relaxed text-[var(--color-coffee)]">
-                        החתונה היא יום שישתקע בזיכרון לנצח. מהרגע הראשון של ההכנות ועד הרקص האחרון בערב, אנחנו כאן כדי להפוך את החלום שלכם למציאות.
-                        עם קבוצה של ספקים מוכשרים ולוקיישנים מדהימים, נוצרת קסם שלא ישכח.
+                        היום הגדול שלכם, בלי הלחץ מסביב. עם הלוקיישנים הכי יפים והספקים הכי טובים, נדאג שהחתונה שלכם תהיה פשוט וואו. אתם רק צריכים להגיד 'I DO'.
                     </p>
-                    <a href="#" class="border-2 border-[#4C2B08] text-[#4C2B08] bg-transparent px-8 py-3 text-xs font-black uppercase tracking-widest hover:bg-[#8c5f42] hover:text-white hover:border-[#8c5f42] transition-colors duration-300 rounded-full inline-block" style="font-weight: 900;">
-                        גלה עוד על חתונות
+                    <a href="/inspirations" class="border-2 border-[#4C2B08] text-[#4C2B08] bg-transparent px-8 py-3 text-xs font-black uppercase tracking-widest hover:bg-[#8c5f42] hover:text-white hover:border-[#8c5f42] transition-colors duration-300 rounded-full inline-block" style="font-weight: 900;">
+                        בואו לקבל השראה
                     </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Bar Mitzvah Section -->
-    <section class="py-20 bg-[#f4f1ea]">
-        <div class="container mx-auto px-4 md:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <!-- Content -->
-                <div>
-                    <p class="font-sans text-xs font-bold tracking-widest uppercase mb-4 text-[var(--color-espresso)]">בר/בת מצווה</p>
-                    <h2 class="font-serif text-5xl mb-6 leading-tight text-[var(--color-espresso)]">יום חג מיוחד</h2>
-                    <p class="font-sans text-lg mb-8 leading-relaxed text-[var(--color-coffee)]">
-                        בר או בת מצווה - יום שמסמן מעבר משמעותי בחיי הנוער. אנחנו יוצרים אירוע שמחוגג את הגדילה ואת ההשתנות, 
-                        עם חברים ומשפחה בעיצוב שמתאים בדיוק לאישיותו של המעורבב/ת.
-                    </p>
-                    <a href="#" class="border-2 border-[#4C2B08] text-[#4C2B08] bg-transparent px-8 py-3 text-sm font-black uppercase tracking-widest hover:bg-[#8c5f42] hover:text-white hover:border-[#8c5f42] transition-colors duration-300 rounded-full inline-block" style="font-weight: 900;">
-                        גלה עוד על בר מצווה
-                    </a>
-                </div>
-                <!-- Image -->
-                <div>
-                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop" 
-                         alt="Bar Mitzvah Celebration" 
-                         class="w-full h-full object-cover rounded-lg shadow-lg">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Corporate Events Section -->
-    <section class="py-20 bg-white">
-        <div class="container mx-auto px-4 md:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <!-- Image -->
-                <div class="order-2 md:order-1">
-                    <img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?q=80&w=2070&auto=format&fit=crop" 
-                         alt="Corporate Event" 
-                         class="w-full h-full object-cover rounded-lg shadow-lg">
-                </div>
-                <!-- Content -->
-                <div class="order-1 md:order-2">
-                    <p class="font-sans text-xs font-bold tracking-widest uppercase mb-4 text-[var(--color-espresso)]">אירועי חברה</p>
-                    <h2 class="font-serif text-5xl mb-6 leading-tight text-[var(--color-espresso)]">הרמת כוסות לחיים</h2>
-                    <p class="font-sans text-lg mb-8 leading-relaxed text-[var(--color-coffee)]">
-                        כל חברה זקוקה ליום מיוחד שמחזק קשרים ויוצר זיכרונות. מאירועי השקה ועד חגיגות סיום, 
-                        אנחנו מתכננים אירועים שמעוררים השראה, מצחיקים וממשיכים להיות שיחת היום.
-                    </p>
-                    <a href="#" class="border-2 border-[#4C2B08] text-[#4C2B08] bg-transparent px-8 py-3 text-sm font-black uppercase tracking-widest hover:bg-[#8c5f42] hover:text-white hover:border-[#8c5f42] transition-colors duration-300 rounded-full inline-block" style="font-weight: 900;">
-                        גלה עוד על אירועי חברה
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured Real Weddings (Grid) -->
-    <section class="py-20 bg-[#f4f1ea]" id="inspiration">
-        <div class="container px-4 md:px-8">
-            <div class="flex justify-between items-end mb-16 border-b border-[color:var(--color-black)]/5 pb-6">
-                <h2 class="font-serif text-3xl md:text-4xl text-[color:var(--color-black)]">חתונות אמיתיות</h2>
-                <a href="#" class="font-sans text-xs font-bold tracking-widest uppercase hover:text-gray-500 transition-colors">צפה בכל החתונות</a>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-                <!-- Item 1 -->
-                <div class="group cursor-pointer">
-                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
-                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop"
-                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                             alt="Wedding in Jerusalem">
-                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
-                    </div>
-                    <div class="text-center">
-                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">ירושלים, ישראל</p>
-                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">נועה ודניאל</h3>
-                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
-                    </div>
-                </div>
-
-                <!-- Item 2 -->
-                <div class="group cursor-pointer">
-                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
-                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop"
-                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                             alt="Wedding in Tel Aviv">
-                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
-                    </div>
-                    <div class="text-center">
-                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">תל אביב, יפו</p>
-                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">מאיה ותומר</h3>
-                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
-                    </div>
-                </div>
-
-                <!-- Item 3 -->
-                <div class="group cursor-pointer">
-                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
-                        <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=2070&auto=format&fit=crop"
-                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                             alt="Wedding in Caesarea">
-                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
-                    </div>
-                    <div class="text-center">
-                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">קיסריה, ישראל</p>
-                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">עדי ויונתן</h3>
-                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
-                    </div>
-                </div>
-
-                <!-- Item 4 -->
-                <div class="group cursor-pointer">
-                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
-                        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2070&auto=format&fit=crop"
-                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                             alt="Wedding in Negev">
-                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
-                    </div>
-                    <div class="text-center">
-                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">מצפה רמון</p>
-                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">שירה ואיתי</h3>
-                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
-                    </div>
-                </div>
-
-                <!-- Item 5 -->
-                <div class="group cursor-pointer">
-                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
-                        <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?q=80&w=2043&auto=format&fit=crop"
-                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                             alt="Wedding in Galilee">
-                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
-                    </div>
-                    <div class="text-center">
-                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">ראש פינה</p>
-                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">רוני וגיא</h3>
-                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
-                    </div>
-                </div>
-
-                <!-- Item 6 -->
-                <div class="group cursor-pointer">
-                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
-                        <img src="https://images.unsplash.com/photo-1507915977619-6ccfe8003ae6?q=80&w=1974&auto=format&fit=crop"
-                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                             alt="Wedding in Eilat">
-                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
-                    </div>
-                    <div class="text-center">
-                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">אילת</p>
-                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">דנה ועומר</h3>
-                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -285,7 +136,7 @@
     <!-- Vendor Categories (Curated List) -->
     <section class="py-24 bg-white" id="vendors">
         <div class="container px-4 md:px-8">
-            <h2 class="font-serif text-3xl md:text-4xl text-center mb-4 text-[color:var(--color-black)]">הנבחרת שלנו</h2>
+            <h2 class="font-serif text-3xl md:text-4xl text-center mb-4 text-[color:var(--color-black)]">הנבחרים שלנו</h2>
             <p class="text-center font-sans text-gray-400 text-sm tracking-widest uppercase mb-16">ספקים נבחרים לאירוע מושלם</p>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -302,7 +153,7 @@
 
                 <!-- Category 2 -->
                 <a href="/plan?type=photo" class="group block relative aspect-square overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?q=80&w=2070&auto=format&fit=crop"
+                    <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?q=80&w=2070&auto=format&fit=crop"
                          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                          alt="Photography">
                     <div class="absolute inset-0 bg-[color:var(--color-black)]/20 group-hover:bg-[color:var(--color-black)]/30 transition-colors"></div>
