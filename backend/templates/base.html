@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EasyVents | The Art of Celebration</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <!-- Google Fonts: Playfair Display (Serif) & Lato (Sans) for that Editorial Look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS loaded AFTER Tailwind to override -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
         :root {
             --font-serif: 'Playfair Display', serif;
@@ -35,6 +36,70 @@
             font-weight: 400;
             letter-spacing: -0.01em;
             color: var(--color-black);
+        }
+
+        /* === EVENT CARD ANIMATIONS === */
+        
+        /* Tfilin slides in from left */
+        .tfilin-slide {
+            animation: tfilinSlide 1.2s ease-out forwards;
+        }
+        @keyframes tfilinSlide {
+            0% { opacity: 0; transform: translateX(-100px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* Summer pulses slowly */
+        .summer-pulse {
+            animation: summerPulse 4s ease-in-out infinite;
+        }
+        @keyframes summerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* Ball bounces */
+        .ball-bounce {
+            animation: ballBounce 1s ease-in-out infinite;
+        }
+        @keyframes ballBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        /* Cheers glasses clink */
+        .cheers-left {
+            animation: cheersLeft 3s ease-in-out infinite;
+        }
+        @keyframes cheersLeft {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(8deg) translateX(5px); }
+        }
+        
+        .cheers-right {
+            animation: cheersRight 3s ease-in-out infinite;
+        }
+        @keyframes cheersRight {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(-8deg) translateX(-5px); }
+        }
+        
+        /* Wedding couple slides in */
+        .couple-slide {
+            animation: coupleSlide 1.5s ease-out forwards;
+        }
+        @keyframes coupleSlide {
+            0% { opacity: 0; transform: translateX(100px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* Rings float */
+        .rings-float {
+            animation: ringsFloat 3.5s ease-in-out infinite;
+        }
+        @keyframes ringsFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         /* Header Styles */
@@ -189,8 +254,11 @@
             </div>
 
             <!-- Center: Logo -->
-            <div class="absolute left-1/2 transform -translate-x-1/2">
-                <a href="/" class="logo-text">EasyVents</a>
+            <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-3">
+                <a href="/" class="flex items-center gap-3">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EasyVents Logo" class="h-10 w-auto">
+                    <span class="logo-text">EasyVents</span>
+                </a>
             </div>
 
             <!-- Right: Navigation -->
@@ -200,7 +268,7 @@
                 {% endif %}
                 <a href="/plan" class="nav-link">תכנון אירוע</a>
                 <a href="/#vendors" class="nav-link">ספקים</a>
-                <a href="/#inspiration" class="nav-link">השראה</a>
+                <a href="/inspirations" class="nav-link">השראה</a>
             </nav>
 
             <!-- Mobile Menu Button (Placeholder) -->
