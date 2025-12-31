@@ -3,12 +3,19 @@
 :root {
     --font-serif: 'Playfair Display', serif;
     --font-sans: 'Lato', sans-serif;
-    --color-espresso: #4C2B08;      /* Dark Espresso */
-    --color-coffee: #6D3914;        /* Coffee */
-    --color-mocca: #84593D;         /* Mocca */
-    --color-almond: #8c5f42;        /* Almond */
-    --color-caramel: #AB7743;       /* Caramel */
-    --color-vanilla: #D7BDA6;       /* Vanilla */
+    
+    /* New Palette */
+    --color-vanilla: #D7BDA6;
+    --color-caramel: #AB7743;
+    --color-almond: #B7957F;
+    --color-coffee: #6D3914;
+    --color-mocca: #84593D;
+    --color-espresso: #4C2B08;
+
+    /* Semantic Variables */
+    --color-black: var(--color-espresso);
+    --color-text: var(--color-coffee);
+    --color-stone: var(--color-almond);
     --color-beige: #f4f1ea;
     --color-white: #ffffff;
 }
@@ -20,7 +27,7 @@ html {
 
 body {
     font-family: var(--font-sans);
-    color: var(--color-coffee);
+    color: var(--color-text);
     background-color: var(--color-white);
     margin: 0;
     padding: 0;
@@ -30,7 +37,30 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
-    color: var(--color-espresso);
+    color: var(--color-black);
+}
+
+/* Utility Classes for Editorial Design */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Header Styles */
@@ -82,300 +112,11 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
 }
 
-/* Utility Classes for Editorial Design */
-.container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
-}
-
-.fade-in-up {
-    animation: fadeInUp 0.8s ease-out forwards;
-    opacity: 0;
-    transform: translateY(20px);
-}
-
-.delay-100 { animation-delay: 0.1s; }
-.delay-200 { animation-delay: 0.2s; }
-
-@keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Hero Section Background */
-.hero-background {
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-section[style*="background-image"] {
-    background-attachment: fixed !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    background-size: cover !important;
-}
-
-/* Hero Section Text Colors */
-section[style*="background-image"] h2 {
-    color: var(--color-espresso) !important;
-    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
-}
-
-section[style*="background-image"] h1 {
-    color: #2c1804 !important;
-    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
-}
-
-section[style*="background-image"] a {
-    color: var(--color-espresso) !important;
-}
-
-/* Couple and Rings Animations */
-@keyframes fade-in-subtle {
-    0% {
-        opacity: 0;
-        transform: scale(0.95) translateY(10px);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-}
-
-@keyframes float-rings {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-12px);
-    }
-}
-
-@keyframes spin-slow {
-    0% {
-        transform: rotateZ(0deg);
-    }
-    100% {
-        transform: rotateZ(360deg);
-    }
-}
-
-@keyframes sparkle-soft {
-    0%, 100% {
-        opacity: 0;
-        transform: scale(0.5);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes slide-in-from-right {
-    0% {
-        opacity: 0;
-        transform: translateX(100px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes fireworks-fade {
-    0% {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: scale(1);
-    }
-}
-
-.animate-fade-in-subtle {
-    animation: fade-in-subtle 1.2s ease-out forwards;
-}
-
-.animate-slide-in-from-right {
-    animation: slide-in-from-right 1.2s ease-out forwards;
-}
-
-.animate-fireworks-left {
-    animation: fireworks-fade 1.5s ease-out forwards;
-    animation-delay: 1.2s;
-}
-
-.animate-fireworks-right {
-    animation: fireworks-fade 1.5s ease-out forwards;
-    animation-delay: 2.7s;
-}
-
-/* Event Icons Animations */
-
-/* Tfilin slide in from left - no animation after */
-@keyframes slide-in-left-once {
-    0% {
-        opacity: 0;
-        transform: translateX(-100px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.animate-slide-in-left-once {
-    animation: slide-in-left-once 1.2s ease-out forwards;
-}
-
-/* Summer slow pulse */
-@keyframes slow-pulse {
-    0%, 100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.03);
-        opacity: 0.95;
-    }
-}
-
-.animate-slow-pulse {
-    animation: slow-pulse 4s ease-in-out infinite;
-}
-
-/* Cheers glasses clinking animation */
-@keyframes cheers-right {
-    0%, 100% {
-        transform: rotate(0deg) translateX(0);
-    }
-    50% {
-        transform: rotate(-8deg) translateX(-5px);
-    }
-}
-
-@keyframes cheers-left {
-    0%, 100% {
-        transform: rotate(0deg) translateX(0);
-    }
-    50% {
-        transform: rotate(8deg) translateX(5px);
-    }
-}
-
-.animate-cheers-right {
-    animation: cheers-right 3.5s ease-in-out infinite;
-}
-
-.animate-cheers-left {
-    animation: cheers-left 3.5s ease-in-out infinite;
-}
-
-@keyframes celebrate-jump {
-    0%, 100% {
-        transform: translateY(0) scale(1);
-    }
-    50% {
-        transform: translateY(-8px) scale(1.05);
-    }
-}
-
-@keyframes wave-float {
-    0%, 100% {
-        transform: translateY(0) rotate(0deg);
-    }
-    25% {
-        transform: translateY(-5px) rotate(-3deg);
-    }
-    75% {
-        transform: translateY(-5px) rotate(3deg);
-    }
-}
-
-.animate-toast-cheers {
-    animation: toast-cheers 2s ease-in-out infinite;
-}
-
-.animate-celebrate {
-    animation: celebrate-jump 1.5s ease-in-out infinite;
-}
-
-.animate-wave {
-    animation: wave-float 2.5s ease-in-out infinite;
-}
-
-/* Slide from sides animations */
-@keyframes slide-from-left {
-    0% {
-        opacity: 0;
-        transform: translateX(-50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes slide-from-right {
-    0% {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.animate-slide-from-left {
-    animation: slide-from-left 1s ease-out forwards;
-}
-
-.animate-slide-from-right {
-    animation: slide-from-right 1s ease-out forwards;
-    animation-delay: 0.3s;
-    opacity: 0;
-}
-
-/* Ball bounce animation */
-@keyframes ball-bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-15px);
-    }
-}
-
-.animate-ball-bounce {
-    animation: ball-bounce 1s ease-in-out infinite;
-}
-
-.animate-float-rings {
-    animation: float-rings 3.5s ease-in-out infinite;
-}
-
-.animate-spin-slow {
-    animation: spin-slow 8s linear infinite;
-}
-
-.no-spin {
-    animation: none !important;
-}
-
 /* Premium Category Navigation Styles */
 .category-btn {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     position: relative;
+    box-sizing: border-box;
 }
 
 .category-btn::before {
@@ -400,9 +141,4 @@ section[style*="background-image"] a {
 
 .category-btn.active-category {
     box-shadow: 0 4px 10px rgba(76, 43, 8, 0.18);
-}
-}
-
-.animate-sparkle-soft {
-    animation: sparkle-soft 2.5s ease-in-out infinite;
 }
