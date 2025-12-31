@@ -3,10 +3,15 @@
 {% block content %}
 <main>
     <!-- Hero Section -->
-    <section class="relative h-screen w-full overflow-hidden bg-cover bg-center" style="background-image: url('{{ url_for('static', filename='images/hero-background.jpg') }}');">
+    <section class="relative h-screen w-full overflow-hidden">
+        <!-- Darkened background image -->
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ url_for('static', filename='images/hero-background.jpg') }}');"></div>
+        <!-- Dark overlay -->
+        <div class="absolute inset-0 bg-black/30"></div>
+        <!-- Content overlay -->
         <div class="relative z-10 h-full flex flex-col items-center justify-center text-center text-[#4C2B08] px-4 fade-in-up">
-            <h2 class="font-serif text-xs md:text-sm tracking-[0.3em] uppercase mb-6 drop-shadow-lg">The Art of Celebration</h2>
-            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl mb-10 leading-none drop-shadow-lg text-[#AB7743]">
+            <h2 class="font-serif text-xs md:text-sm tracking-[0.3em] uppercase mb-6 drop-shadow-lg text-[#331e07]">The Art of Celebration</h2>
+            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl mb-10 leading-none drop-shadow-lg text-[#331e07]">
                 EasyVents
             </h1>
             <a href="/plan" class="border-2 border-[#4C2B08] text-[#4C2B08] bg-transparent px-10 py-4 text-xs font-black uppercase tracking-[0.2em] hover:bg-[#8c5f42] hover:text-white hover:border-[#8c5f42] transition-colors duration-300 drop-shadow-lg rounded-full" style="font-weight: 900; letter-spacing: 0.05em;">
@@ -16,6 +21,71 @@
     </section>
 
     <!-- Event Types Sections -->
+
+    <!-- Three Events Preview Section -->
+    <section class="py-16 bg-[#f4f1ea]">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl text-[#4C2B08] mb-4" style="font-family: 'Playfair Display', Georgia, serif; font-weight: 500;">האירועים שלנו</h2>
+                <p class="text-xl text-[#84593D]" style="font-family: 'Playfair Display', Georgia, serif;">כל רגע הוא חגיגה</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Bar Mitzvah Card -->
+                <div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow duration-300">
+                    <div class="h-56 mx-auto mb-6 flex items-center justify-center overflow-hidden">
+                        <img src="{{ url_for('static', filename='images/tfilin.png') }}" 
+                             alt="בר מצווה" 
+                             class="h-48 object-contain animate-slide-in-left-once">
+                    </div>
+                    <h3 class="text-2xl text-[#4C2B08] mb-3" style="font-family: 'Playfair Display', Georgia, serif; font-weight: 600;">בר & בת מצווה</h3>
+                    <p class="text-sm text-[#84593D] leading-relaxed" style="font-family: 'Lato', sans-serif;">
+                        חוגגים בגרות
+                    </p>
+                </div>
+
+                <!-- Pool Party Card -->
+                <div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow duration-300">
+                    <div class="h-56 mx-auto mb-6 flex items-center justify-center relative">
+                        <!-- Summer image - large at top with slow pulse -->
+                        <img src="{{ url_for('static', filename='images/summer.png') }}" 
+                             alt="קיץ" 
+                             class="h-48 object-contain animate-slow-pulse absolute -top-2">
+                        <!-- Pool image -->
+                        <img src="{{ url_for('static', filename='images/pool.png') }}" 
+                             alt="בריכה" 
+                             class="h-28 object-contain animate-slide-from-right absolute bottom-0 left-4">
+                        <!-- Ball bouncing -->
+                        <img src="{{ url_for('static', filename='images/ball.png') }}" 
+                             alt="כדור" 
+                             class="h-16 object-contain animate-ball-bounce absolute bottom-2 right-4">
+                    </div>
+                    <h3 class="text-2xl text-[#4C2B08] mb-3" style="font-family: 'Playfair Display', Georgia, serif; font-weight: 600;">מסיבת בריכה</h3>
+                    <p class="text-sm text-[#84593D] leading-relaxed" style="font-family: 'Lato', sans-serif;">
+                        שמש, מים, מוזיקה ואווירה של חופש.
+                    </p>
+                </div>
+
+                <!-- Corporate Toast Card -->
+                <div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow duration-300">
+                    <div class="h-56 mx-auto mb-6 flex items-center justify-center relative">
+                        <!-- Left glass - tilts right -->
+                        <img src="{{ url_for('static', filename='images/Lcheers.png') }}" 
+                             alt="כוסית שמאל" 
+                             class="h-44 object-contain animate-cheers-left absolute left-12">
+                        <!-- Right glass - tilts left -->
+                        <img src="{{ url_for('static', filename='images/Rcheers.png') }}" 
+                             alt="כוסית ימין" 
+                             class="h-44 object-contain animate-cheers-right absolute right-12">
+                    </div>
+                    <h3 class="text-2xl text-[#4C2B08] mb-3" style="font-family: 'Playfair Display', Georgia, serif; font-weight: 600;">הרמת כוסית</h3>
+                    <p class="text-sm text-[#84593D] leading-relaxed" style="font-family: 'Lato', sans-serif;">
+                        אירועים עסקיים בסטייל אחר.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
     
     <!-- Weddings Section -->
     <section class="py-12 bg-white">

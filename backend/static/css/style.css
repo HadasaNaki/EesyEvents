@@ -163,6 +163,146 @@ section[style*="background-image"] a {
     animation: fireworks-fade 1.5s ease-out forwards;
     animation-delay: 2.7s;
 }
+
+/* Event Icons Animations */
+
+/* Tfilin slide in from left - no animation after */
+@keyframes slide-in-left-once {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-slide-in-left-once {
+    animation: slide-in-left-once 1.2s ease-out forwards;
+}
+
+/* Summer slow pulse */
+@keyframes slow-pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.03);
+        opacity: 0.95;
+    }
+}
+
+.animate-slow-pulse {
+    animation: slow-pulse 4s ease-in-out infinite;
+}
+
+/* Cheers glasses clinking animation */
+@keyframes cheers-right {
+    0%, 100% {
+        transform: rotate(0deg) translateX(0);
+    }
+    50% {
+        transform: rotate(-8deg) translateX(-5px);
+    }
+}
+
+@keyframes cheers-left {
+    0%, 100% {
+        transform: rotate(0deg) translateX(0);
+    }
+    50% {
+        transform: rotate(8deg) translateX(5px);
+    }
+}
+
+.animate-cheers-right {
+    animation: cheers-right 3.5s ease-in-out infinite;
+}
+
+.animate-cheers-left {
+    animation: cheers-left 3.5s ease-in-out infinite;
+}
+
+@keyframes celebrate-jump {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-8px) scale(1.05);
+    }
+}
+
+@keyframes wave-float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-5px) rotate(-3deg);
+    }
+    75% {
+        transform: translateY(-5px) rotate(3deg);
+    }
+}
+
+.animate-toast-cheers {
+    animation: toast-cheers 2s ease-in-out infinite;
+}
+
+.animate-celebrate {
+    animation: celebrate-jump 1.5s ease-in-out infinite;
+}
+
+.animate-wave {
+    animation: wave-float 2.5s ease-in-out infinite;
+}
+
+/* Slide from sides animations */
+@keyframes slide-from-left {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-from-right {
+    0% {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-slide-from-left {
+    animation: slide-from-left 1s ease-out forwards;
+}
+
+.animate-slide-from-right {
+    animation: slide-from-right 1s ease-out forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
+}
+
+/* Ball bounce animation */
+@keyframes ball-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.animate-ball-bounce {
+    animation: ball-bounce 1s ease-in-out infinite;
 }
 
 .animate-float-rings {
