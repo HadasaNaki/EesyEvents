@@ -354,6 +354,10 @@ def create_event():
     regions = data.get('region', [])
     region_str = ','.join(regions) if regions else None
 
+    # If no event_type selected, default to 'other'
+    if not event_type:
+        event_type = 'other'
+
     if not current_user.is_authenticated:
         # If not logged in, just redirect to results with the args
         # We flatten the dict for url_for, but keep lists if needed?
@@ -399,6 +403,60 @@ def dashboard():
     conn.close()
 
     return render_template('dashboard.html', events=events)
+
+@app.route('/api/event/<int:event_id>', methods=['PUT'])
+@login_required
+def update_event(event_id):
+    """Update event details"""
+    data = request.get_json()
+    
+    conn = get_db_connection()
+    # Verify ownership
+    event = conn.execute('SELECT id FROM events WHERE id = ? AND user_id = ?',
+                        (event_id, current_user.id)).fetchone()
+    if not event:
+        conn.close()
+        return jsonify({'error': 'Unauthorized'}), 403
+    
+    # Build update query dynamically based on provided fields
+    allowed_fields = ['event_type', 'date', 'time_of_day', 'venue_type', 'style', 'region', 'budget', 'guests', 'status']
+    updates = []
+    values = []
+    
+    for field in allowed_fields:
+        if field in data:
+            updates.append(f'{field} = ?')
+            values.append(data[field])
+    
+    if updates:
+        values.append(event_id)
+        query = f'UPDATE events SET {", ".join(updates)} WHERE id = ?'
+        conn.execute(query, values)
+        conn.commit()
+    
+    conn.close()
+    return jsonify({'success': True})
+
+@app.route('/api/event/<int:event_id>', methods=['DELETE'])
+@login_required
+def delete_event(event_id):
+    """Delete an event"""
+    conn = get_db_connection()
+    # Verify ownership
+    event = conn.execute('SELECT id FROM events WHERE id = ? AND user_id = ?',
+                        (event_id, current_user.id)).fetchone()
+    if not event:
+        conn.close()
+        return jsonify({'error': 'Unauthorized'}), 403
+    
+    # Delete checklist items first
+    conn.execute('DELETE FROM checklist_items WHERE event_id = ?', (event_id,))
+    # Delete event
+    conn.execute('DELETE FROM events WHERE id = ?', (event_id,))
+    conn.commit()
+    conn.close()
+    
+    return jsonify({'success': True})
 
 @app.route('/event/<int:event_id>/manage')
 @login_required

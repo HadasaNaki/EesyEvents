@@ -50,6 +50,16 @@
                             </p>
                         </div>
 
+                        <!-- Edit & Delete Buttons -->
+                        <div class="absolute top-4 left-4 flex gap-2">
+                            <button onclick="openEditModal()" class="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-colors text-xs uppercase tracking-widest">
+                                עריכה
+                            </button>
+                            <button onclick="confirmDeleteEvent()" class="px-4 py-2 bg-red-500/80 backdrop-blur-md border border-red-400/20 text-white hover:bg-red-600/80 transition-colors text-xs uppercase tracking-widest">
+                                מחיקה
+                            </button>
+                        </div>
+
                         <!-- Stats -->
                         <div class="flex gap-4">
                             <div class="text-center px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 min-w-[120px]">
@@ -192,8 +202,201 @@
     </div>
 </div>
 
+<!-- Edit Event Modal -->
+<div id="editEventModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 backdrop-blur-sm overflow-y-auto">
+    <div class="bg-white p-8 max-w-2xl w-full mx-4 my-8 shadow-2xl">
+        <div class="flex justify-between items-center mb-8">
+            <h3 class="font-serif text-2xl text-[color:var(--color-espresso)]">עריכת פרטי האירוע</h3>
+            <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+        </div>
+        
+        <form id="editEventForm" class="space-y-6">
+            <!-- Event Type -->
+            <div>
+                <label class="block text-sm font-bold text-gray-600 mb-2 uppercase tracking-widest">סוג אירוע</label>
+                <select id="editEventType" class="w-full p-4 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)] bg-white">
+                    <option value="wedding">חתונה</option>
+                    <option value="bar-mitzvah">בר/בת מצווה</option>
+                    <option value="brit">ברית/ה</option>
+                    <option value="engagement">אירוסין/חינה</option>
+                    <option value="party">מסיבה פרטית</option>
+                    <option value="business">אירוע עסקי</option>
+                    <option value="birthday">יום הולדת</option>
+                    <option value="other">אחר</option>
+                </select>
+            </div>
+            
+            <!-- Date & Time -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-600 mb-2 uppercase tracking-widest">תאריך</label>
+                    <input type="date" id="editDate" class="w-full p-4 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)]">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-600 mb-2 uppercase tracking-widest">שעה</label>
+                    <select id="editTimeOfDay" class="w-full p-4 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)] bg-white">
+                        <option value="">לא נקבע</option>
+                        <option value="morning">בוקר</option>
+                        <option value="noon">צהריים</option>
+                        <option value="evening">ערב</option>
+                        <option value="night">לילה</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Guests & Budget -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-600 mb-2 uppercase tracking-widest">מספר אורחים</label>
+                    <input type="number" id="editGuests" placeholder="כמה אורחים?" class="w-full p-4 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)]">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-600 mb-2 uppercase tracking-widest">תקציב</label>
+                    <select id="editBudget" class="w-full p-4 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)] bg-white">
+                        <option value="">לא נקבע</option>
+                        <option value="low">עד 50,000 ₪</option>
+                        <option value="medium">50,000 - 100,000 ₪</option>
+                        <option value="high">100,000 - 200,000 ₪</option>
+                        <option value="premium">200,000 - 350,000 ₪</option>
+                        <option value="luxury">350,000+ ₪</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Region -->
+            <div>
+                <label class="block text-sm font-bold text-gray-600 mb-2 uppercase tracking-widest">אזור</label>
+                <select id="editRegion" class="w-full p-4 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)] bg-white">
+                    <option value="">לא נקבע</option>
+                    <option value="north">צפון</option>
+                    <option value="sharon">השרון</option>
+                    <option value="center">מרכז</option>
+                    <option value="jerusalem">ירושלים והסביבה</option>
+                    <option value="south">דרום</option>
+                </select>
+            </div>
+            
+            <!-- Style -->
+            <div>
+                <label class="block text-sm font-bold text-gray-600 mb-2 uppercase tracking-widest">סגנון</label>
+                <select id="editStyle" class="w-full p-4 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)] bg-white">
+                    <option value="">לא נקבע</option>
+                    <option value="classic">קלאסי</option>
+                    <option value="modern">מודרני</option>
+                    <option value="rustic">כפרי</option>
+                    <option value="bohemian">בוהו</option>
+                    <option value="luxurious">יוקרתי</option>
+                </select>
+            </div>
+            
+            <!-- Status -->
+            <div>
+                <label class="block text-sm font-bold text-gray-600 mb-2 uppercase tracking-widest">סטטוס</label>
+                <select id="editStatus" class="w-full p-4 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)] bg-white">
+                    <option value="תכנון">תכנון</option>
+                    <option value="בתהליך">בתהליך</option>
+                    <option value="הושלם">הושלם</option>
+                    <option value="בוטל">בוטל</option>
+                </select>
+            </div>
+            
+            <!-- Buttons -->
+            <div class="flex gap-4 pt-4">
+                <button type="button" onclick="closeEditModal()" class="flex-1 py-4 border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors uppercase tracking-widest text-sm">ביטול</button>
+                <button type="submit" class="flex-1 py-4 bg-[color:var(--color-espresso)] text-white hover:opacity-90 transition-opacity uppercase tracking-widest text-sm">שמור שינויים</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
     const eventId = {{ event.id }};
+    
+    // Current event data
+    const currentEvent = {
+        event_type: '{{ event.event_type }}',
+        date: '{{ event.date or "" }}',
+        time_of_day: '{{ event.time_of_day or "" }}',
+        guests: '{{ event.guests or "" }}',
+        budget: '{{ event.budget or "" }}',
+        region: '{{ event.region or "" }}',
+        style: '{{ event.style or "" }}',
+        status: '{{ event.status or "תכנון" }}'
+    };
+
+    // Edit Event Modal Functions
+    function openEditModal() {
+        document.getElementById('editEventModal').classList.remove('hidden');
+        document.getElementById('editEventModal').classList.add('flex');
+        
+        // Populate form with current values
+        document.getElementById('editEventType').value = currentEvent.event_type;
+        document.getElementById('editDate').value = currentEvent.date;
+        document.getElementById('editTimeOfDay').value = currentEvent.time_of_day;
+        document.getElementById('editGuests').value = currentEvent.guests;
+        document.getElementById('editBudget').value = currentEvent.budget;
+        document.getElementById('editRegion').value = currentEvent.region;
+        document.getElementById('editStyle').value = currentEvent.style;
+        document.getElementById('editStatus').value = currentEvent.status;
+    }
+
+    function closeEditModal() {
+        document.getElementById('editEventModal').classList.add('hidden');
+        document.getElementById('editEventModal').classList.remove('flex');
+    }
+
+    // Handle edit form submission
+    document.getElementById('editEventForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const updatedData = {
+            event_type: document.getElementById('editEventType').value,
+            date: document.getElementById('editDate').value,
+            time_of_day: document.getElementById('editTimeOfDay').value,
+            guests: document.getElementById('editGuests').value,
+            budget: document.getElementById('editBudget').value,
+            region: document.getElementById('editRegion').value,
+            style: document.getElementById('editStyle').value,
+            status: document.getElementById('editStatus').value
+        };
+        
+        try {
+            const response = await fetch(`/api/event/${eventId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedData)
+            });
+            
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('שגיאה בעדכון האירוע');
+            }
+        } catch (error) {
+            console.error('Error updating event:', error);
+            alert('שגיאה בעדכון האירוע');
+        }
+    });
+
+    // Delete Event
+    async function confirmDeleteEvent() {
+        if (!confirm('האם אתה בטוח שברצונך למחוק את האירוע? פעולה זו לא ניתנת לביטול.')) return;
+        
+        try {
+            const response = await fetch(`/api/event/${eventId}`, {
+                method: 'DELETE'
+            });
+            
+            if (response.ok) {
+                window.location.href = '/dashboard';
+            } else {
+                alert('שגיאה במחיקת האירוע');
+            }
+        } catch (error) {
+            console.error('Error deleting event:', error);
+            alert('שגיאה במחיקת האירוע');
+        }
+    }
 
     function openAddItemModal() {
         document.getElementById('addItemModal').classList.remove('hidden');
