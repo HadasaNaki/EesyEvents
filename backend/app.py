@@ -531,11 +531,6 @@ def index():
     """Serve the index page"""
     return render_template('index.html')
 
-@app.route('/inspirations')
-def inspirations():
-    """Serve the wedding inspirations page"""
-    return render_template('inspirations.html')
-
 @app.route('/login')
 def login_page():
     """Serve the login page"""
