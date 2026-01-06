@@ -1,0 +1,159 @@
+/* ========================================
+   Google Fonts Import
+   ======================================== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@400;500;600;700&family=Raleway:wght@300;400;600&display=swap');
+
+/* ========================================
+   CSS Variables – Coffee Palette
+   ======================================== */
+:root {
+    --vanilla:  #D7BDA6;
+    --almond:   #B7957F;
+    --caramel:  #AB7743;
+    --mocca:    #84593D;
+    --coffee:   #6D3914;
+    --espresso: #4C2B08;
+
+    --background: #FAF7F4;
+    --text-main: #3A2A20;
+    --text-soft: #6B5A4A;
+    --white: #ffffff;
+}
+
+/* ========================================
+   Base
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(
+        180deg,
+        #F5F0E8 0%,
+        #FAF7F4 60%,
+        #FFFFFF 100%
+    );
+    color: var(--text-soft);
+    min-height: 100vh;
+}
+
+/* ========================================
+   Buttons
+   ======================================== */
+.btn-primary {
+    background: linear-gradient(135deg, var(--caramel), var(--mocca));
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgba(132, 89, 61, 0.25);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--mocca), var(--espresso));
+}
+
+/* ========================================
+   Venue Cards – Styles by Type
+   ======================================== */
+.venue-card {
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.venue-card.modern {
+    border-top: 6px solid var(--caramel);
+}
+
+.venue-card.boho {
+    border-top: 6px solid #8F9779;
+}
+
+.venue-card.luxury {
+    border-top: 6px solid var(--espresso);
+}
+
+/* ========================================
+   Price
+   ======================================== */
+.text-coffee {
+    color: var(--coffee);
+}
+
+/* ========================================
+   Heart Button
+   ======================================== */
+.heart-btn {
+    background: #F3ECE6;
+    color: var(--coffee);
+}
+
+.heart-btn:hover {
+    background: #EADFD5;
+    color: #C0392B;
+}
+/* ===== PLAN PAGE UX ===== */
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Cards */
+.filter-card {
+  padding: 1.5rem;
+  border: 1px solid #e5e5e5;
+  text-align: center;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.filter-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.peer:checked + .filter-card {
+  background: #3a2a20;
+  color: white;
+  border-color: #3a2a20;
+}
+
+/* Inputs */
+.input {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #e5e5e5;
+  background: #fafafa;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #84593D;
+}
+
+/* Button */
+.btn-primary {
+  background: linear-gradient(135deg, #AB7743, #84593D);
+  color: white;
+  padding: 1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+}
