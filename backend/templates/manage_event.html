@@ -151,42 +151,43 @@
                 <div class="bg-[color:var(--color-espresso)] p-8 text-white">
                     <h3 class="font-serif text-xl mb-6">פעולות מהירות</h3>
                     <ul class="space-y-4 text-sm font-sans tracking-wide">
-                        <li><button onclick="openVendorModal()" class="block hover:text-[color:var(--color-vanilla)] transition-colors text-left w-full flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> חיפוש ספקים</button></li>
-                        <li><a href="#" class="block hover:text-[color:var(--color-vanilla)] transition-colors flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> ניהול מוזמנים</a></li>
-                        <li><a href="#" class="block hover:text-[color:var(--color-vanilla)] transition-colors flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> השראות ועיצוב</a></li>
+                        <li><a href="/results" class="block hover:text-[color:var(--color-vanilla)] transition-colors flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> חיפוש ספקים נוספים</a></li>
+                        <li><button onclick="showVendorsList()" class="block hover:text-[color:var(--color-vanilla)] transition-colors text-left w-full flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> הספקים שלי ({{ vendors|length }})</button></li>
+                        <li><a href="#" onclick="alert('בקרוב - ניהול מוזמנים')" class="block hover:text-[color:var(--color-vanilla)] transition-colors flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> ניהול מוזמנים</a></li>
+                        <li><a href="#" onclick="alert('בקרוב - השראות ועיצוב')" class="block hover:text-[color:var(--color-vanilla)] transition-colors flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> השראות ועיצוב</a></li>
                     </ul>
-        </div>
-    </div>
-</div>
+                </div>
 
-<!-- Vendor Search Modal -->
-<div id="vendorModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 backdrop-blur-sm">
-    <div class="bg-white p-8 max-w-4xl w-full mx-4 shadow-2xl h-[80vh] flex flex-col">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="font-serif text-2xl text-[color:var(--color-espresso)]">חיפוש ספקים ונותני שירות</h3>
-            <button onclick="closeVendorModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
-        </div>
-        
-        <div class="flex gap-4 mb-6">
-            <select id="vendorCategory" class="p-3 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)] bg-white">
-                <option value="wedding">חתונות (כללי)</option>
-                <option value="photographer">צלמים</option>
-                <option value="dj">תקליטנים (DJ)</option>
-                <option value="catering">קייטרינג</option>
-                <option value="venue">אולמות אירועים</option>
-                <option value="florist">עיצוב ופרחים</option>
-                <option value="makeup">איפור ושיער</option>
-            </select>
-            <input type="text" id="vendorQuery" placeholder="חיפוש חופשי (למשל: תל אביב, זול, יוקרתי...)" class="flex-1 p-3 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)]">
-            <button onclick="searchVendors()" class="px-8 py-3 bg-[color:var(--color-espresso)] text-white hover:opacity-90 transition-opacity">חיפוש</button>
-        </div>
-
-        <div id="vendorResults" class="flex-1 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-2">
-            <!-- Results will appear here -->
-            <div class="col-span-full text-center text-gray-400 mt-10">
-                התחל חיפוש כדי לראות תוצאות
-            </div>
-        </div>
+                <!-- My Vendors Section -->
+                <div class="bg-white p-8 shadow-sm border border-gray-100">
+                    <h3 class="font-serif text-xl mb-6 text-[color:var(--color-espresso)]">הספקים שלי</h3>
+                    {% if vendors %}
+                    <div class="space-y-3">
+                        {% for vendor in vendors %}
+                        <div class="flex justify-between items-center p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                            <div class="flex-1">
+                                <p class="font-bold text-sm text-[color:var(--color-coffee)]">{{ vendor.vendor_name }}</p>
+                                <p class="text-xs text-gray-400 mt-1">{{ vendor.vendor_type }}</p>
+                            </div>
+                            <div class="text-left">
+                                <p class="font-bold text-sm text-[color:var(--color-espresso)]">{{ vendor.vendor_price }} ₪</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="pt-4 border-t-2 border-gray-200 flex justify-between items-center font-bold">
+                            <span class="text-[color:var(--color-espresso)]">סה"כ</span>
+                            <span class="text-lg text-[color:var(--color-espresso)]">
+                                {{ vendors|sum(attribute='vendor_price') }} ₪
+                            </span>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-8 text-gray-400">
+                        <p class="text-sm mb-4">עדיין לא בחרת ספקים</p>
+                        <a href="/results" class="text-xs text-[color:var(--color-espresso)] border-b border-[color:var(--color-espresso)] hover:opacity-70">חפש ספקים</a>
+                    </div>
+                    {% endif %}
+                </div>
     </div>
 </div>
 
@@ -460,63 +461,17 @@
         }
     }
 
-    // Vendor Search Logic
-    function openVendorModal() {
-        document.getElementById('vendorModal').classList.remove('hidden');
-        document.getElementById('vendorModal').classList.add('flex');
-    }
-
-    function closeVendorModal() {
-        document.getElementById('vendorModal').classList.add('hidden');
-        document.getElementById('vendorModal').classList.remove('flex');
-    }
-
-    async function searchVendors() {
-        const category = document.getElementById('vendorCategory').value;
-        const query = document.getElementById('vendorQuery').value;
-        const resultsContainer = document.getElementById('vendorResults');
-        
-        resultsContainer.innerHTML = '<div class="col-span-full text-center">מחפש...</div>';
-        
-        try {
-            const response = await fetch(`/api/vendors/search?category=${category}&query=${query}`);
-            const data = await response.json();
-            
-            resultsContainer.innerHTML = '';
-            
-            if (data.results.length === 0) {
-                resultsContainer.innerHTML = '<div class="col-span-full text-center text-gray-500">לא נמצאו תוצאות</div>';
-                return;
-            }
-            
-            data.results.forEach(vendor => {
-                const card = document.createElement('div');
-                card.className = 'border border-gray-100 shadow-sm hover:shadow-md transition-shadow bg-white flex flex-col';
-                
-                const photoUrl = vendor.photo || 'https://via.placeholder.com/400x200?text=No+Image';
-                
-                card.innerHTML = `
-                    <div class="h-48 overflow-hidden bg-gray-100 relative group">
-                        <img src="${photoUrl}" alt="${vendor.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                        ${vendor.rating ? `<div class="absolute top-2 right-2 bg-white px-2 py-1 text-xs font-bold shadow-sm">★ ${vendor.rating} (${vendor.user_ratings_total})</div>` : ''}
-                    </div>
-                    <div class="p-4 flex-1 flex flex-col">
-                        <h4 class="font-bold text-lg mb-1 text-[color:var(--color-espresso)]">${vendor.name}</h4>
-                        <p class="text-sm text-gray-500 mb-4 flex-1">${vendor.address || 'כתובת לא זמינה'}</p>
-                        <div class="flex justify-between items-center mt-auto">
-                            <span class="text-xs ${vendor.open_now ? 'text-green-600' : 'text-red-500'}">
-                                ${vendor.open_now ? '● פתוח עכשיו' : '○ סגור כרגע'}
-                            </span>
-                            <button class="text-[color:var(--color-espresso)] text-sm font-bold hover:underline">פרטים נוספים</button>
-                        </div>
-                    </div>
-                `;
-                resultsContainer.appendChild(card);
-            });
-            
-        } catch (error) {
-            console.error('Error searching vendors:', error);
-            resultsContainer.innerHTML = '<div class="col-span-full text-center text-red-500">אירעה שגיאה בחיפוש</div>';
+    // Vendor List Display
+    function showVendorsList() {
+        alert('רשימת הספקים מוצגת בצד ימין של הדף');
+        // Scroll to vendors section
+        const vendorsSection = document.querySelector('.bg-white.p-8.shadow-sm.border.border-gray-100:last-of-type');
+        if (vendorsSection) {
+            vendorsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            vendorsSection.classList.add('ring-4', 'ring-[color:var(--color-caramel)]', 'ring-opacity-50');
+            setTimeout(() => {
+                vendorsSection.classList.remove('ring-4', 'ring-[color:var(--color-caramel)]', 'ring-opacity-50');
+            }, 2000);
         }
     }
 </script>

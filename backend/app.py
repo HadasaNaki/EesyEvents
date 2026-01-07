@@ -952,6 +952,62 @@ def save_event():
             'message': f'שגיאה בשמירת האירוע: {str(e)}'
         }), 500
 
+@app.route('/api/save_cart_to_event', methods=['POST'])
+@login_required
+def save_cart_to_event():
+    """Save cart items to most recent event or create new one"""
+    data = request.get_json()
+    cart_items = data.get('cart_items', [])
+    
+    if not cart_items:
+        return jsonify({'success': False, 'message': 'הסל ריק. אנא בחר לפחות ספק אחד'}), 400
+    
+    try:
+        conn = get_db_connection()
+        
+        # Get user's most recent event
+        event = conn.execute(
+            'SELECT * FROM events WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
+            (current_user.id,)
+        ).fetchone()
+        
+        if not event:
+            # Create new event if none exists
+            cursor = conn.cursor()
+            cursor.execute(
+                'INSERT INTO events (user_id, event_type, status) VALUES (?, ?, ?)',
+                (current_user.id, 'other', 'תכנון')
+            )
+            event_id = cursor.lastrowid
+        else:
+            event_id = event['id']
+        
+        # Add vendors to event
+        cursor = conn.cursor()
+        for item in cart_items:
+            cursor.execute(
+                'INSERT INTO event_vendors (event_id, vendor_type, vendor_id, vendor_name, vendor_price) VALUES (?, ?, ?, ?, ?)',
+                (event_id, item.get('type'), item.get('id'), item.get('name'), item.get('price'))
+            )
+        
+        conn.commit()
+        conn.close()
+        
+        return jsonify({
+            'success': True,
+            'message': f'הספקים נוספו בהצלחה! ({len(cart_items)} ספקים)',
+            'event_id': event_id,
+            'redirect': f'/event/{event_id}/manage'
+        }), 201
+        
+    except Exception as e:
+        if conn:
+            conn.close()
+        return jsonify({
+            'success': False,
+            'message': f'שגיאה בשמירת הספקים: {str(e)}'
+        }), 500
+
 @app.route('/event/<int:event_id>/manage')
 @login_required
 def manage_event(event_id):

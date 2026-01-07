@@ -33,9 +33,61 @@
 
     <div class="container px-4 md:px-8 mt-0">
         <!-- Header -->
-        <div class="text-center mb-0 fade-in-up">
+        <div class="text-center mb-8 fade-in-up">
             <h2 class="font-serif text-3xl md:text-4xl mb-2 text-[color:var(--color-black)]">הבחירות שלך</h2>
             <p class="font-sans text-gray-500 text-xs tracking-widest uppercase">בחר את הספקים המושלמים לאירוע שלך</p>
+        </div>
+
+        <!-- Advanced Filters -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8 fade-in-up">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Search -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">חיפוש</label>
+                    <input type="text" id="searchInput" placeholder="חפש ספק..." 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-[color:var(--color-black)] outline-none text-sm"
+                           oninput="applyFilters()">
+                </div>
+
+                <!-- City Filter -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">עיר</label>
+                    <select id="cityFilter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-[color:var(--color-black)] outline-none text-sm" onchange="applyFilters()">
+                        <option value="">כל הערים</option>
+                    </select>
+                </div>
+
+                <!-- Price Range -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">
+                        <span>טווח מחירים</span>
+                        <span id="priceRangeDisplay" class="font-normal text-gray-400 mr-2"></span>
+                    </label>
+                    <input type="range" id="priceRange" min="0" max="10000" value="10000" step="500"
+                           class="w-full" oninput="updatePriceDisplay(); applyFilters()">
+                </div>
+
+                <!-- Sort By -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">מיון</label>
+                    <select id="sortBy" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-[color:var(--color-black)] outline-none text-sm" onchange="applyFilters()">
+                        <option value="name-asc">שם (א-ת)</option>
+                        <option value="name-desc">שם (ת-א)</option>
+                        <option value="price-asc">מחיר (נמוך לגבוה)</option>
+                        <option value="price-desc">מחיר (גבוה לנמוך)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Active Filters Display -->
+            <div id="activeFilters" class="mt-4 flex gap-2 flex-wrap hidden">
+                <!-- Filter tags will appear here -->
+            </div>
+
+            <!-- Reset Filters -->
+            <button onclick="resetFilters()" class="mt-4 text-xs text-gray-500 hover:text-[color:var(--color-black)] uppercase tracking-wide font-bold">
+                אפס סינון
+            </button>
         </div>
 
         <!-- Premium Category Navigation -->
@@ -64,7 +116,8 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                         {% for item in items %}
-                        <div class="group bg-white transition-all duration-500 hover:shadow-xl border border-gray-50">
+                        <div class="group bg-white transition-all duration-500 hover:shadow-xl border border-gray-50"
+                             data-item='{"name":"{{ item.name }}", "price":{{ item.price }}, "description":"{{ item.description }}", "category":"{{ category }}"}'>
                             <div class="relative h-72 overflow-hidden">
                                 <img src="{{ item.image }}" alt="{{ item.name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
                                 <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[color:var(--color-black)]">
@@ -95,6 +148,190 @@
 <script>
     // Cart Logic
     let cart = [];
+    let allItems = []; // Store all items for filtering
+
+    // Initialize filters on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        fetchCart();
+        const firstBtn = document.querySelector('.category-btn');
+        if (firstBtn) {
+            firstBtn.classList.add('active-category');
+        }
+        
+        // Collect all items and populate filters
+        initializeFilters();
+        updatePriceDisplay();
+    });
+
+    function initializeFilters() {
+        // Collect all items from the page
+        const itemCards = document.querySelectorAll('[data-item]');
+        const cities = new Set();
+        
+        itemCards.forEach(card => {
+            const itemData = JSON.parse(card.getAttribute('data-item'));
+            allItems.push({
+                element: card.closest('.group'),
+                ...itemData
+            });
+            
+            // Extract city from description
+            const cityMatch = itemData.description.match(/^([^,\.]+)/);
+            if (cityMatch) {
+                cities.add(cityMatch[1].trim());
+            }
+        });
+        
+        // Populate city filter
+        const cityFilter = document.getElementById('cityFilter');
+        Array.from(cities).sort().forEach(city => {
+            const option = document.createElement('option');
+            option.value = city;
+            option.textContent = city;
+            cityFilter.appendChild(option);
+        });
+    }
+
+    function updatePriceDisplay() {
+        const priceRange = document.getElementById('priceRange');
+        const display = document.getElementById('priceRangeDisplay');
+        display.textContent = `עד ${parseInt(priceRange.value).toLocaleString()} ₪`;
+    }
+
+    function applyFilters() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const selectedCity = document.getElementById('cityFilter').value;
+        const maxPrice = parseInt(document.getElementById('priceRange').value);
+        const sortBy = document.getElementById('sortBy').value;
+        
+        // Filter items
+        let filteredItems = allItems.filter(item => {
+            // Search filter
+            if (searchTerm && !item.name.toLowerCase().includes(searchTerm)) {
+                return false;
+            }
+            
+            // City filter
+            if (selectedCity && !item.description.includes(selectedCity)) {
+                return false;
+            }
+            
+            // Price filter
+            if (item.price > maxPrice) {
+                return false;
+            }
+            
+            return true;
+        });
+        
+        // Sort items
+        filteredItems.sort((a, b) => {
+            switch(sortBy) {
+                case 'name-asc':
+                    return a.name.localeCompare(b.name, 'he');
+                case 'name-desc':
+                    return b.name.localeCompare(a.name, 'he');
+                case 'price-asc':
+                    return a.price - b.price;
+                case 'price-desc':
+                    return b.price - a.price;
+                default:
+                    return 0;
+            }
+        });
+        
+        // Hide all items first
+        allItems.forEach(item => {
+            item.element.style.display = 'none';
+        });
+        
+        // Show filtered and sorted items
+        filteredItems.forEach((item, index) => {
+            item.element.style.display = 'block';
+            item.element.style.order = index;
+        });
+        
+        // Update active filters display
+        updateActiveFiltersDisplay(searchTerm, selectedCity, maxPrice);
+        
+        // Hide empty sections
+        updateSectionVisibility();
+        
+        // Show results count
+        showResultsCount(filteredItems.length, allItems.length);
+    }
+
+    function updateActiveFiltersDisplay(search, city, price) {
+        const container = document.getElementById('activeFilters');
+        let html = '';
+        
+        if (search) {
+            html += `<span class="bg-[color:var(--color-black)] text-white px-3 py-1 rounded-full text-xs">חיפוש: ${search}</span>`;
+        }
+        if (city) {
+            html += `<span class="bg-[color:var(--color-black)] text-white px-3 py-1 rounded-full text-xs">עיר: ${city}</span>`;
+        }
+        if (price < 10000) {
+            html += `<span class="bg-[color:var(--color-black)] text-white px-3 py-1 rounded-full text-xs">עד ${price.toLocaleString()} ₪</span>`;
+        }
+        
+        if (html) {
+            container.innerHTML = html;
+            container.classList.remove('hidden');
+        } else {
+            container.classList.add('hidden');
+        }
+    }
+
+    function updateSectionVisibility() {
+        document.querySelectorAll('section[id]').forEach(section => {
+            const visibleItems = section.querySelectorAll('.group[style*="display: block"]').length;
+            if (visibleItems === 0) {
+                section.style.display = 'none';
+            } else {
+                section.style.display = 'block';
+            }
+        });
+    }
+
+    function showResultsCount(filtered, total) {
+        // Remove existing count if any
+        const existingCount = document.getElementById('results-count');
+        if (existingCount) existingCount.remove();
+        
+        // Add count below filters
+        const filtersDiv = document.querySelector('.bg-white.rounded-lg.shadow-md');
+        const countDiv = document.createElement('div');
+        countDiv.id = 'results-count';
+        countDiv.className = 'text-center text-sm text-gray-600 mt-4 font-sans';
+        countDiv.innerHTML = `מציג <strong>${filtered}</strong> מתוך <strong>${total}</strong> תוצאות`;
+        filtersDiv.appendChild(countDiv);
+    }
+
+    function resetFilters() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('cityFilter').value = '';
+        document.getElementById('priceRange').value = 10000;
+        document.getElementById('sortBy').value = 'name-asc';
+        updatePriceDisplay();
+        
+        // Show all items
+        allItems.forEach(item => {
+            item.element.style.display = 'block';
+        });
+        
+        // Hide active filters
+        document.getElementById('activeFilters').classList.add('hidden');
+        
+        // Show all sections
+        document.querySelectorAll('section[id]').forEach(section => {
+            section.style.display = 'block';
+        });
+        
+        // Remove count
+        const countDiv = document.getElementById('results-count');
+        if (countDiv) countDiv.remove();
+    }
 
     function toggleCart() {
         const sidebar = document.getElementById('cart-sidebar');
@@ -203,17 +440,25 @@
         }
         
         try {
-            const response = await fetch('/api/save_event', {
+            // Save the event with all cart items
+            const response = await fetch('/api/save_cart_to_event', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ event_type: 'other' })
+                body: JSON.stringify({ 
+                    cart_items: cart 
+                })
             });
             
             const data = await response.json();
             
             if (data.success) {
+                // Clear cart after successful save
+                await fetch('/api/cart/clear', { method: 'POST' });
+                cart = [];
+                updateCartUI();
+                
                 alert(data.message);
-                window.location.href = data.redirect;
+                window.location.href = data.redirect || '/dashboard';
             } else {
                 alert(data.message);
             }
