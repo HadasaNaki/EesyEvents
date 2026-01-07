@@ -1,209 +1,245 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container" style="padding-top: 4rem; padding-bottom: 4rem;">
-    <!-- HERO SECTION -->
-    <div class="text-center mb-16 fade-in-up">
-        <h1 class="section-title text-5xl font-bold text-[#800020] mb-3">🎉 התוצאות שלך מוכנות!</h1>
-        <p class="section-subtitle text-xl text-gray-600 mb-2">{{ venues|length }} אולמות + {{ suppliers|length }} ספקים שחושבים שמושלמים בשבילכם</p>
-    </div>
-
-    <!-- FILTERS SUMMARY - Clean icon-based -->
-    <div class="results-summary bg-gradient-to-r from-[#800020]/5 to-[#400010]/5 p-8 rounded-2xl mb-14 fade-in-up delay-100 border border-[#800020]/10">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-gray-700">
-            <div class="text-center">
-                <p class="text-2xl mb-2">💍</p>
-                <p class="text-xs font-semibold text-gray-600 block mb-1">אירוע</p>
-                <span class="text-base font-medium">{{ request.args.get('event_type', 'הכל') }}</span>
-            </div>
-            <div class="text-center">
-                <p class="text-2xl mb-2">📍</p>
-                <p class="text-xs font-semibold text-gray-600 block mb-1">אזור</p>
-                <span class="text-base font-medium">{{ request.args.get('region', 'הכל') }}</span>
-            </div>
-            <div class="text-center">
-                <p class="text-2xl mb-2">💰</p>
-                <p class="text-xs font-semibold text-gray-600 block mb-1">תקציב</p>
-                <span class="text-base font-medium">{{ request.args.get('budget', 'הכל') }}</span>
-            </div>
-            <div class="text-center">
-                <p class="text-2xl mb-2">👥</p>
-                <p class="text-xs font-semibold text-gray-600 block mb-1">אורחים</p>
-                <span class="text-base font-medium">{{ request.args.get('guests', 'הכל') }}</span>
-            </div>
+<div class="min-h-screen bg-[#f4f1ea] py-20 relative">
+    
+    <!-- Floating Cart Button -->
+    <div id="cart-btn" class="fixed bottom-8 left-8 z-50 bg-[color:var(--color-black)] text-white p-4 rounded-full shadow-2xl cursor-pointer hover:scale-110 transition-transform" onclick="toggleCart()">
+        <div class="relative">
+            <span class="text-2xl">🛒</span>
+            <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full">0</span>
         </div>
     </div>
 
-    <!-- VENUES SECTION -->
-    {% if venues %}
-    <div class="mb-20">
-        <h2 class="text-3xl font-bold text-[#800020] mb-10">🏛️ אולמות לאירוע</h2>
-        
-        <div class="results-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-up delay-200">
-            {% for venue in venues %}
-            <div class="venue-card bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 group border border-gray-100">
-                <!-- Card Image/Header -->
-                <div class="relative h-48 bg-gradient-to-br from-[#800020] to-[#600018] flex items-center justify-center overflow-hidden">
-                    <div class="absolute inset-0 bg-black/5 group-hover:bg-black/10 transition-all"></div>
-                    <div class="text-5xl">🏛️</div>
-                </div>
-                
-                <!-- Card Content -->
-                <div class="p-6">
-                    <!-- Title + Location Badge -->
-                    <div class="flex justify-between items-start gap-3 mb-4">
-                        <h3 class="text-xl font-bold text-gray-900 flex-1">{{ venue.name }}</h3>
-                        <span class="text-xs font-semibold bg-gray-100 text-gray-700 px-3 py-1 rounded-full whitespace-nowrap">📍 {{ venue.city }}</span>
-                    </div>
+    <!-- Cart Sidebar (Hidden by default) -->
+    <div id="cart-sidebar" class="fixed inset-y-0 left-0 w-80 bg-white shadow-2xl transform -translate-x-full transition-transform duration-300 z-50 p-6 overflow-y-auto">
+        <div class="flex justify-between items-center mb-8 border-b pb-4">
+            <h3 class="font-serif text-2xl">הסל שלי</h3>
+            <button onclick="toggleCart()" class="text-2xl">&times;</button>
+        </div>
+        <div id="cart-items" class="space-y-4">
+            <!-- Cart items will be injected here -->
+            <p class="text-gray-400 text-center">הסל ריק</p>
+        </div>
+        <div class="mt-8 pt-4 border-t">
+            <button onclick="clearCart()" class="w-full py-3 bg-red-50 text-red-500 hover:bg-red-100 transition-colors text-sm font-bold uppercase tracking-widest mb-4">
+                רוקן סל
+            </button>
+            <button onclick="saveEvent()" class="w-full py-4 bg-[color:var(--color-black)] text-white hover:bg-gray-800 transition-colors text-sm font-bold uppercase tracking-widest">
+                שמור אירוע
+            </button>
+        </div>
+    </div>
 
-                    <!-- Stats Row: Capacity + Price -->
-                    <div class="flex gap-6 mb-4 pb-4 border-b border-gray-100">
-                        {% if venue.capacity %}
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">👥</span>
-                            <div>
-                                <p class="text-xs text-gray-500">קיבולת</p>
-                                <p class="font-semibold text-gray-900">עד {{ venue.capacity }}</p>
-                            </div>
-                        </div>
-                        {% endif %}
-                        
-                        {% if venue.price %}
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">💰</span>
-                            <div>
-                                <p class="text-xs text-gray-500">מחיר</p>
-                                <p class="font-bold text-[#800020] text-lg">{{ venue.price }}₪</p>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
+    <div class="container px-4 md:px-8 mt-0">
+        <!-- Header -->
+        <div class="text-center mb-0 fade-in-up">
+            <h2 class="font-serif text-3xl md:text-4xl mb-2 text-[color:var(--color-black)]">הבחירות שלך</h2>
+            <p class="font-sans text-gray-500 text-xs tracking-widest uppercase">בחר את הספקים המושלמים לאירוע שלך</p>
+        </div>
 
-                    <!-- Style Badge -->
-                    {% if venue.style %}
-                    <div class="mb-4 pb-4 border-b border-gray-100">
-                        <p class="text-xs text-gray-500 mb-2">סגנון:</p>
-                        <span class="inline-block bg-[#800020]/10 text-[#800020] text-sm font-semibold px-3 py-1 rounded-full">
-                            {% if venue.style == 'Luxury' %}💎 הפקסה
-                            {% elif venue.style == 'Boho' %}✨ בוהו
-                            {% else %}🏛️ {{ venue.style }}{% endif %}
-                        </span>
-                    </div>
+        <!-- Premium Category Navigation -->
+        <div class="sticky top-[54px] z-40 bg-gradient-to-b from-[#f4f1ea] to-[#f4f1ea]/95 backdrop-blur-md py-2 mb-12 border-b border-gray-200/50 shadow-sm -mx-4 md:-mx-8 px-4 md:px-8">
+            <div class="flex justify-center items-center gap-2 flex-wrap px-4 max-w-full overflow-x-auto pb-1">
+                {% for category, items in results.items() %}
+                    {% if items %}
+                    <a href="#{{ category }}" 
+                       class="category-btn px-6 py-2 bg-white border-2 border-gray-300 rounded-full text-[color:var(--color-espresso)] font-bold text-xs uppercase tracking-wide whitespace-nowrap transition-all duration-250 ease-out hover:scale-108 hover:shadow-md hover:border-[color:var(--color-caramel)] hover:bg-[#faf7f2] hover:text-[color:var(--color-caramel)] active-category:bg-[color:var(--color-espresso)] active-category:text-white active-category:border-[color:var(--color-espresso)] active-category:shadow-md"
+                       onclick="updateActiveCategory(this)">
+                        {{ category }}
+                    </a>
                     {% endif %}
-
-                    <!-- CTA Buttons -->
-                    <div class="flex gap-2">
-                        <a href="tel:{{ venue.phone }}" class="flex-1 bg-[#800020] hover:bg-[#600018] text-white font-semibold py-2 px-3 rounded-lg transition text-center text-sm">
-                            ☎️ התקשר
-                        </a>
-                        <button class="flex-none bg-gray-100 hover:bg-red-100 text-gray-700 hover:text-red-600 font-semibold py-2 px-4 rounded-lg transition text-lg">
-                            ❤️
-                        </button>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
+        </div>
+        <!-- Results Sections -->
+        <div class="space-y-20">
+            {% for category, items in results.items() %}
+                {% if items %}
+                <section id="{{ category }}" class="scroll-mt-24 fade-in-up">
+                    <div class="flex items-center mb-10">
+                        <h3 class="font-serif text-3xl text-[color:var(--color-black)] ml-6">{{ category }}</h3>
+                        <div class="h-px bg-gray-200 flex-grow"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                        {% for item in items %}
+                        <div class="group bg-white transition-all duration-500 hover:shadow-xl border border-gray-50">
+                            <div class="relative h-72 overflow-hidden">
+                                <img src="{{ item.image }}" alt="{{ item.name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+                                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[color:var(--color-black)]">
+                                    {{ item.category }}
+                                </div>
+                            </div>
+                            <div class="p-8 text-center">
+                                <h4 class="font-serif text-2xl mb-2 text-[color:var(--color-black)]">{{ item.name }}</h4>
+                                <p class="text-gray-400 mb-6 text-sm font-sans leading-relaxed">{{ item.description }}</p>
+                                <div class="border-t border-gray-100 pt-6">
+                                    <span class="block text-[color:var(--color-black)] font-bold text-lg mb-4">{{ item.price }} ₪</span>
+                                    <button onclick="addToCart('{{ item.id }}', '{{ item.type }}', '{{ item.name }}', '{{ item.price }}')" 
+                                            class="w-full py-3 border border-[color:var(--color-black)] text-[color:var(--color-black)] hover:bg-[color:var(--color-black)] hover:text-white transition-colors text-[10px] uppercase tracking-[0.2em] font-bold">
+                                        הוסף לסל
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+                {% endif %}
             {% endfor %}
         </div>
     </div>
-    {% else %}
-    <div class="bg-blue-50 border border-blue-200 rounded-2xl p-10 text-center mb-16">
-        <p class="text-blue-800 text-lg mb-2">🤔 לא מצאנו אולמות</p>
-        <p class="text-blue-600 text-sm">נסה לשנות את הקריטריונים שלך וחפש שוב</p>
-    </div>
-    {% endif %}
-
-    <!-- SUPPLIERS SECTION -->
-    {% if suppliers %}
-    <div class="mb-16">
-        <h2 class="text-3xl font-bold text-[#800020] mb-10">✨ צוות מומלץ</h2>
-
-        <div class="results-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-up delay-300">
-            {% for supplier in suppliers %}
-            <div class="supplier-card bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 group border border-gray-100">
-                <!-- Card Header with Type Icon -->
-                <div class="relative h-48 bg-gradient-to-br from-[#800020] to-[#600018] flex items-center justify-center overflow-hidden">
-                    <div class="absolute inset-0 bg-black/5 group-hover:bg-black/10 transition-all"></div>
-                    <div class="text-5xl">
-                        {% if supplier.supplier_type == 'DJ' %}🎧
-                        {% elif supplier.supplier_type == 'Catering' %}🍽️
-                        {% elif supplier.supplier_type == 'Photographer' %}📷
-                        {% elif supplier.supplier_type == 'Designer' %}🎨
-                        {% elif supplier.supplier_type == 'Florist' %}🌸
-                        {% elif supplier.supplier_type == 'Music Band' %}🎵
-                        {% else %}✨{% endif %}
-                    </div>
-                </div>
-
-                <!-- Card Content -->
-                <div class="p-6">
-                    <!-- Title + Location Badge -->
-                    <div class="flex justify-between items-start gap-3 mb-4">
-                        <h3 class="text-lg font-bold text-gray-900 flex-1">{{ supplier.name }}</h3>
-                        <span class="text-xs font-semibold bg-gray-100 text-gray-700 px-3 py-1 rounded-full whitespace-nowrap">📍 {{ supplier.city }}</span>
-                    </div>
-
-                    <!-- Type Badge -->
-                    <div class="mb-4">
-                        <span class="inline-block bg-[#800020]/10 text-[#800020] text-xs font-semibold px-3 py-1.5 rounded-full">
-                            {% if supplier.supplier_type == 'DJ' %}🎧 DJ
-                            {% elif supplier.supplier_type == 'Catering' %}🍽️ קייטרינג
-                            {% elif supplier.supplier_type == 'Photographer' %}📷 צילום
-                            {% elif supplier.supplier_type == 'Designer' %}🎨 עיצוב אירוע
-                            {% elif supplier.supplier_type == 'Florist' %}🌸 פרחים
-                            {% elif supplier.supplier_type == 'Music Band' %}🎵 להקה
-                            {% else %}{{ supplier.supplier_type }}{% endif %}
-                        </span>
-                    </div>
-
-                    <!-- Cuisine Type (for Catering) -->
-                    {% if supplier.cuisine_type %}
-                    <div class="mb-4 pb-4 border-b border-gray-100">
-                        <p class="text-xs text-gray-500 mb-2">סוג קולינרי:</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="inline-block bg-gray-100 text-gray-800 text-xs font-semibold px-2.5 py-1 rounded-full">
-                                {% if 'בשר' in supplier.cuisine_type or 'meat' in supplier.cuisine_type.lower() %}🥩 בשרי
-                                {% elif 'חלבי' in supplier.cuisine_type or 'dairy' in supplier.cuisine_type.lower() %}🥛 חלבי
-                                {% elif 'טבעוני' in supplier.cuisine_type or 'vegan' in supplier.cuisine_type.lower() %}🥗 טבעוני
-                                {% elif 'שף' in supplier.cuisine_type %}👨‍🍳 {{ supplier.cuisine_type }}
-                                {% else %}🍴 {{ supplier.cuisine_type }}{% endif %}
-                            </span>
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    <!-- Price -->
-                    <div class="mb-4 pb-4 border-b border-gray-100">
-                        {% if supplier.price %}
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">💰</span>
-                            <div>
-                                <p class="text-xs text-gray-500">תחיל מ-</p>
-                                <p class="font-bold text-[#800020] text-lg">{{ supplier.price }}₪</p>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- CTA Buttons -->
-                    <div class="flex gap-2">
-                        <a href="tel:{{ supplier.phone }}" class="flex-1 bg-[#800020] hover:bg-[#600018] text-white font-semibold py-2 px-3 rounded-lg transition text-center text-sm">
-                            ☎️ התקשר
-                        </a>
-                        <button class="flex-none bg-gray-100 hover:bg-red-100 text-gray-700 hover:text-red-600 font-semibold py-2 px-4 rounded-lg transition text-lg">
-                            ❤️
-                        </button>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% else %}
-    <div class="bg-blue-50 border border-blue-200 rounded-2xl p-10 text-center mb-16">
-        <p class="text-blue-800 text-lg mb-2">🤔 לא מצאנו ספקים</p>
-        <p class="text-blue-600 text-sm">נסה לשנות את הקריטריונים שלך וחפש שוב</p>
-    </div>
-    {% endif %}
-
 </div>
+
+<script>
+    // Cart Logic
+    let cart = [];
+
+    function toggleCart() {
+        const sidebar = document.getElementById('cart-sidebar');
+        if (sidebar.classList.contains('-translate-x-full')) {
+            sidebar.classList.remove('-translate-x-full');
+        } else {
+            sidebar.classList.add('-translate-x-full');
+        }
+    }
+
+    function updateCartUI() {
+        const container = document.getElementById('cart-items');
+        const countBadge = document.getElementById('cart-count');
+        
+        countBadge.innerText = cart.length;
+        
+        if (cart.length === 0) {
+            container.innerHTML = '<p class="text-gray-400 text-center">הסל ריק</p>';
+            return;
+        }
+
+        let html = '';
+        let total = 0;
+        cart.forEach(item => {
+            total += parseInt(item.price);
+            html += `
+                <div class="flex justify-between items-center bg-gray-50 p-3 rounded">
+                    <div>
+                        <p class="font-bold text-sm">${item.name}</p>
+                        <p class="text-xs text-gray-500">${item.price} ₪</p>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += `
+            <div class="mt-4 pt-4 border-t border-gray-200 flex justify-between font-bold">
+                <span>סה"כ:</span>
+                <span>${total} ₪</span>
+            </div>
+        `;
+        
+        container.innerHTML = html;
+    }
+
+    function addToCart(id, type, name, price) {
+        fetch('/api/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id, type, name, price }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Optimistic update or fetch fresh cart
+                fetchCart();
+                // Show toast or feedback
+                const btn = event.target;
+                const originalText = btn.innerText;
+                btn.innerText = "נוסף ✓";
+                btn.classList.add('bg-green-600', 'text-white', 'border-green-600');
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('bg-green-600', 'text-white', 'border-green-600');
+                }, 2000);
+            } else {
+                alert(data.message);
+            }
+        });
+    }
+
+    function fetchCart() {
+        fetch('/api/cart')
+        .then(res => res.json())
+        .then(data => {
+            cart = data.cart;
+            updateCartUI();
+        });
+    }
+
+    function clearCart() {
+        fetch('/api/cart/clear', { method: 'POST' })
+        .then(() => {
+            cart = [];
+            updateCartUI();
+        });
+    }
+
+    async function saveEvent() {
+        // Check if user is logged in
+        const authResponse = await fetch('/api/current_user');
+        const authData = await authResponse.json();
+        
+        if (!authData.authenticated) {
+            alert('אנא התחבר תחילה כדי לשמור אירוע');
+            window.location.href = '/login';
+            return;
+        }
+        
+        // Check if cart is not empty
+        if (cart.length === 0) {
+            alert('אנא בחר לפחות ספק אחד');
+            return;
+        }
+        
+        try {
+            const response = await fetch('/api/save_event', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ event_type: 'other' })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                alert(data.message);
+                window.location.href = data.redirect;
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error('Error saving event:', error);
+            alert('שגיאה בשמירת האירוע');
+        }
+    }
+
+    // Active category management
+    function updateActiveCategory(clickedBtn) {
+        // Remove active state from all buttons
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.classList.remove('active-category');
+        });
+        // Add active state to clicked button
+        clickedBtn.classList.add('active-category');
+    }
+
+    // Set first category as active on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        fetchCart();
+        const firstBtn = document.querySelector('.category-btn');
+        if (firstBtn) {
+            firstBtn.classList.add('active-category');
+        }
+    });
+</script>
 {% endblock %}

@@ -22,12 +22,18 @@
             --color-white: #ffffff;
         }
 
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: var(--font-sans);
             color: var(--color-text);
             background-color: var(--color-white);
             margin: 0;
             padding: 0;
+            padding-top: 68px;
             overflow-x: hidden;
         }
 
@@ -105,35 +111,46 @@
         /* Header Styles */
         .main-header {
             background: rgba(255, 255, 255, 0.98);
-            border-bottom: 1px solid #f0f0f0;
-            padding: 0.6rem 0;
-            position: sticky;
+            border-bottom: none;
+            padding: 0.7rem 0;
+            margin: 0;
+            position: fixed;
             top: 0;
-            z-index: 1000;
+            left: 0;
+            right: 0;
+            z-index: 9999;
             transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .nav-link {
             font-family: var(--font-sans);
             text-transform: uppercase;
-            font-size: 0.7rem;
-            letter-spacing: 0.15em;
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
             color: var(--color-black);
             text-decoration: none;
             font-weight: 700;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
             position: relative;
+            padding: 0.5rem 0.5rem;
+            display: inline-block;
         }
 
         .nav-link::after {
             content: '';
             position: absolute;
             width: 0;
-            height: 1px;
-            bottom: -4px;
+            height: 2px;
+            bottom: 0;
             left: 0;
             background-color: var(--color-black);
             transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #AB7743;
         }
 
         .nav-link:hover::after {
@@ -241,15 +258,15 @@
 
     <!-- Header -->
     <header class="main-header">
-        <div class="container flex justify-between items-center relative">
+        <div class="container flex justify-between items-center relative px-4">
             <!-- Left: Auth/Actions -->
-            <div class="hidden md:flex gap-6 items-center">
+            <div class="hidden md:flex gap-4 items-center flex-shrink-0">
                 {% if current_user.is_authenticated %}
-                    <span class="nav-link cursor-default">שלום, {{ current_user.first_name }}</span>
-                    <button onclick="logout()" class="nav-link bg-transparent border-0 cursor-pointer">התנתק</button>
+                    <span class="nav-link cursor-default whitespace-nowrap">שלום, {{ current_user.first_name }}</span>
+                    <button onclick="logout()" class="nav-link bg-transparent border-0 cursor-pointer whitespace-nowrap">התנתק</button>
                 {% else %}
-                    <a href="/login" class="nav-link">התחברות</a>
-                    <a href="/register" class="nav-link">הרשמה</a>
+                    <a href="/login" class="nav-link whitespace-nowrap">התחברות</a>
+                    <a href="/register" class="nav-link whitespace-nowrap">הרשמה</a>
                 {% endif %}
             </div>
 
@@ -262,17 +279,17 @@
             </div>
 
             <!-- Right: Navigation -->
-            <nav class="hidden md:flex gap-8">
+            <nav class="hidden md:flex gap-6 flex-shrink-0">
                 {% if current_user.is_authenticated %}
-                    <a href="/dashboard" class="nav-link text-[color:var(--color-black)] border-b-2 border-transparent hover:border-[color:var(--color-black)]">האירועים שלי</a>
+                    <a href="/dashboard" class="nav-link text-[color:var(--color-black)] border-b-2 border-transparent hover:border-[color:var(--color-black)] whitespace-nowrap">האירועים שלי</a>
                 {% endif %}
-                <a href="/plan" class="nav-link">תכנון אירוע</a>
-                <a href="/#vendors" class="nav-link">ספקים</a>
-                <a href="/inspirations" class="nav-link">השראה</a>
+                <a href="/plan" class="nav-link whitespace-nowrap">תכנון אירוע</a>
+                <a href="/#vendors" class="nav-link whitespace-nowrap">ספקים</a>
+                <a href="/inspirations" class="nav-link whitespace-nowrap">השראה</a>
             </nav>
 
             <!-- Mobile Menu Button (Placeholder) -->
-            <button class="md:hidden text-2xl">☰</button>
+            <button class="md:hidden text-2xl flex-shrink-0">☰</button>
         </div>
     </header>
 

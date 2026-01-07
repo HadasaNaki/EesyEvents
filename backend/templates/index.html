@@ -2,6 +2,47 @@
 
 {% block content %}
 <main>
+    <script>
+        // Load all image categories
+        let djImages = [];
+        let orchestraImages = [];
+        let photographerImages = [];
+        let foodImages = [];
+        let designImages = [];
+        
+        async function loadAllImages() {
+            try {
+                const manifest = await fetch('/api/images/manifest').then(r => r.json());
+                hallImages = manifest.images.hall || [];
+                poolImages = manifest.images.pool || [];
+                weddingImages = manifest.images.wedding || [];
+                djImages = manifest.images.dj || [];
+                orchestraImages = manifest.images.orchestra || [];
+                photographerImages = manifest.images.photographers || [];
+                foodImages = manifest.images.food || [];
+                designImages = manifest.images.design || [];
+                console.log('✅ All images loaded:', { hallImages, poolImages, weddingImages, djImages, orchestraImages, photographerImages, foodImages, designImages });
+            } catch (e) {
+                console.log('Could not load images manifest');
+            }
+        }
+        
+        function getImage(category, index = 0) {
+            const images = {
+                'hall': hallImages,
+                'pool': poolImages,
+                'wedding': weddingImages,
+                'dj': djImages,
+                'orchestra': orchestraImages,
+                'photographer': photographerImages,
+                'food': foodImages,
+                'design': designImages
+            }[category] || [];
+            return images[index % Math.max(1, images.length)] || '';
+        }
+        
+        loadAllImages();
+    </script>
     <!-- Hero Section -->
     <section class="relative h-screen w-full overflow-hidden">
         <!-- Darkened background image -->
@@ -133,6 +174,181 @@
         </div>
     </section>
 
+    <!-- Bar Mitzvah Section -->
+    <section class="py-20 bg-[#f4f1ea]">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Content -->
+                <div>
+                    <p class="font-sans text-xs font-bold tracking-widest uppercase mb-4 text-[var(--color-espresso)]">בר/בת מצווה</p>
+                    <h2 class="font-serif text-5xl mb-6 leading-tight text-[var(--color-espresso)]">יום חג מיוחד</h2>
+                    <p class="font-sans text-lg mb-8 leading-relaxed text-[var(--color-coffee)]">
+                        בר או בת מצווה - יום שמסמן מעבר משמעותי בחיי הנוער. אנחנו יוצרים אירוע שמחוגג את הגדילה ואת ההשתנות, 
+                        עם חברים ומשפחה בעיצוב שמתאים בדיוק לאישיותו של המעורבב/ת.
+                    </p>
+                    <a href="#" class="border-2 border-[#4C2B08] text-[#4C2B08] bg-transparent px-8 py-3 text-sm font-black uppercase tracking-widest hover:bg-[#8c5f42] hover:text-white hover:border-[#8c5f42] transition-colors duration-300 rounded-full inline-block" style="font-weight: 900;">
+                        גלה עוד על בר מצווה
+                    </a>
+                </div>
+                <!-- Image -->
+                <div>
+                    <img id="bar-mitzvah-img" src="{{ url_for('static', filename='images/tfilin.png') }}" 
+                         alt="Bar Mitzvah Celebration" 
+                         class="w-full h-full object-cover rounded-lg shadow-lg"
+                         onerror="this.src = getImage('hall', 0)">
+                    <script>
+                        if (hallImages.length > 0) {
+                            document.getElementById('bar-mitzvah-img').src = getImage('hall', 0);
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Corporate Events Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Image -->
+                <div class="order-2 md:order-1">
+                    <img id="corporate-img" src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?q=80&w=2070&auto=format&fit=crop" 
+                         alt="Corporate Event" 
+                         class="w-full h-full object-cover rounded-lg shadow-lg">
+                    <script>
+                        if (hallImages.length > 1) {
+                            document.getElementById('corporate-img').src = getImage('hall', 1);
+                        }
+                    </script>
+                </div>
+                <!-- Content -->
+                <div class="order-1 md:order-2">
+                    <p class="font-sans text-xs font-bold tracking-widest uppercase mb-4 text-[var(--color-espresso)]">אירועי חברה</p>
+                    <h2 class="font-serif text-5xl mb-6 leading-tight text-[var(--color-espresso)]">הרמת כוסות לחיים</h2>
+                    <p class="font-sans text-lg mb-8 leading-relaxed text-[var(--color-coffee)]">
+                        כל חברה זקוקה ליום מיוחד שמחזק קשרים ויוצר זיכרונות. מאירועי השקה ועד חגיגות סיום, 
+                        אנחנו מתכננים אירועים שמעוררים השראה, מצחיקים וממשיכים להיות שיחת היום.
+                    </p>
+                    <a href="#" class="border-2 border-[#4C2B08] text-[#4C2B08] bg-transparent px-8 py-3 text-sm font-black uppercase tracking-widest hover:bg-[#8c5f42] hover:text-white hover:border-[#8c5f42] transition-colors duration-300 rounded-full inline-block" style="font-weight: 900;">
+                        גלה עוד על אירועי חברה
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Real Weddings (Grid) -->
+    <section class="py-20 bg-[#f4f1ea]" id="inspiration">
+        <div class="container px-4 md:px-8">
+            <div class="flex justify-between items-end mb-16 border-b border-[color:var(--color-black)]/5 pb-6">
+                <h2 class="font-serif text-3xl md:text-4xl text-[color:var(--color-black)]">חתונות אמיתיות</h2>
+                <a href="#" class="font-sans text-xs font-bold tracking-widest uppercase hover:text-gray-500 transition-colors">צפה בכל החתונות</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+                <!-- Item 1 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img id="wedding-1" src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">ירושלים</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">חתונה</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                    <script>
+                        if (weddingImages.length > 0) {
+                            document.getElementById('wedding-1').src = weddingImages[0];
+                        }
+                    </script>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img id="wedding-2" src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">תל אביב</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">חתונה</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                    <script>if (weddingImages.length > 1) document.getElementById('wedding-2').src = weddingImages[1];</script>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img id="wedding-3" src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=2070&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">קיסריה</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">חתונה</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                    <script>if (weddingImages.length > 2) document.getElementById('wedding-3').src = weddingImages[2];</script>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img id="wedding-4" src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2070&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">מצפה רמון</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">חתונה</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                    <script>if (weddingImages.length > 3) document.getElementById('wedding-4').src = weddingImages[3];</script>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img id="wedding-5" src="https://images.unsplash.com/photo-1522673607200-1645062cd958?q=80&w=2043&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">הגליל</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">חתונה</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                    <script>if (weddingImages.length > 4) document.getElementById('wedding-5').src = weddingImages[4];</script>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 aspect-[3/4] relative">
+                        <img id="wedding-6" src="https://images.unsplash.com/photo-1507915977619-6ccfe8003ae6?q=80&w=1974&auto=format&fit=crop"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                             alt="Wedding">
+                        <div class="absolute inset-0 bg-[color:var(--color-black)]/0 group-hover:bg-[color:var(--color-black)]/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-sans text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2">אילת</p>
+                        <h3 class="font-serif text-2xl mb-2 group-hover:text-gray-600 transition-colors">חתונה</h3>
+                        <a href="#" class="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest border-b border-[color:var(--color-black)] pb-1">קרא עוד</a>
+                    </div>
+                    <script>if (weddingImages.length > 5) document.getElementById('wedding-6').src = weddingImages[5];</script>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Vendor Categories (Curated List) -->
     <section class="py-24 bg-white" id="vendors">
         <div class="container px-4 md:px-8">
@@ -153,35 +369,38 @@
 
                 <!-- Category 2 -->
                 <a href="/plan?type=photo" class="group block relative aspect-square overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?q=80&w=2070&auto=format&fit=crop"
+                    <img id="photo-category" src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?q=80&w=2070&auto=format&fit=crop"
                          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                          alt="Photography">
                     <div class="absolute inset-0 bg-[color:var(--color-black)]/20 group-hover:bg-[color:var(--color-black)]/30 transition-colors"></div>
                     <div class="absolute inset-0 flex items-center justify-center">
                         <h3 class="font-serif text-2xl text-white tracking-wider uppercase">Photo</h3>
                     </div>
+                    <script>if (photographerImages.length > 0) document.getElementById('photo-category').src = photographerImages[0];</script>
                 </a>
 
                 <!-- Category 3 -->
                 <a href="/plan?type=catering" class="group block relative aspect-square overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop"
+                    <img id="food-category" src="https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop"
                          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                         alt="Catering">
+                         alt="Food">
                     <div class="absolute inset-0 bg-[color:var(--color-black)]/20 group-hover:bg-[color:var(--color-black)]/30 transition-colors"></div>
                     <div class="absolute inset-0 flex items-center justify-center">
                         <h3 class="font-serif text-2xl text-white tracking-wider uppercase">Food</h3>
                     </div>
+                    <script>if (foodImages.length > 0) document.getElementById('food-category').src = foodImages[0];</script>
                 </a>
 
                 <!-- Category 4 -->
                 <a href="/plan?type=music" class="group block relative aspect-square overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2070&auto=format&fit=crop"
+                    <img id="music-category" src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2070&auto=format&fit=crop"
                          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                          alt="Music">
                     <div class="absolute inset-0 bg-[color:var(--color-black)]/20 group-hover:bg-[color:var(--color-black)]/30 transition-colors"></div>
                     <div class="absolute inset-0 flex items-center justify-center">
                         <h3 class="font-serif text-2xl text-white tracking-wider uppercase">Music</h3>
                     </div>
+                    <script>if (djImages.length > 0) document.getElementById('music-category').src = djImages[0];</script>
                 </a>
             </div>
         </div>
