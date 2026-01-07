@@ -228,6 +228,111 @@ def init_db():
 # Initialize database on startup
 init_db()
 
+# Create SQLAlchemy tables and add sample data
+with app.app_context():
+    db.create_all()
+    print("✅ SQLAlchemy tables created!")
+    
+    # Add sample data if tables are empty
+    if Venue.query.count() == 0:
+        sample_venues = [
+            Venue(name="אולם פאר", city="תל אביב", address="דרך מנחם בגין 132", style="מודרני", capacity=300, price=15000, phone="03-1234567", is_open_air=False),
+            Venue(name="גן אירועים רויאל", city="רמת גן", address="רחוב ביאליק 45", style="קלאסי", capacity=200, price=12000, phone="03-7654321", is_open_air=True),
+            Venue(name="בית ברטון", city="ירושלים", address="רחוב יפו 15", style="רומנטי", capacity=150, price=18000, phone="02-5551234", is_open_air=False),
+            Venue(name="אחוזת פסטורל", city="כפר סבא", address="שדרות ירושלים 89", style="כפרי", capacity=250, price=14000, phone="09-7412369", is_open_air=True),
+            Venue(name="מלון דן פנורמה", city="תל אביב", address="רחוב דוד המלך 12", style="יוקרתי", capacity=500, price=25000, phone="03-5191234", is_open_air=False),
+            Venue(name="גן אירועים הזית", city="חיפה", address="שדרות בן גוריון 67", style="כפרי", capacity=180, price=11000, phone="04-8234567", is_open_air=True),
+            Venue(name="אולם ויסטה", city="נתניה", address="רחוב הרצל 234", style="מודרני", capacity=400, price=17000, phone="09-8765432", is_open_air=False),
+            Venue(name="גן העדן", city="רעננה", address="רחוב אחוזה 56", style="יוקרתי", capacity=220, price=20000, phone="09-7456321", is_open_air=True),
+            Venue(name="אולמי סמדר", city="פתח תקווה", address="רחוב ז'בוטינסקי 189", style="קלאסי", capacity=350, price=16000, phone="03-9321456", is_open_air=False),
+            Venue(name="בית הכנסת הגדול", city="בני ברק", address="רחוב רבי עקיבא 78", style="מסורתי", capacity=300, price=13000, phone="03-5798642", is_open_air=False),
+            Venue(name="גן האירועים הקסום", city="הרצליה", address="רחוב סוקולוב 123", style="יוקרתי", capacity=280, price=22000, phone="09-9584123", is_open_air=True),
+            Venue(name="אולם המלכות", city="תל אביב", address="רחוב דיזנגוף 167", style="מודרני", capacity=450, price=19000, phone="03-5123698", is_open_air=False),
+        ]
+        db.session.add_all(sample_venues)
+        db.session.commit()
+        print("✅ Sample venues added!")
+    
+    if Supplier.query.count() == 0:
+        sample_suppliers = [
+            # DJ & מוזיקה (10)
+            Supplier(name="DJ רועי מיקס", supplier_type="DJ", city="תל אביב", price=3500, phone="050-1234567", image_url="https://images.unsplash.com/photo-1571266028243-d220c6c36e49?w=800"),
+            Supplier(name="DJ שמעון אלקטרו", supplier_type="DJ", city="ירושלים", price=3000, phone="050-8529637", image_url="https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=800"),
+            Supplier(name="DJ אלכס פארטי", supplier_type="DJ", city="חיפה", price=4000, phone="050-9871234", image_url="https://images.unsplash.com/photo-1598387993281-cecf8b71a8f8?w=800"),
+            Supplier(name="DJ דניאל סאונד", supplier_type="DJ", city="רמת גן", price=3800, phone="050-4562378", image_url="https://images.unsplash.com/photo-1571266028243-d220c6c36e49?w=800"),
+            Supplier(name="DJ מיכאל ביטס", supplier_type="DJ", city="נתניה", price=3200, phone="050-7893214", image_url="https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=800"),
+            Supplier(name="להקת הכוכבים", supplier_type="מוזיקה חיה", city="תל אביב", price=8000, phone="050-7412589", image_url="https://images.unsplash.com/photo-1511735111819-9a3f7709049c?w=800"),
+            Supplier(name="תזמורת הזהב", supplier_type="מוזיקה חיה", city="ירושלים", price=10000, phone="050-3692581", image_url="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800"),
+            Supplier(name="להקת הרמוני", supplier_type="מוזיקה חיה", city="חיפה", price=7500, phone="050-1593578", image_url="https://images.unsplash.com/photo-1519683109079-d5f539e1542f?w=800"),
+            Supplier(name="DJ יוסי פרו", supplier_type="DJ", city="פתח תקווה", price=3600, phone="050-9517536", image_url="https://images.unsplash.com/photo-1598387993281-cecf8b71a8f8?w=800"),
+            Supplier(name="DJ עמית בס", supplier_type="DJ", city="רעננה", price=4200, phone="050-7531598", image_url="https://images.unsplash.com/photo-1571266028243-d220c6c36e49?w=800"),
+            
+            # צלמים (12)
+            Supplier(name="צלמים מקצועיים בע\"מ", supplier_type="צילום", city="רמת גן", price=4500, phone="050-7654321", image_url="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800"),
+            Supplier(name="צילום יוקרתי", supplier_type="צילום", city="נתניה", price=5000, phone="050-1472583", image_url="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800"),
+            Supplier(name="סטודיו לייט", supplier_type="צילום", city="ירושלים", price=5500, phone="050-3698521", image_url="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800"),
+            Supplier(name="צילום אומנותי", supplier_type="צילום", city="חיפה", price=4800, phone="050-9517532", image_url="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800"),
+            Supplier(name="פוקוס סטודיו", supplier_type="צילום", city="תל אביב", price=6000, phone="050-3574196", image_url="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800"),
+            Supplier(name="צלם המלכים", supplier_type="צילום", city="הרצליה", price=7000, phone="050-9638524", image_url="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800"),
+            Supplier(name="פרספקטיב צילום", supplier_type="צילום", city="רעננה", price=5200, phone="050-7418529", image_url="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800"),
+            Supplier(name="מומנטום צילום", supplier_type="צילום", city="פתח תקווה", price=4700, phone="050-8527419", image_url="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800"),
+            Supplier(name="סטודיו פיקסל", supplier_type="צילום", city="בני ברק", price=4200, phone="050-3698527", image_url="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800"),
+            Supplier(name="צילום בוטיק", supplier_type="צילום", city="כפר סבא", price=5800, phone="050-1593574", image_url="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800"),
+            Supplier(name="לנס מאסטר", supplier_type="צילום", city="ראשון לציון", price=4900, phone="050-7539512", image_url="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800"),
+            Supplier(name="אימג' פרפקט", supplier_type="צילום", city="חולון", price=4400, phone="050-9517538", image_url="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800"),
+            
+            # קייטרינג (8)
+            Supplier(name="קייטרינג דלוקס", supplier_type="קייטרינג", city="תל אביב", price=180, phone="03-9876543", image_url="https://images.unsplash.com/photo-1555244162-803834f70033?w=800"),
+            Supplier(name="קייטרינג VIP", supplier_type="קייטרינג", city="רמת גן", price=220, phone="03-5741236", image_url="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800"),
+            Supplier(name="אוכל מהלב", supplier_type="קייטרינג", city="ירושלים", price=150, phone="02-6543210", image_url="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=800"),
+            Supplier(name="מטעמי השף", supplier_type="קייטרינג", city="חיפה", price=200, phone="04-8527419", image_url="https://images.unsplash.com/photo-1555244162-803834f70033?w=800"),
+            Supplier(name="קייטרינג פרימיום", supplier_type="קייטרינג", city="נתניה", price=190, phone="09-7531594", image_url="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800"),
+            Supplier(name="טעים בכרם", supplier_type="קייטרינג", city="הרצליה", price=210, phone="09-9584127", image_url="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=800"),
+            Supplier(name="אוכל טוב", supplier_type="קייטרינג", city="פתח תקווה", price=170, phone="03-9321458", image_url="https://images.unsplash.com/photo-1555244162-803834f70033?w=800"),
+            Supplier(name="שף פרטי", supplier_type="קייטרינג", city="רעננה", price=250, phone="09-7456329", image_url="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800"),
+            
+            # פרחים ועיצוב (10)
+            Supplier(name="פרחים של אהבה", supplier_type="פרחים", city="הרצליה", price=2500, phone="09-9517531", image_url="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=800"),
+            Supplier(name="עיצוב אירועים פלוס", supplier_type="עיצוב", city="תל אביב", price=4000, phone="03-7539514", image_url="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800"),
+            Supplier(name="פרחי השדה", supplier_type="פרחים", city="חיפה", price=2200, phone="04-8527419", image_url="https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=800"),
+            Supplier(name="בלום דיזיין", supplier_type="פרחים", city="רמת גן", price=2800, phone="03-5741239", image_url="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=800"),
+            Supplier(name="פרחי היוקרה", supplier_type="פרחים", city="ירושלים", price=3000, phone="02-6543215", image_url="https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=800"),
+            Supplier(name="עיצוב מושלם", supplier_type="עיצוב", city="נתניה", price=4500, phone="09-7531596", image_url="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800"),
+            Supplier(name="פרפקט דקור", supplier_type="עיצוב", city="הרצליה", price=5000, phone="09-9584129", image_url="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"),
+            Supplier(name="פרחים ברוח", supplier_type="פרחים", city="כפר סבא", price=2400, phone="09-7412376", image_url="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=800"),
+            Supplier(name="אומנות בפרחים", supplier_type="פרחים", city="רעננה", price=2600, phone="09-7456327", image_url="https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=800"),
+            Supplier(name="סטודיו עיצוב", supplier_type="עיצוב", city="פתח תקווה", price=3800, phone="03-9321459", image_url="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800"),
+            
+            # איפור ושיער (8)
+            Supplier(name="מעצבת שיער ואיפור רוני", supplier_type="איפור", city="תל אביב", price=1500, phone="050-2345678", image_url="https://images.unsplash.com/photo-1560869713-7d0a29430803?w=800"),
+            Supplier(name="סטודיו ביוטי", supplier_type="איפור", city="ירושלים", price=1800, phone="050-8741236", image_url="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800"),
+            Supplier(name="מראה מושלם", supplier_type="איפור", city="רמת גן", price=1600, phone="050-3698524", image_url="https://images.unsplash.com/photo-1560869713-7d0a29430803?w=800"),
+            Supplier(name="גלאם סטייל", supplier_type="איפור", city="חיפה", price=1700, phone="050-7531592", image_url="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800"),
+            Supplier(name="ביוטי לאונג'", supplier_type="איפור", city="נתניה", price=1550, phone="050-9584126", image_url="https://images.unsplash.com/photo-1560869713-7d0a29430803?w=800"),
+            Supplier(name="סטודיו שיק", supplier_type="איפור", city="הרצליה", price=2000, phone="050-7456324", image_url="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800"),
+            Supplier(name="מייקאפ ארט", supplier_type="איפור", city="רעננה", price=1650, phone="050-9321457", image_url="https://images.unsplash.com/photo-1560869713-7d0a29430803?w=800"),
+            Supplier(name="הייר & מייקאפ", supplier_type="איפור", city="פתח תקווה", price=1750, phone="050-7539518", image_url="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800"),
+            
+            # אטרקציות (6)
+            Supplier(name="אטרקציות לאירועים", supplier_type="אטרקציות", city="רמת גן", price=3000, phone="050-9638527", image_url="https://images.unsplash.com/photo-1496337589254-7e19d01cec44?w=800"),
+            Supplier(name="משחקים וכיף", supplier_type="אטרקציות", city="פתח תקווה", price=2500, phone="050-1593574", image_url="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800"),
+            Supplier(name="פאן פארק", supplier_type="אטרקציות", city="תל אביב", price=3500, phone="050-7531597", image_url="https://images.unsplash.com/photo-1496337589254-7e19d01cec44?w=800"),
+            Supplier(name="אטרקציות פרימיום", supplier_type="אטרקציות", city="הרצליה", price=4000, phone="050-9584128", image_url="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800"),
+            Supplier(name="כיף וחוויה", supplier_type="אטרקציות", city="נתניה", price=2800, phone="050-7456326", image_url="https://images.unsplash.com/photo-1496337589254-7e19d01cec44?w=800"),
+            Supplier(name="אטרקציות ישראל", supplier_type="אטרקציות", city="ירושלים", price=3200, phone="050-3698526", image_url="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800"),
+            
+            # וידאו (6)
+            Supplier(name="סרטי אירועים פרו", supplier_type="וידאו", city="תל אביב", price=5000, phone="050-7539519", image_url="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?w=800"),
+            Supplier(name="וידאו מושלם", supplier_type="וידאו", city="רמת גן", price=4500, phone="050-9321458", image_url="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800"),
+            Supplier(name="פילם סטודיו", supplier_type="וידאו", city="ירושלים", price=5500, phone="050-7456328", image_url="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?w=800"),
+            Supplier(name="וידאוגרף מקצועי", supplier_type="וידאו", city="חיפה", price=4800, phone="050-9584130", image_url="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800"),
+            Supplier(name="סינמה לאירועים", supplier_type="וידאו", city="נתניה", price=4700, phone="050-7531598", image_url="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?w=800"),
+            Supplier(name="מוביקס פרודקשן", supplier_type="וידאו", city="הרצליה", price=6000, phone="050-3698528", image_url="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800"),
+        ]
+        db.session.add_all(sample_suppliers)
+        db.session.commit()
+        print("✅ Sample suppliers added!")
+
 # --- IMAGE MANAGER API ---
 @app.route('/api/images/manifest', methods=['GET'])
 def get_image_manifest():
@@ -1039,16 +1144,17 @@ def get_grouped_results():
             'image': s.image_url or 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800'
         }
         
-        # Map to categories
-        if s.supplier_type == 'Photographer':
+        # Map to categories (support both Hebrew and English)
+        supplier_type = s.supplier_type.lower()
+        if 'צילום' in supplier_type or 'photograph' in supplier_type or 'וידאו' in supplier_type or 'video' in supplier_type:
             grouped['צלמים'].append(item)
-        elif s.supplier_type == 'DJ':
+        elif 'dj' in supplier_type or 'תקליטן' in supplier_type:
             grouped['תקליטנים'].append(item)
-        elif s.supplier_type == 'Catering':
+        elif 'קייטרינג' in supplier_type or 'catering' in supplier_type:
             grouped['קייטרינג'].append(item)
-        elif s.supplier_type == 'Orchestra':
+        elif 'מוזיקה' in supplier_type or 'orchestra' in supplier_type or 'להקה' in supplier_type or 'תזמורת' in supplier_type:
             grouped['להקות ותזמורות'].append(item)
-        elif s.supplier_type == 'Designer':
+        elif 'עיצוב' in supplier_type or 'designer' in supplier_type or 'פרחים' in supplier_type or 'דקור' in supplier_type or 'איפור' in supplier_type or 'makeup' in supplier_type or 'אטרקציות' in supplier_type:
             grouped['עיצוב אירועים'].append(item)
             
     return grouped
