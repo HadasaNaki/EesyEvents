@@ -1022,9 +1022,18 @@ def manage_event(event_id):
         conn.close()
         return redirect(url_for('dashboard'))
     
-    # Get vendors for this event
-    vendors = conn.execute('SELECT * FROM event_vendors WHERE event_id = ?',
-                          (event_id,)).fetchall()
+    # Get vendors for this event with full details
+    vendors = conn.execute('''
+        SELECT 
+            ev.id,
+            ev.vendor_name,
+            ev.vendor_type,
+            ev.vendor_price,
+            ev.created_at
+        FROM event_vendors ev
+        WHERE ev.event_id = ?
+        ORDER BY ev.created_at DESC
+    ''', (event_id,)).fetchall()
     
     # Get checklist items
     checklist_items = conn.execute(

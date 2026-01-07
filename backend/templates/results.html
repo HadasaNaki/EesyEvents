@@ -129,8 +129,12 @@
                                 <p class="text-gray-400 mb-6 text-sm font-sans leading-relaxed">{{ item.description }}</p>
                                 <div class="border-t border-gray-100 pt-6">
                                     <span class="block text-[color:var(--color-black)] font-bold text-lg mb-4">{{ item.price }} ₪</span>
-                                    <button onclick="addToCart('{{ item.id }}', '{{ item.type }}', '{{ item.name }}', '{{ item.price }}')" 
-                                            class="w-full py-3 border border-[color:var(--color-black)] text-[color:var(--color-black)] hover:bg-[color:var(--color-black)] hover:text-white transition-colors text-[10px] uppercase tracking-[0.2em] font-bold">
+                                    <button data-id="{{ item.id }}" 
+                                            data-type="{{ item.type }}" 
+                                            data-name="{{ item.name }}" 
+                                            data-price="{{ item.price }}"
+                                            onclick="addToCart(this.dataset.id, this.dataset.type, this.dataset.name, this.dataset.price, this)" 
+                                            class="add-to-cart-btn w-full py-3 border border-[color:var(--color-black)] text-[color:var(--color-black)] hover:bg-[color:var(--color-black)] hover:text-white transition-colors text-[10px] uppercase tracking-[0.2em] font-bold">
                                         הוסף לסל
                                     </button>
                                 </div>
@@ -343,6 +347,8 @@
     }
 
     function updateCartUI() {
+        console.log('🔵 Updating cart UI, cart items:', cart);
+        
         const container = document.getElementById('cart-items');
         const countBadge = document.getElementById('cart-count');
         
@@ -374,10 +380,13 @@
             </div>
         `;
         
+        console.log('🔵 Cart HTML generated, total:', total);
         container.innerHTML = html;
     }
 
-    function addToCart(id, type, name, price) {
+    function addToCart(id, type, name, price, btnElement) {
+        console.log('🔵 Adding to cart:', {id, type, name, price});
+        
         fetch('/api/cart/add', {
             method: 'POST',
             headers: {
@@ -387,30 +396,45 @@
         })
         .then(response => response.json())
         .then(data => {
+            console.log('🔵 Server response:', data);
+            
             if (data.success) {
-                // Optimistic update or fetch fresh cart
+                // Fetch fresh cart
                 fetchCart();
-                // Show toast or feedback
-                const btn = event.target;
-                const originalText = btn.innerText;
-                btn.innerText = "נוסף ✓";
-                btn.classList.add('bg-green-600', 'text-white', 'border-green-600');
-                setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.classList.remove('bg-green-600', 'text-white', 'border-green-600');
-                }, 2000);
+                
+                // Show visual feedback on button
+                if (btnElement) {
+                    const originalText = btnElement.innerText;
+                    btnElement.innerText = "נוסף ✓";
+                    btnElement.classList.add('bg-green-600', 'text-white', 'border-green-600');
+                    setTimeout(() => {
+                        btnElement.innerText = originalText;
+                        btnElement.classList.remove('bg-green-600', 'text-white', 'border-green-600');
+                    }, 2000);
+                }
             } else {
+                console.warn('⚠️ Item not added:', data.message);
                 alert(data.message);
             }
+        })
+        .catch(error => {
+            console.error('❌ Error adding to cart:', error);
+            alert('שגיאה בהוספה לסל');
         });
     }
 
     function fetchCart() {
+        console.log('🔵 Fetching cart from server...');
         fetch('/api/cart')
         .then(res => res.json())
         .then(data => {
-            cart = data.cart;
+            console.log('🔵 Cart received:', data);
+            cart = data.cart || [];
+            console.log('🔵 Cart items:', cart);
             updateCartUI();
+        })
+        .catch(error => {
+            console.error('❌ Error fetching cart:', error);
         });
     }
 
@@ -423,9 +447,12 @@
     }
 
     async function saveEvent() {
+        console.log('🔵 saveEvent called, cart:', cart);
+        
         // Check if user is logged in
         const authResponse = await fetch('/api/current_user');
         const authData = await authResponse.json();
+        console.log('🔵 Auth data:', authData);
         
         if (!authData.authenticated) {
             alert('אנא התחבר תחילה כדי לשמור אירוע');
@@ -439,6 +466,8 @@
             return;
         }
         
+        console.log('🔵 Sending cart to server:', cart);
+        
         try {
             // Save the event with all cart items
             const response = await fetch('/api/save_cart_to_event', {
@@ -450,6 +479,7 @@
             });
             
             const data = await response.json();
+            console.log('🔵 Server response:', data);
             
             if (data.success) {
                 // Clear cart after successful save
@@ -463,7 +493,7 @@
                 alert(data.message);
             }
         } catch (error) {
-            console.error('Error saving event:', error);
+            console.error('❌ Error saving event:', error);
             alert('שגיאה בשמירת האירוע');
         }
     }
@@ -477,14 +507,5 @@
         // Add active state to clicked button
         clickedBtn.classList.add('active-category');
     }
-
-    // Set first category as active on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        fetchCart();
-        const firstBtn = document.querySelector('.category-btn');
-        if (firstBtn) {
-            firstBtn.classList.add('active-category');
-        }
-    });
 </script>
 {% endblock %}

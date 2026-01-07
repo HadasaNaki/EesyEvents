@@ -182,9 +182,15 @@
                         </div>
                     </div>
                     {% else %}
-                    <div class="text-center py-8 text-gray-400">
-                        <p class="text-sm mb-4">עדיין לא בחרת ספקים</p>
-                        <a href="/results" class="text-xs text-[color:var(--color-espresso)] border-b border-[color:var(--color-espresso)] hover:opacity-70">חפש ספקים</a>
+                    <div class="text-center py-12 text-gray-400 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                        <svg class="mx-auto h-12 w-12 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                        </svg>
+                        <p class="text-sm mb-2 font-semibold text-gray-500">עדיין לא בחרת ספקים לאירוע</p>
+                        <p class="text-xs text-gray-400 mb-6">הוסף ספקים לסל ושמור אותם לאירוע</p>
+                        <a href="/results" class="inline-block px-6 py-3 text-sm bg-[color:var(--color-espresso)] text-white hover:opacity-90 transition-opacity rounded">
+                            חפש ספקים עכשיו
+                        </a>
                     </div>
                     {% endif %}
                 </div>
