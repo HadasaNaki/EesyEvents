@@ -186,13 +186,20 @@
         <!-- Premium Category Navigation -->
         <div class="sticky top-[54px] z-40 bg-gradient-to-b from-[#f4f1ea] to-[#f4f1ea]/95 backdrop-blur-md py-2 mb-12 border-b border-gray-200/50 shadow-sm -mx-4 md:-mx-8 px-4 md:px-8">
             <div class="flex justify-center items-center gap-2 flex-wrap px-4 max-w-full overflow-x-auto pb-1">
+                <!-- All Categories Button -->
+                <button onclick="filterByCategory('all')" 
+                       class="category-filter-btn px-6 py-2 bg-gradient-to-r from-[color:var(--color-espresso)] to-[color:var(--color-coffee)] border-2 border-[color:var(--color-espresso)] rounded-full text-white font-bold text-xs uppercase tracking-wide whitespace-nowrap transition-all hover:shadow-lg active"
+                       data-category="all">
+                    הכל
+                </button>
+                
                 {% for category, items in results.items() %}
                     {% if items %}
-                    <a href="#{{ category }}" 
-                       class="category-btn px-6 py-2 bg-white border-2 border-gray-300 rounded-full text-[color:var(--color-espresso)] font-bold text-xs uppercase tracking-wide whitespace-nowrap transition-all duration-250 ease-out hover:scale-108 hover:shadow-md hover:border-[color:var(--color-caramel)] hover:bg-[#faf7f2] hover:text-[color:var(--color-caramel)] active-category:bg-[color:var(--color-espresso)] active-category:text-white active-category:border-[color:var(--color-espresso)] active-category:shadow-md"
-                       onclick="updateActiveCategory(this)">
+                    <button onclick="filterByCategory('{{ category }}')" 
+                       class="category-filter-btn px-6 py-2 bg-white border-2 border-gray-300 rounded-full text-[color:var(--color-espresso)] font-bold text-xs uppercase tracking-wide whitespace-nowrap transition-all hover:scale-105 hover:shadow-md hover:border-[color:var(--color-caramel)] hover:bg-[#faf7f2] hover:text-[color:var(--color-caramel)]"
+                       data-category="{{ category }}">
                         {{ category }}
-                    </a>
+                    </button>
                     {% endif %}
                 {% endfor %}
             </div>
@@ -719,6 +726,46 @@
     let selectedCities = [];
     let minRating = 0;
     let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    let activeQuickCategory = 'all'; // For the top category buttons
+
+    // Quick Category Filter (Top Buttons)
+    function filterByCategory(category) {
+        console.log('🔵 Quick filter by category:', category);
+        activeQuickCategory = category;
+        
+        // Update button styles
+        document.querySelectorAll('.category-filter-btn').forEach(btn => {
+            if (btn.dataset.category === category) {
+                btn.classList.remove('bg-white', 'border-gray-300', 'text-[color:var(--color-espresso)]');
+                btn.classList.add('bg-gradient-to-r', 'from-[color:var(--color-espresso)]', 'to-[color:var(--color-coffee)]', 'border-[color:var(--color-espresso)]', 'text-white', 'active');
+            } else {
+                btn.classList.remove('bg-gradient-to-r', 'from-[color:var(--color-espresso)]', 'to-[color:var(--color-coffee)]', 'border-[color:var(--color-espresso)]', 'text-white', 'active');
+                btn.classList.add('bg-white', 'border-gray-300', 'text-[color:var(--color-espresso)]');
+            }
+        });
+        
+        // Clear advanced category filter if using quick filter
+        if (category !== 'all') {
+            selectedCategories = [category];
+            updateCategoryText();
+        } else {
+            selectedCategories = [];
+            updateCategoryText();
+        }
+        
+        // Apply filters
+        applyFilters();
+        
+        // Scroll to first visible card
+        if (category !== 'all') {
+            setTimeout(() => {
+                const firstVisible = document.querySelector(`.supplier-card[data-category="${category}"]:not(.hidden)`);
+                if (firstVisible) {
+                    firstVisible.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
+        }
+    }
 
     // Smart Search with Autocomplete
     function handleSmartSearch(query) {
