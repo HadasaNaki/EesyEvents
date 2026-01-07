@@ -355,65 +355,116 @@
 
     function applyFilters() {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const selectedCity = document.getElementById('cityFilter').value;
         const maxPrice = parseInt(document.getElementById('priceRange').value);
         const sortBy = document.getElementById('sortBy').value;
         
-        // Filter items
-        let filteredItems = allItems.filter(item => {
+        console.log('🔵 Applying filters:', {
+            search: searchTerm,
+            categories: selectedCategories,
+            cities: selectedCities,
+            maxPrice: maxPrice,
+            minRating: minRating,
+            sortBy: sortBy
+        });
+        
+        // Get all supplier cards
+        const allCards = Array.from(document.querySelectorAll('.supplier-card'));
+        let visibleCount = 0;
+        
+        allCards.forEach(card => {
+            let shouldShow = true;
+            
             // Search filter
-            if (searchTerm && !item.name.toLowerCase().includes(searchTerm)) {
-                return false;
+            if (searchTerm) {
+                const name = card.dataset.name.toLowerCase();
+                const category = card.dataset.category.toLowerCase();
+                if (!name.includes(searchTerm) && !category.includes(searchTerm)) {
+                    shouldShow = false;
+                }
+            }
+            
+            // Category filter
+            if (selectedCategories.length > 0) {
+                if (!selectedCategories.includes(card.dataset.category)) {
+                    shouldShow = false;
+                }
             }
             
             // City filter
-            if (selectedCity && !item.description.includes(selectedCity)) {
-                return false;
+            if (selectedCities.length > 0) {
+                try {
+                    const item = JSON.parse(card.getAttribute('data-item'));
+                    const desc = item.description || '';
+                    const hasCity = selectedCities.some(city => desc.includes(city));
+                    if (!hasCity) {
+                        shouldShow = false;
+                    }
+                } catch(e) {}
             }
             
             // Price filter
-            if (item.price > maxPrice) {
-                return false;
+            const price = parseInt(card.dataset.price);
+            if (price > maxPrice) {
+                shouldShow = false;
             }
             
-            return true;
+            // Rating filter
+            const rating = parseFloat(card.dataset.rating);
+            if (rating < minRating) {
+                shouldShow = false;
+            }
+            
+            // Show or hide card
+            if (shouldShow) {
+                card.classList.remove('hidden');
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.classList.add('hidden');
+                card.style.display = 'none';
+            }
         });
         
-        // Sort items
-        filteredItems.sort((a, b) => {
+        // Sort visible cards
+        const visibleCards = allCards.filter(card => !card.classList.contains('hidden'));
+        visibleCards.sort((a, b) => {
             switch(sortBy) {
                 case 'name-asc':
-                    return a.name.localeCompare(b.name, 'he');
+                    return a.dataset.name.localeCompare(b.dataset.name, 'he');
                 case 'name-desc':
-                    return b.name.localeCompare(a.name, 'he');
+                    return b.dataset.name.localeCompare(a.dataset.name, 'he');
                 case 'price-asc':
-                    return a.price - b.price;
+                    return parseInt(a.dataset.price) - parseInt(b.dataset.price);
                 case 'price-desc':
-                    return b.price - a.price;
+                    return parseInt(b.dataset.price) - parseInt(a.dataset.price);
+                case 'rating-desc':
+                    return parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating);
                 default:
                     return 0;
             }
         });
         
-        // Hide all items first
-        allItems.forEach(item => {
-            item.element.style.display = 'none';
+        // Reorder visible cards
+        visibleCards.forEach((card, index) => {
+            card.style.order = index;
         });
         
-        // Show filtered and sorted items
-        filteredItems.forEach((item, index) => {
-            item.element.style.display = 'block';
-            item.element.style.order = index;
-        });
-        
-        // Update active filters display
-        updateActiveFiltersDisplay(searchTerm, selectedCity, maxPrice);
+        // Update results counter
+        if (document.getElementById('resultsCount')) {
+            document.getElementById('resultsCount').textContent = visibleCount;
+        }
         
         // Hide empty sections
-        updateSectionVisibility();
+        document.querySelectorAll('section[id]').forEach(section => {
+            const visibleCards = section.querySelectorAll('.supplier-card:not(.hidden)');
+            if (visibleCards.length === 0) {
+                section.style.display = 'none';
+            } else {
+                section.style.display = 'block';
+            }
+        });
         
-        // Show results count
-        showResultsCount(filteredItems.length, allItems.length);
+        console.log('🔵 Visible cards:', visibleCount);
     }
 
     function updateActiveFiltersDisplay(search, city, price) {
@@ -914,50 +965,10 @@
     // Update Results Counter
     function updateResultsCount() {
         const visibleCards = document.querySelectorAll('.supplier-card:not(.hidden)').length;
-        document.getElementById('resultsCount').textContent = visibleCards;
+        if (document.getElementById('resultsCount')) {
+            document.getElementById('resultsCount').textContent = visibleCards;
+        }
     }
-
-    // Enhanced applyFilters
-    const originalApplyFilters = applyFilters;
-    applyFilters = function() {
-        originalApplyFilters();
-        
-        // Apply rating filter
-        document.querySelectorAll('.supplier-card').forEach(card => {
-            const rating = parseFloat(card.dataset.rating);
-            if (rating < minRating) {
-                card.classList.add('hidden');
-                card.parentElement.classList.add('hidden');
-            }
-        });
-
-        // Apply category filter
-        if (selectedCategories.length > 0) {
-            document.querySelectorAll('.supplier-card').forEach(card => {
-                if (!selectedCategories.includes(card.dataset.category)) {
-                    card.classList.add('hidden');
-                    card.parentElement.classList.add('hidden');
-                }
-            });
-        }
-
-        // Apply city filter
-        if (selectedCities.length > 0) {
-            document.querySelectorAll('[data-item]').forEach(card => {
-                try {
-                    const item = JSON.parse(card.getAttribute('data-item'));
-                    const desc = item.description || '';
-                    const hasCity = selectedCities.some(city => desc.includes(city));
-                    if (!hasCity) {
-                        card.classList.add('hidden');
-                        card.parentElement.classList.add('hidden');
-                    }
-                } catch(e) {}
-            });
-        }
-
-        updateResultsCount();
-    };
 
     // Initialize favorites on page load
     document.addEventListener('DOMContentLoaded', function() {
