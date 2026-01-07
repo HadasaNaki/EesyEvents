@@ -3,7 +3,7 @@ EasyVents - Backend API Server
 Flask server for user authentication and management
 """
 
-from flask import Flask, request, jsonify, send_from_directory, render_template, session
+from flask import Flask, request, jsonify, send_from_directory, render_template, session, redirect, url_for, flash
 from flask_cors import CORS
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -648,39 +648,6 @@ def delete_event(event_id):
     
     return jsonify({'success': True})
 
-@app.route('/event/<int:event_id>/manage')
-@login_required
-def manage_event(event_id):
-    """Event management page with checklist"""
-    conn = get_db_connection()
-
-    # Get event and verify ownership
-    event = conn.execute('SELECT * FROM events WHERE id = ? AND user_id = ?',
-                        (event_id, current_user.id)).fetchone()
-
-    if not event:
-        conn.close()
-        return redirect(url_for('dashboard'))
-
-    # Get checklist items
-    checklist_items = conn.execute('''
-        SELECT * FROM checklist_items
-        WHERE event_id = ?
-        ORDER BY is_completed ASC, created_at DESC
-    ''', (event_id,)).fetchall()
-
-    # Calculate progress
-    total_count = len(checklist_items)
-    completed_count = sum(1 for item in checklist_items if item['is_completed'])
-
-    conn.close()
-
-    return render_template('manage_event.html',
-                         event=event,
-                         checklist_items=checklist_items,
-                         total_count=total_count,
-                         completed_count=completed_count)
-
 # API Endpoints for Checklist
 @app.route('/api/event/<int:event_id>/checklist', methods=['POST'])
 @login_required
@@ -865,16 +832,6 @@ def save_event():
             'success': False,
             'message': f'שגיאה בשמירת האירוע: {str(e)}'
         }), 500
-
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    """User dashboard with their saved events"""
-    conn = get_db_connection()
-    events = conn.execute('SELECT * FROM events WHERE user_id = ? ORDER BY created_at DESC',
-                         (current_user.id,)).fetchall()
-    conn.close()
-    return render_template('dashboard.html', events=events)
 
 @app.route('/event/<int:event_id>/manage')
 @login_required
@@ -1095,12 +1052,6 @@ def get_grouped_results():
             grouped['עיצוב אירועים'].append(item)
             
     return grouped
-
-@app.route('/create_event', methods=['POST'])
-def create_event():
-    """Handle event creation form submission"""
-    results = get_grouped_results()
-    return render_template('results.html', results=results)
 
 @app.route('/results')
 def results_page():
