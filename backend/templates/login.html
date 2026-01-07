@@ -79,7 +79,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             console.log('Login successful:', data);
             window.location.href = '/';
         } else {
-            errorDiv.textContent = data.error || 'שגיאה בהתחברות';
+            errorDiv.textContent = data.message || 'שגיאה בהתחברות';
             errorDiv.classList.remove('hidden');
         }
     } catch (err) {

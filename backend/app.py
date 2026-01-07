@@ -233,6 +233,20 @@ with app.app_context():
     db.create_all()
     print("✅ SQLAlchemy tables created!")
     
+    # Add sample user if users table is empty
+    conn = get_db_connection()
+    existing_users = conn.execute('SELECT COUNT(*) as count FROM users').fetchone()
+    if existing_users['count'] == 0:
+        from werkzeug.security import generate_password_hash
+        password_hash = generate_password_hash('123456')
+        conn.execute('''
+            INSERT INTO users (first_name, last_name, email, phone, password_hash, newsletter)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', ('הדסה', 'נקי', 'hadasa5806@gmail.com', '050-1234567', password_hash, False))
+        conn.commit()
+        print("✅ Sample user added! (hadasa5806@gmail.com / 123456)")
+    conn.close()
+    
     # Add sample data if tables are empty
     if Venue.query.count() == 0:
         sample_venues = [

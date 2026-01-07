@@ -101,8 +101,8 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                first_name: firstName,
-                last_name: lastName,
+                firstName: firstName,
+                lastName: lastName,
                 email: email,
                 phone: phone,
                 password: password
@@ -115,7 +115,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
             console.log('Registration successful:', data);
             window.location.href = '/login';
         } else {
-            errorDiv.textContent = data.error || 'שגיאה בהרשמה';
+            errorDiv.textContent = data.message || 'שגיאה בהרשמה';
             errorDiv.classList.remove('hidden');
         }
     } catch (err) {
