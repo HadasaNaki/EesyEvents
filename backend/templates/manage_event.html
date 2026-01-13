@@ -152,25 +152,29 @@
                     <h3 class="font-serif text-xl mb-6">פעולות מהירות</h3>
                     <ul class="space-y-4 text-sm font-sans tracking-wide">
                         <li><a href="/results" class="block hover:text-[color:var(--color-vanilla)] transition-colors flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> חיפוש ספקים נוספים</a></li>
-                        <li><button onclick="showVendorsList()" class="block hover:text-[color:var(--color-vanilla)] transition-colors text-left w-full flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> הספקים שלי ({{ vendors|length }})</button></li>
-                        <li><a href="#" onclick="alert('בקרוב - ניהול מוזמנים')" class="block hover:text-[color:var(--color-vanilla)] transition-colors flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> ניהול מוזמנים</a></li>
-                        <li><a href="#" onclick="alert('בקרוב - השראות ועיצוב')" class="block hover:text-[color:var(--color-vanilla)] transition-colors flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> השראות ועיצוב</a></li>
+                        <li><button onclick="document.getElementById('vendors-section').scrollIntoView({behavior: 'smooth'})" class="block hover:text-[color:var(--color-vanilla)] transition-colors text-left w-full flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> הספקים שלי ({{ vendors|length }})</button></li>
+                        <li><button onclick="document.getElementById('guests-section').scrollIntoView({behavior: 'smooth'})" class="block hover:text-[color:var(--color-vanilla)] transition-colors text-left w-full flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> ניהול מוזמנים ({{ guests|length }})</button></li>
                     </ul>
                 </div>
 
                 <!-- My Vendors Section -->
-                <div class="bg-white p-8 shadow-sm border border-gray-100">
+                <div id="vendors-section" class="bg-white p-8 shadow-sm border border-gray-100">
                     <h3 class="font-serif text-xl mb-6 text-[color:var(--color-espresso)]">הספקים שלי</h3>
                     {% if vendors %}
                     <div class="space-y-3">
                         {% for vendor in vendors %}
-                        <div class="flex justify-between items-center p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                        <div class="flex justify-between items-center p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors group">
                             <div class="flex-1">
                                 <p class="font-bold text-sm text-[color:var(--color-coffee)]">{{ vendor.vendor_name }}</p>
                                 <p class="text-xs text-gray-400 mt-1">{{ vendor.vendor_type }}</p>
                             </div>
-                            <div class="text-left">
-                                <p class="font-bold text-sm text-[color:var(--color-espresso)]">{{ vendor.vendor_price }} ₪</p>
+                            <div class="flex items-center gap-4">
+                                <div class="text-left">
+                                    <p class="font-bold text-sm text-[color:var(--color-espresso)]">{{ vendor.vendor_price }} ₪</p>
+                                </div>
+                                <button onclick="deleteVendor({{ vendor.id }})" class="text-gray-300 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-red-50" title="הסר ספק">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
                             </div>
                         </div>
                         {% endfor %}
@@ -194,6 +198,54 @@
                     </div>
                     {% endif %}
                 </div>
+
+                <!-- Guests Section -->
+                <div id="guests-section" class="bg-white p-8 shadow-sm border border-gray-100 mt-8">
+                    <div class="flex justify-between items-end mb-6">
+                        <div>
+                         <h3 class="font-serif text-xl text-[color:var(--color-espresso)]">רשימת מוזמנים</h3>
+                         <p class="text-xs text-gray-400 mt-1">נהל את רשימת המוזמנים וכמות ההזמנות</p>
+                        </div>
+                         <button onclick="openGuestModal()" class="text-sm bg-[color:var(--color-espresso)] text-white px-4 py-2 rounded hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            הוסף אורח
+                         </button>
+                    </div>
+
+                    {% if guests %}
+                        <div class="space-y-2">
+                            {% for guest in guests %}
+                            <div class="flex justify-between items-center p-4 bg-gray-50 rounded border border-gray-100/50 hover:border-gray-200 transition-colors">
+                                <div>
+                                    <p class="font-bold text-sm text-[color:var(--color-coffee)]">{{ guest.name }}</p>
+                                    <p class="text-xs text-gray-400">{{ guest.phone }}</p>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xs px-2.5 py-1 bg-white border border-gray-100 rounded-lg text-gray-600 font-medium">
+                                        {{ guest.invites_count }} מוזמנים
+                                    </span>
+                                    <button onclick="deleteGuest({{ guest.id }})" class="text-gray-300 hover:text-red-500 transition-colors p-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            {% endfor %}
+                             <div class="mt-6 pt-4 border-t border-dashed border-gray-200 flex justify-between items-center">
+                                <span class="text-sm font-semibold text-[color:var(--color-espresso)]">סה"כ מוזמנים לאירוע</span>
+                                <span class="text-xl font-serif text-[color:var(--color-espresso)]">
+                                    {{ guests|sum(attribute='invites_count') }}
+                                </span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-8 text-gray-400 bg-gray-50/50 rounded-lg border border-dashed border-gray-200">
+                             <svg class="mx-auto h-10 w-10 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            <p class="text-sm">רשימת המוזמנים ריקה</p>
+                            <button onclick="openGuestModal()" class="text-xs text-[color:var(--color-caramel)] hover:underline mt-1">התחל להוסיף אורחים</button>
+                        </div>
+                    {% endif %}
+                </div>
+
     </div>
 </div>
 
@@ -311,6 +363,58 @@
             <div class="flex gap-4 pt-4">
                 <button type="button" onclick="closeEditModal()" class="flex-1 py-4 border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors uppercase tracking-widest text-sm">ביטול</button>
                 <button type="submit" class="flex-1 py-4 bg-[color:var(--color-espresso)] text-white hover:opacity-90 transition-opacity uppercase tracking-widest text-sm">שמור שינויים</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add Guest Modal -->
+<div id="addGuestModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 backdrop-blur-sm">
+    <div class="bg-white p-8 max-w-md w-full mx-4 shadow-2xl">
+        <h3 class="font-serif text-2xl mb-6 text-[color:var(--color-espresso)]">הוספת אורחים</h3>
+        
+        <!-- Tabs -->
+        <div class="flex border-b border-gray-200 mb-6">
+            <button onclick="switchGuestTab('single')" id="tab-single" class="flex-1 py-3 text-sm font-bold text-[color:var(--color-espresso)] border-b-2 border-[color:var(--color-espresso)] transition-colors">יחיד</button>
+            <button onclick="switchGuestTab('bulk')" id="tab-bulk" class="flex-1 py-3 text-sm font-bold text-gray-400 hover:text-[color:var(--color-coffee)] transition-colors">רשימה</button>
+        </div>
+
+        <!-- Single Form -->
+        <form id="addGuestForm" class="space-y-4">
+            <div>
+                <label class="block text-sm font-bold text-gray-600 mb-2">שם מלא</label>
+                <input type="text" id="guestName" class="w-full p-3 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)]">
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-gray-600 mb-2">טלפון</label>
+                <input type="tel" id="guestPhone" class="w-full p-3 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)]">
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-gray-600 mb-2">כמות מוזמנים</label>
+                <input type="number" id="guestInvites" value="1" min="1" class="w-full p-3 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)]">
+            </div>
+            <div class="flex gap-4 pt-4">
+                <button type="button" onclick="closeGuestModal()" class="flex-1 py-3 border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors">ביטול</button>
+                <button type="submit" class="flex-1 py-3 bg-[color:var(--color-espresso)] text-white hover:opacity-90 transition-opacity">הוסף לרשימה</button>
+            </div>
+        </form>
+        
+        <!-- Bulk Form -->
+        <form id="addBulkGuestForm" class="space-y-4 hidden">
+            <div>
+                <label class="block text-sm font-bold text-gray-600 mb-2">הדבק רשימת שמות</label>
+                <p class="text-xs text-gray-400 mb-2">כל שם בשורה חדשה. ניתן להוסיף טלפון וכמות עם מקף (ישראל ישראלי - 0501234567 - 2)</p>
+                <textarea id="bulkGuestText" rows="6" class="w-full p-3 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)] font-mono text-sm" placeholder="משפחת כהן
+דני ורונית - 2
+יוסי - 0501234567"></textarea>
+            </div>
+             <div>
+                <label class="block text-sm font-bold text-gray-600 mb-2">כמות ברירת מחדל</label>
+                <input type="number" id="bulkDefaultInvites" value="1" min="1" class="w-full p-3 border border-gray-200 outline-none focus:border-[color:var(--color-espresso)]">
+            </div>
+            <div class="flex gap-4 pt-4">
+                <button type="button" onclick="closeGuestModal()" class="flex-1 py-3 border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors">ביטול</button>
+                <button type="submit" class="flex-1 py-3 bg-[color:var(--color-espresso)] text-white hover:opacity-90 transition-opacity">הוסף רשימה</button>
             </div>
         </form>
     </div>
@@ -467,11 +571,145 @@
         }
     }
 
+    // Vendor Functions
+    async function deleteVendor(vendorId) {
+        if (!confirm('האם אתה בטוח שברצונך להסיר ספק זה מהאירוע?')) return;
+        
+        try {
+            const response = await fetch(`/api/event/${eventId}/vendor/${vendorId}`, {
+                method: 'DELETE'
+            });
+            
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('שגיאה בהסרת הספק');
+            }
+        } catch (error) {
+            console.error('Error deleting vendor:', error);
+            alert('שגיאה בהסרת הספק');
+        }
+    }
+
+    // Guest Functions
+    function openGuestModal() {
+        document.getElementById('addGuestModal').classList.remove('hidden');
+        document.getElementById('addGuestModal').classList.add('flex');
+        switchGuestTab('single'); // Reset to single tab
+    }
+
+    function closeGuestModal() {
+        document.getElementById('addGuestModal').classList.add('hidden');
+        document.getElementById('addGuestModal').classList.remove('flex');
+        document.getElementById('addGuestForm').reset();
+        document.getElementById('addBulkGuestForm').reset();
+    }
+    
+    function switchGuestTab(tab) {
+        const singleForm = document.getElementById('addGuestForm');
+        const bulkForm = document.getElementById('addBulkGuestForm');
+        const singleTab = document.getElementById('tab-single');
+        const bulkTab = document.getElementById('tab-bulk');
+        
+        if (tab === 'single') {
+            singleForm.classList.remove('hidden');
+            bulkForm.classList.add('hidden');
+            
+            singleTab.classList.add('text-[color:var(--color-espresso)]', 'border-b-2', 'border-[color:var(--color-espresso)]');
+            singleTab.classList.remove('text-gray-400');
+            
+            bulkTab.classList.remove('text-[color:var(--color-espresso)]', 'border-b-2', 'border-[color:var(--color-espresso)]');
+            bulkTab.classList.add('text-gray-400');
+            document.getElementById('guestName').focus();
+        } else {
+            singleForm.classList.add('hidden');
+            bulkForm.classList.remove('hidden');
+            
+            bulkTab.classList.add('text-[color:var(--color-espresso)]', 'border-b-2', 'border-[color:var(--color-espresso)]');
+            bulkTab.classList.remove('text-gray-400');
+            
+            singleTab.classList.remove('text-[color:var(--color-espresso)]', 'border-b-2', 'border-[color:var(--color-espresso)]');
+            singleTab.classList.add('text-gray-400');
+            document.getElementById('bulkGuestText').focus();
+        }
+    }
+
+    document.getElementById('addBulkGuestForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const bulkData = {
+            text: document.getElementById('bulkGuestText').value,
+            default_invites: document.getElementById('bulkDefaultInvites').value
+        };
+        
+        try {
+            const response = await fetch(`/api/event/${eventId}/guests/batch`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bulkData)
+            });
+            
+            if (response.ok) {
+                location.reload();
+            } else {
+                const data = await response.json();
+                alert(data.message || 'שגיאה בהוספת הרשימה');
+            }
+        } catch (error) {
+            console.error('Error adding bulk guests:', error);
+            alert('שגיאה בהוספת הרשימה');
+        }
+    });
+
+    document.getElementById('addGuestForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const guestData = {
+            name: document.getElementById('guestName').value,
+            phone: document.getElementById('guestPhone').value,
+            invites_count: document.getElementById('guestInvites').value
+        };
+        
+        try {
+            const response = await fetch(`/api/event/${eventId}/guests`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(guestData)
+            });
+            
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('שגיאה בהוספת האורח');
+            }
+        } catch (error) {
+            console.error('Error adding guest:', error);
+            alert('שגיאה בהוספת האורח');
+        }
+    });
+
+    async function deleteGuest(guestId) {
+        if (!confirm('האם למחוק אורח זה מהרשימה?')) return;
+        
+        try {
+            const response = await fetch(`/api/event/${eventId}/guests/${guestId}`, {
+                method: 'DELETE'
+            });
+            
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('שגיאה במחיקת האורח');
+            }
+        } catch (error) {
+            console.error('Error deleting guest:', error);
+            alert('שגיאה במחיקת האורח');
+        }
+    }
+
     // Vendor List Display
     function showVendorsList() {
-        alert('רשימת הספקים מוצגת בצד ימין של הדף');
-        // Scroll to vendors section
-        const vendorsSection = document.querySelector('.bg-white.p-8.shadow-sm.border.border-gray-100:last-of-type');
+        const vendorsSection = document.getElementById('vendors-section');
         if (vendorsSection) {
             vendorsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             vendorsSection.classList.add('ring-4', 'ring-[color:var(--color-caramel)]', 'ring-opacity-50');

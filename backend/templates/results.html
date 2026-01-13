@@ -12,10 +12,15 @@
     </div>
 
     <!-- Cart Sidebar (Hidden by default) -->
+    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/50 z-40 hidden backdrop-blur-sm transition-opacity"></div>
     <div id="cart-sidebar" class="fixed inset-y-0 left-0 w-80 bg-white shadow-2xl transform -translate-x-full transition-transform duration-300 z-50 p-6 overflow-y-auto">
         <div class="flex justify-between items-center mb-8 border-b pb-4">
-            <h3 class="font-serif text-2xl">הסל שלי</h3>
-            <button onclick="toggleCart()" class="text-2xl">&times;</button>
+            <h3 class="font-serif text-2xl text-[color:var(--color-espresso)]">הסל שלי</h3>
+             <button onclick="toggleCart()" class="p-2 text-gray-400 hover:text-red-500 transition-colors rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
         </div>
         <div id="cart-items" class="space-y-4">
             <!-- Cart items will be injected here -->
@@ -584,10 +589,14 @@
 
     function toggleCart() {
         const sidebar = document.getElementById('cart-sidebar');
+        const overlay = document.getElementById('cart-overlay');
+        
         if (sidebar.classList.contains('-translate-x-full')) {
             sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
         } else {
             sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
         }
     }
 

@@ -1041,9 +1041,15 @@ def manage_event(event_id):
         (event_id,)
     ).fetchall()
     
+    # Get guests
+    guests = conn.execute(
+        'SELECT * FROM guests WHERE event_id = ? ORDER BY created_at DESC',
+        (event_id,)
+    ).fetchall()
+    
     # Calculate progress
     total_count = len(checklist_items)
-    completed_count = sum(1 for item in checklist_items if item['is_completed'])
+    checklist_completed = sum(1 for item in checklist_items if item['is_completed'])
     
     conn.close()
     
@@ -1051,10 +1057,173 @@ def manage_event(event_id):
                          event=event,
                          vendors=vendors,
                          checklist_items=checklist_items,
+                         guests=guests,
                          total_count=total_count,
-                         completed_count=completed_count)
+                         completed_count=checklist_completed)
 
-@app.route('/api/event/<int:event_id>', methods=['GET', 'PUT', 'DELETE'])
+# ==================== GUEST MANAGEMENT API ====================
+
+@app.route('/api/event/<int:event_id>/guests', methods=['GET', 'POST'])
+@login_required
+def manage_guests(event_id):
+    conn = get_db_connection()
+    
+    # Verify ownership
+    event = conn.execute('SELECT id FROM events WHERE id = ? AND user_id = ?',
+                        (event_id, current_user.id)).fetchone()
+    if not event:
+        conn.close()
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+
+    if request.method == 'GET':
+        guests = conn.execute('SELECT * FROM guests WHERE event_id = ?', (event_id,)).fetchall()
+        conn.close()
+        return jsonify({'success': True, 'guests': [dict(g) for g in guests]})
+
+    elif request.method == 'POST':
+        data = request.get_json()
+        name = data.get('name')
+        phone = data.get('phone', '')
+        invites = data.get('invites_count', 1)
+        
+        if not name:
+            conn.close()
+            return jsonify({'success': False, 'message': 'Name is required'}), 400
+            
+        try:
+            conn.execute(
+                'INSERT INTO guests (event_id, name, phone, invites_count) VALUES (?, ?, ?, ?)',
+                (event_id, name, phone, invites)
+            )
+            conn.commit()
+            guest_id = conn.execute('SELECT last_insert_rowid()').fetchone()[0]
+            conn.close()
+            return jsonify({'success': True, 'id': guest_id, 'message': 'Guest added successfully'})
+        except Exception as e:
+            conn.close()
+            return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/api/event/<int:event_id>/guests/batch', methods=['POST'])
+@login_required
+def batch_add_guests(event_id):
+    conn = get_db_connection()
+    
+    # Verify ownership
+    event = conn.execute('SELECT id FROM events WHERE id = ? AND user_id = ?',
+                        (event_id, current_user.id)).fetchone()
+    if not event:
+        conn.close()
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+
+    try:
+        data = request.get_json()
+        raw_text = data.get('text', '')
+        default_invites = int(data.get('default_invites', 1))
+        
+        added_count = 0
+        
+        # Split by lines
+        lines = raw_text.strip().split('\n')
+        
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+                
+            # Basic parsing: Try to extract name, phone, count
+            # Formats supported:
+            # "Name"
+            # "Name - 5" (5 invites)
+            # "Name - 0501234567"
+            # "Name - 0501234567 - 5"
+            
+            parts = [p.strip() for p in line.split('-')]
+            name = parts[0]
+            phone = ''
+            invites = default_invites
+            
+            if len(parts) > 1:
+                # Check if second part is number (invites) or phone
+                second = parts[1]
+                if second.isdigit() and len(second) < 5: # Likely invite count
+                    invites = int(second)
+                else:
+                    phone = second
+                    
+            if len(parts) > 2:
+                 # Check third part
+                 third = parts[2]
+                 if third.isdigit():
+                     invites = int(third)
+            
+            if name:
+                conn.execute(
+                    'INSERT INTO guests (event_id, name, phone, invites_count) VALUES (?, ?, ?, ?)',
+                    (event_id, name, phone, invites)
+                )
+                added_count += 1
+        
+        conn.commit()
+        conn.close()
+        return jsonify({'success': True, 'message': f'Successfully added {added_count} guests'})
+        
+    except Exception as e:
+        conn.close()
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/api/event/<int:event_id>/guests/<int:guest_id>', methods=['PUT', 'DELETE'])
+@login_required
+def manage_single_guest(event_id, guest_id):
+    conn = get_db_connection()
+    
+    # Verify ownership
+    event = conn.execute('SELECT id FROM events WHERE id = ? AND user_id = ?',
+                        (event_id, current_user.id)).fetchone()
+    if not event:
+        conn.close()
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+
+    if request.method == 'DELETE':
+        conn.execute('DELETE FROM guests WHERE id = ? AND event_id = ?', (guest_id, event_id))
+        conn.commit()
+        conn.close()
+        return jsonify({'success': True, 'message': 'Guest deleted'})
+
+    elif request.method == 'PUT':
+        data = request.get_json()
+        status = data.get('status')
+        
+        if status:
+            conn.execute('UPDATE guests SET status = ? WHERE id = ? AND event_id = ?', 
+                        (status, guest_id, event_id))
+        
+        conn.commit()
+        conn.close()
+        return jsonify({'success': True, 'message': 'Guest updated'})
+
+# ==================== VENDOR MANAGEMENT API ====================
+
+@app.route('/api/event/<int:event_id>/vendor/<int:item_id>', methods=['DELETE'])
+@login_required
+def delete_vendor(event_id, item_id):
+    conn = get_db_connection()
+    
+    # Verify ownership
+    event = conn.execute('SELECT id FROM events WHERE id = ? AND user_id = ?',
+                        (event_id, current_user.id)).fetchone()
+    if not event:
+        conn.close()
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+        
+    try:
+        conn.execute('DELETE FROM event_vendors WHERE id = ? AND event_id = ?', (item_id, event_id))
+        conn.commit()
+        conn.close()
+        return jsonify({'success': True, 'message': 'Vendor removed successfully'})
+    except Exception as e:
+        conn.close()
+        return jsonify({'success': False, 'message': str(e)}), 500
+
 @login_required
 def manage_event_api(event_id):
     """Get, update, or delete event"""
