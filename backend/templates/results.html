@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="min-h-screen bg-[#f4f1ea] py-20 relative">
-    
+
     <!-- Floating Cart Button -->
     <div id="cart-btn" class="fixed bottom-8 left-8 z-50 bg-[color:var(--color-black)] text-white p-4 rounded-full shadow-2xl cursor-pointer hover:scale-110 transition-transform" onclick="toggleCart()">
         <div class="relative">
@@ -47,11 +47,11 @@
                     <p class="text-xs text-gray-400 mt-1">מצא את הספקים המושלמים בקלות</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button onclick="toggleCompareMode()" id="compareBtn" 
+                    <button onclick="toggleCompareMode()" id="compareBtn"
                             class="px-4 py-2 border border-gray-300 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-gray-50 transition-colors">
                         <span class="hidden" id="compareIcon">⚖️</span> השוואה
                     </button>
-                    <button onclick="resetFilters()" 
+                    <button onclick="resetFilters()"
                             class="px-4 py-2 bg-red-50 text-red-600 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-red-100 transition-colors">
                         נקה הכל
                     </button>
@@ -64,7 +64,7 @@
                     <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wide">
                         🔍 חיפוש חכם
                     </label>
-                    <input type="text" id="searchInput" placeholder="הקלד לחיפוש..." 
+                    <input type="text" id="searchInput" placeholder="הקלד לחיפוש..."
                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[color:var(--color-espresso)] focus:ring-2 focus:ring-[color:var(--color-caramel)]/20 outline-none text-sm transition-all"
                            oninput="handleSmartSearch(this.value)" autocomplete="off">
                     <div id="searchSuggestions" class="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto z-50 hidden"></div>
@@ -76,7 +76,7 @@
                         📂 קטגוריות
                     </label>
                     <div class="relative">
-                        <button onclick="toggleCategoryDropdown()" 
+                        <button onclick="toggleCategoryDropdown()"
                                 class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-sm text-right hover:border-[color:var(--color-espresso)] transition-all flex justify-between items-center">
                             <span id="categorySelectedText" class="text-gray-500">בחר קטגוריות...</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -95,7 +95,7 @@
                         📍 ערים
                     </label>
                     <div class="relative">
-                        <button onclick="toggleCityDropdown()" 
+                        <button onclick="toggleCityDropdown()"
                                 class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-sm text-right hover:border-[color:var(--color-espresso)] transition-all flex justify-between items-center">
                             <span id="citySelectedText" class="text-gray-500">בחר ערים...</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,7 +116,7 @@
                     </label>
                     <div class="relative pt-1">
                         <input type="range" id="priceRange" min="0" max="20000" value="20000" step="500"
-                               class="w-full h-2 bg-gradient-to-r from-green-200 via-yellow-200 to-red-200 rounded-lg appearance-none cursor-pointer accent-[color:var(--color-espresso)]" 
+                               class="w-full h-2 bg-gradient-to-r from-green-200 via-yellow-200 to-red-200 rounded-lg appearance-none cursor-pointer accent-[color:var(--color-espresso)]"
                                oninput="updatePriceDisplay(); applyFilters()">
                         <div class="flex justify-between text-xs text-gray-400 mt-1">
                             <span>0 ₪</span>
@@ -187,15 +187,15 @@
         <div class="sticky top-[54px] z-40 bg-gradient-to-b from-[#f4f1ea] to-[#f4f1ea]/95 backdrop-blur-md py-2 mb-12 border-b border-gray-200/50 shadow-sm -mx-4 md:-mx-8 px-4 md:px-8">
             <div class="flex justify-center items-center gap-2 flex-wrap px-4 max-w-full overflow-x-auto pb-1">
                 <!-- All Categories Button -->
-                <button onclick="filterByCategory('all')" 
+                <button onclick="filterByCategory('all')"
                        class="category-filter-btn px-6 py-2 bg-gradient-to-r from-[color:var(--color-espresso)] to-[color:var(--color-coffee)] border-2 border-[color:var(--color-espresso)] rounded-full text-white font-bold text-xs uppercase tracking-wide whitespace-nowrap transition-all hover:shadow-lg active"
                        data-category="all">
                     הכל
                 </button>
-                
+
                 {% for category, items in results.items() %}
                     {% if items %}
-                    <button onclick="filterByCategory('{{ category }}')" 
+                    <button onclick="filterByCategory('{{ category }}')"
                        class="category-filter-btn px-6 py-2 bg-white border-2 border-gray-300 rounded-full text-[color:var(--color-espresso)] font-bold text-xs uppercase tracking-wide whitespace-nowrap transition-all hover:scale-105 hover:shadow-md hover:border-[color:var(--color-caramel)] hover:bg-[#faf7f2] hover:text-[color:var(--color-caramel)]"
                        data-category="{{ category }}">
                         {{ category }}
@@ -224,12 +224,12 @@
                              data-category="{{ category }}"
                              data-rating="{{ (3.5 + (loop.index % 15) * 0.1) | round(1) }}"
                              data-item='{"name":"{{ item.name }}", "price":{{ item.price }}, "description":"{{ item.description }}", "category":"{{ category }}"}'>
-                            
+
                             <!-- Compare Checkbox (hidden by default) -->
                             <div class="compare-checkbox hidden absolute top-4 left-4 z-10">
-                                <input type="checkbox" 
+                                <input type="checkbox"
                                        class="w-6 h-6 rounded border-2 border-white shadow-lg cursor-pointer accent-[color:var(--color-espresso)]"
-                                       onchange="toggleCompareItem(this, '{{ item.id }}'')">
+                                       onchange="toggleCompareItem(this, '{{ item.id }}')">
                             </div>
 
                             <!-- Favorite Heart Icon -->
@@ -242,7 +242,7 @@
 
                             <div class="relative h-72 overflow-hidden">
                                 <img src="{{ item.image }}" alt="{{ item.name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-                                
+
                                 <!-- Category Badge -->
                                 <div class="absolute bottom-4 right-4 bg-gradient-to-r from-[color:var(--color-espresso)] to-[color:var(--color-coffee)] backdrop-blur-sm px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-white shadow-lg">
                                     {{ item.category }}
@@ -254,7 +254,7 @@
                                     <span class="text-[color:var(--color-espresso)]">{{ (3.5 + (loop.index % 15) * 0.1) | round(1) }}</span>
                                 </div>
                             </div>
-                            
+
                             <div class="p-6">
                                 <h4 class="font-serif text-2xl mb-2 text-[color:var(--color-espresso)] group-hover:text-[color:var(--color-caramel)] transition-colors">
                                     {{ item.name }}
@@ -282,15 +282,15 @@
 
                                     <!-- Action Buttons -->
                                     <div class="grid grid-cols-2 gap-2">
-                                        <button onclick="viewDetails('{{ item.id }}', '{{ item.type }}')" 
+                                        <button onclick="viewDetails('{{ item.id }}', '{{ item.type }}')"
                                                 class="py-2.5 border-2 border-gray-200 text-gray-700 rounded-lg hover:border-[color:var(--color-espresso)] hover:bg-gray-50 transition-all text-xs font-bold uppercase tracking-wide">
                                             פרטים
                                         </button>
-                                        <button data-id="{{ item.id }}" 
-                                                data-type="{{ item.type }}" 
-                                                data-name="{{ item.name }}" 
+                                        <button data-id="{{ item.id }}"
+                                                data-type="{{ item.type }}"
+                                                data-name="{{ item.name }}"
                                                 data-price="{{ item.price }}"
-                                                onclick="addToCart(this.dataset.id, this.dataset.type, this.dataset.name, this.dataset.price, this)" 
+                                                onclick="addToCart(this.dataset.id, this.dataset.type, this.dataset.name, this.dataset.price, this)"
                                                 class="add-to-cart-btn py-2.5 bg-gradient-to-r from-[color:var(--color-espresso)] to-[color:var(--color-coffee)] text-white rounded-lg hover:shadow-lg hover:scale-105 transition-all text-xs font-bold uppercase tracking-wide">
                                             הוסף לסל
                                         </button>
@@ -308,52 +308,113 @@
 </div>
 
 <script>
-    // Cart Logic
+    // ============ GLOBAL STATE ============
     let cart = [];
-    let allItems = []; // Store all items for filtering
+    let compareMode = false;
+    let compareItems = [];
+    let selectedCategories = [];
+    let selectedCities = [];
+    let minRating = 0;
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    let activeQuickCategory = 'all';
 
-    // Initialize filters on page load
+    // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
-        fetchCart();
-        const firstBtn = document.querySelector('.category-btn');
-        if (firstBtn) {
-            firstBtn.classList.add('active-category');
-        }
-        
-        // Collect all items and populate filters
-        initializeFilters();
-        updatePriceDisplay();
-    });
+        console.log('🔵 Page loaded, initializing...');
 
-    function initializeFilters() {
-        // Collect all items from the page
-        const itemCards = document.querySelectorAll('[data-item]');
-        const cities = new Set();
-        
-        itemCards.forEach(card => {
-            const itemData = JSON.parse(card.getAttribute('data-item'));
-            allItems.push({
-                element: card.closest('.group'),
-                ...itemData
-            });
-            
-            // Extract city from description
-            const cityMatch = itemData.description.match(/^([^,\.]+)/);
-            if (cityMatch) {
-                cities.add(cityMatch[1].trim());
+        fetchCart();
+
+        // Initialize filters
+        updatePriceDisplay();
+        updateResultsCount();
+
+        // Initialize dropdowns with data
+        initializeCategoryDropdown();
+        initializeCityDropdown();
+
+        // Load favorites
+        favorites.forEach(favId => {
+            const card = document.querySelector(`.supplier-card[data-id="${favId}"]`);
+            if (card) {
+                const heart = card.querySelector('svg');
+                if (heart) {
+                    heart.classList.remove('text-gray-400');
+                    heart.classList.add('text-red-500');
+                }
             }
         });
-        
-        // Populate city filter
-        const cityFilter = document.getElementById('cityFilter');
-        Array.from(cities).sort().forEach(city => {
-            const option = document.createElement('option');
-            option.value = city;
-            option.textContent = city;
-            cityFilter.appendChild(option);
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#categoryDropdown') && !e.target.closest('[onclick*="toggleCategoryDropdown"]')) {
+                document.getElementById('categoryDropdown')?.classList.add('hidden');
+            }
+            if (!e.target.closest('#cityDropdown') && !e.target.closest('[onclick*="toggleCityDropdown"]')) {
+                document.getElementById('cityDropdown')?.classList.add('hidden');
+            }
+            if (!e.target.closest('#searchSuggestions') && !e.target.closest('#searchInput')) {
+                document.getElementById('searchSuggestions')?.classList.add('hidden');
+            }
         });
+
+        console.log('🔵 Initialization complete');
+    });
+
+    // ============ INITIALIZE DROPDOWNS ============
+    function initializeCategoryDropdown() {
+        const dropdown = document.getElementById('categoryDropdown');
+        if (!dropdown) return;
+
+        const categories = new Set();
+        document.querySelectorAll('.supplier-card').forEach(card => {
+            if (card.dataset.category) {
+                categories.add(card.dataset.category);
+            }
+        });
+
+        dropdown.innerHTML = Array.from(categories).sort().map(cat => `
+            <label class="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer">
+                <input type="checkbox" value="${cat}" onchange="toggleCategory('${cat}')"
+                       class="w-4 h-4 rounded border-gray-300 accent-[color:var(--color-espresso)]">
+                <span class="text-sm">${cat}</span>
+            </label>
+        `).join('');
+
+        console.log('🔵 Category dropdown initialized with', categories.size, 'categories');
     }
 
+    function initializeCityDropdown() {
+        const dropdown = document.getElementById('cityDropdown');
+        if (!dropdown) return;
+
+        const cities = new Set();
+        document.querySelectorAll('.supplier-card[data-item]').forEach(card => {
+            try {
+                const item = JSON.parse(card.getAttribute('data-item'));
+                const desc = item.description || '';
+                // Try to extract city from description
+                const match = desc.match(/([א-ת\s]+),/) || desc.match(/^([א-ת\s]+)/);
+                if (match) {
+                    const city = match[1].trim();
+                    if (city.length > 2 && city.length < 20) {
+                        cities.add(city);
+                    }
+                }
+            } catch(e) {}
+        });
+
+        dropdown.innerHTML = Array.from(cities).sort().map(city => `
+            <label class="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer">
+                <input type="checkbox" value="${city}" onchange="toggleCity('${city}')"
+                       class="w-4 h-4 rounded border-gray-300 accent-[color:var(--color-espresso)]">
+                <span class="text-sm">${city}</span>
+            </label>
+        `).join('');
+
+        console.log('🔵 City dropdown initialized with', cities.size, 'cities');
+    }
+
+    // ============ PRICE DISPLAY ============
     function updatePriceDisplay() {
         const priceRange = document.getElementById('priceRange');
         const display = document.getElementById('priceRangeDisplay');
@@ -364,7 +425,7 @@
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
         const maxPrice = parseInt(document.getElementById('priceRange').value);
         const sortBy = document.getElementById('sortBy').value;
-        
+
         console.log('🔵 Applying filters:', {
             search: searchTerm,
             categories: selectedCategories,
@@ -373,14 +434,14 @@
             minRating: minRating,
             sortBy: sortBy
         });
-        
+
         // Get all supplier cards
         const allCards = Array.from(document.querySelectorAll('.supplier-card'));
         let visibleCount = 0;
-        
+
         allCards.forEach(card => {
             let shouldShow = true;
-            
+
             // Search filter
             if (searchTerm) {
                 const name = card.dataset.name.toLowerCase();
@@ -389,14 +450,14 @@
                     shouldShow = false;
                 }
             }
-            
+
             // Category filter
             if (selectedCategories.length > 0) {
                 if (!selectedCategories.includes(card.dataset.category)) {
                     shouldShow = false;
                 }
             }
-            
+
             // City filter
             if (selectedCities.length > 0) {
                 try {
@@ -408,19 +469,19 @@
                     }
                 } catch(e) {}
             }
-            
+
             // Price filter
             const price = parseInt(card.dataset.price);
             if (price > maxPrice) {
                 shouldShow = false;
             }
-            
+
             // Rating filter
             const rating = parseFloat(card.dataset.rating);
             if (rating < minRating) {
                 shouldShow = false;
             }
-            
+
             // Show or hide card
             if (shouldShow) {
                 card.classList.remove('hidden');
@@ -431,7 +492,7 @@
                 card.style.display = 'none';
             }
         });
-        
+
         // Sort visible cards
         const visibleCards = allCards.filter(card => !card.classList.contains('hidden'));
         visibleCards.sort((a, b) => {
@@ -450,17 +511,17 @@
                     return 0;
             }
         });
-        
+
         // Reorder visible cards
         visibleCards.forEach((card, index) => {
             card.style.order = index;
         });
-        
+
         // Update results counter
         if (document.getElementById('resultsCount')) {
             document.getElementById('resultsCount').textContent = visibleCount;
         }
-        
+
         // Hide empty sections
         document.querySelectorAll('section[id]').forEach(section => {
             const visibleCards = section.querySelectorAll('.supplier-card:not(.hidden)');
@@ -470,14 +531,14 @@
                 section.style.display = 'block';
             }
         });
-        
+
         console.log('🔵 Visible cards:', visibleCount);
     }
 
     function updateActiveFiltersDisplay(search, city, price) {
         const container = document.getElementById('activeFilters');
         let html = '';
-        
+
         if (search) {
             html += `<span class="bg-[color:var(--color-black)] text-white px-3 py-1 rounded-full text-xs">חיפוש: ${search}</span>`;
         }
@@ -487,7 +548,7 @@
         if (price < 10000) {
             html += `<span class="bg-[color:var(--color-black)] text-white px-3 py-1 rounded-full text-xs">עד ${price.toLocaleString()} ₪</span>`;
         }
-        
+
         if (html) {
             container.innerHTML = html;
             container.classList.remove('hidden');
@@ -511,7 +572,7 @@
         // Remove existing count if any
         const existingCount = document.getElementById('results-count');
         if (existingCount) existingCount.remove();
-        
+
         // Add count below filters
         const filtersDiv = document.querySelector('.bg-white.rounded-lg.shadow-md');
         const countDiv = document.createElement('div');
@@ -519,31 +580,6 @@
         countDiv.className = 'text-center text-sm text-gray-600 mt-4 font-sans';
         countDiv.innerHTML = `מציג <strong>${filtered}</strong> מתוך <strong>${total}</strong> תוצאות`;
         filtersDiv.appendChild(countDiv);
-    }
-
-    function resetFilters() {
-        document.getElementById('searchInput').value = '';
-        document.getElementById('cityFilter').value = '';
-        document.getElementById('priceRange').value = 10000;
-        document.getElementById('sortBy').value = 'name-asc';
-        updatePriceDisplay();
-        
-        // Show all items
-        allItems.forEach(item => {
-            item.element.style.display = 'block';
-        });
-        
-        // Hide active filters
-        document.getElementById('activeFilters').classList.add('hidden');
-        
-        // Show all sections
-        document.querySelectorAll('section[id]').forEach(section => {
-            section.style.display = 'block';
-        });
-        
-        // Remove count
-        const countDiv = document.getElementById('results-count');
-        if (countDiv) countDiv.remove();
     }
 
     function toggleCart() {
@@ -557,12 +593,12 @@
 
     function updateCartUI() {
         console.log('🔵 Updating cart UI, cart items:', cart);
-        
+
         const container = document.getElementById('cart-items');
         const countBadge = document.getElementById('cart-count');
-        
+
         countBadge.innerText = cart.length;
-        
+
         if (cart.length === 0) {
             container.innerHTML = '<p class="text-gray-400 text-center">הסל ריק</p>';
             return;
@@ -581,21 +617,21 @@
                 </div>
             `;
         });
-        
+
         html += `
             <div class="mt-4 pt-4 border-t border-gray-200 flex justify-between font-bold">
                 <span>סה"כ:</span>
                 <span>${total} ₪</span>
             </div>
         `;
-        
+
         console.log('🔵 Cart HTML generated, total:', total);
         container.innerHTML = html;
     }
 
     function addToCart(id, type, name, price, btnElement) {
         console.log('🔵 Adding to cart:', {id, type, name, price});
-        
+
         fetch('/api/cart/add', {
             method: 'POST',
             headers: {
@@ -606,11 +642,11 @@
         .then(response => response.json())
         .then(data => {
             console.log('🔵 Server response:', data);
-            
+
             if (data.success) {
                 // Fetch fresh cart
                 fetchCart();
-                
+
                 // Show visual feedback on button
                 if (btnElement) {
                     const originalText = btnElement.innerText;
@@ -657,45 +693,45 @@
 
     async function saveEvent() {
         console.log('🔵 saveEvent called, cart:', cart);
-        
+
         // Check if user is logged in
         const authResponse = await fetch('/api/current_user');
         const authData = await authResponse.json();
         console.log('🔵 Auth data:', authData);
-        
+
         if (!authData.authenticated) {
             alert('אנא התחבר תחילה כדי לשמור אירוע');
             window.location.href = '/login';
             return;
         }
-        
+
         // Check if cart is not empty
         if (cart.length === 0) {
             alert('אנא בחר לפחות ספק אחד');
             return;
         }
-        
+
         console.log('🔵 Sending cart to server:', cart);
-        
+
         try {
             // Save the event with all cart items
             const response = await fetch('/api/save_cart_to_event', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    cart_items: cart 
+                body: JSON.stringify({
+                    cart_items: cart
                 })
             });
-            
+
             const data = await response.json();
             console.log('🔵 Server response:', data);
-            
+
             if (data.success) {
                 // Clear cart after successful save
                 await fetch('/api/cart/clear', { method: 'POST' });
                 cart = [];
                 updateCartUI();
-                
+
                 alert(data.message);
                 window.location.href = data.redirect || '/dashboard';
             } else {
@@ -719,58 +755,58 @@
 
     // ============ ADVANCED FEATURES ============
 
-    // Global state
-    let compareMode = false;
-    let compareItems = [];
-    let selectedCategories = [];
-    let selectedCities = [];
-    let minRating = 0;
-    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    let activeQuickCategory = 'all'; // For the top category buttons
-
     // Quick Category Filter (Top Buttons)
     function filterByCategory(category) {
         console.log('🔵 Quick filter by category:', category);
         activeQuickCategory = category;
-        
+
         // Update button styles
         document.querySelectorAll('.category-filter-btn').forEach(btn => {
             if (btn.dataset.category === category) {
                 btn.classList.remove('bg-white', 'border-gray-300', 'text-[color:var(--color-espresso)]');
-                btn.classList.add('bg-gradient-to-r', 'from-[color:var(--color-espresso)]', 'to-[color:var(--color-coffee)]', 'border-[color:var(--color-espresso)]', 'text-white', 'active');
+                btn.classList.add('bg-gradient-to-r', 'from-[color:var(--color-espresso)]', 'to-[color:var(--color-coffee)]', 'border-[color:var(--color-espresso)]', 'text-white');
             } else {
-                btn.classList.remove('bg-gradient-to-r', 'from-[color:var(--color-espresso)]', 'to-[color:var(--color-coffee)]', 'border-[color:var(--color-espresso)]', 'text-white', 'active');
+                btn.classList.remove('bg-gradient-to-r', 'from-[color:var(--color-espresso)]', 'to-[color:var(--color-coffee)]', 'border-[color:var(--color-espresso)]', 'text-white');
                 btn.classList.add('bg-white', 'border-gray-300', 'text-[color:var(--color-espresso)]');
             }
         });
-        
-        // Clear advanced category filter if using quick filter
+
+        // Update internal state and sync dropdown
         if (category !== 'all') {
             selectedCategories = [category];
-            updateCategoryText();
         } else {
             selectedCategories = [];
-            updateCategoryText();
         }
-        
+
+        syncCategoryDropdown();
+        updateCategoryText();
+
         // Apply filters
         applyFilters();
-        
+
         // Scroll to first visible card
         if (category !== 'all') {
             setTimeout(() => {
-                const firstVisible = document.querySelector(`.supplier-card[data-category="${category}"]:not(.hidden)`);
-                if (firstVisible) {
-                    firstVisible.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                const resultsSection = document.querySelector('.bg-white.rounded-xl.shadow-lg');
+                if (resultsSection) {
+                    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             }, 100);
         }
     }
 
+    // Sync dropdown checkboxes with selectedCategories state
+    function syncCategoryDropdown() {
+        const checkboxes = document.querySelectorAll('#categoryDropdown input[type="checkbox"]');
+        checkboxes.forEach(cb => {
+            cb.checked = selectedCategories.includes(cb.value);
+        });
+    }
+
     // Smart Search with Autocomplete
     function handleSmartSearch(query) {
         const suggestions = document.getElementById('searchSuggestions');
-        
+
         if (!query || query.length < 2) {
             suggestions.classList.add('hidden');
             applyFilters();
@@ -780,7 +816,7 @@
         // Get all items
         const allCards = document.querySelectorAll('.supplier-card');
         const matches = [];
-        
+
         allCards.forEach(card => {
             const name = card.dataset.name.toLowerCase();
             const category = card.dataset.category.toLowerCase();
@@ -818,23 +854,12 @@
     // Multi-Select Category Filter
     function toggleCategoryDropdown() {
         const dropdown = document.getElementById('categoryDropdown');
+        const cityDropdown = document.getElementById('cityDropdown');
+
+        // Close other dropdowns
+        cityDropdown?.classList.add('hidden');
+
         dropdown.classList.toggle('hidden');
-        
-        if (!dropdown.classList.contains('hidden') && dropdown.innerHTML.trim() === '') {
-            // Populate categories
-            const categories = new Set();
-            document.querySelectorAll('.supplier-card').forEach(card => {
-                categories.add(card.dataset.category);
-            });
-            
-            dropdown.innerHTML = Array.from(categories).map(cat => `
-                <label class="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer">
-                    <input type="checkbox" value="${cat}" onchange="toggleCategory('${cat}')"
-                           class="w-4 h-4 rounded border-gray-300 accent-[color:var(--color-espresso)]">
-                    <span class="text-sm">${cat}</span>
-                </label>
-            `).join('');
-        }
     }
 
     function toggleCategory(category) {
@@ -844,6 +869,27 @@
         } else {
             selectedCategories.push(category);
         }
+
+        // Sync top buttons
+        if (selectedCategories.length === 1) {
+            // Highlight specific category button if exists
+             const btn = document.querySelector(`.category-filter-btn[data-category="${selectedCategories[0]}"]`);
+             if (btn) {
+                 filterByCategory(selectedCategories[0]);
+                 return; // filterByCategory already handles applyFilters
+             }
+        } else if (selectedCategories.length === 0) {
+            // Reset to All
+            filterByCategory('all');
+            return;
+        } else {
+            // Multiple selected - uncheck all top buttons (except 'active' logic if we want a 'custom' state)
+             document.querySelectorAll('.category-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-gradient-to-r', 'from-[color:var(--color-espresso)]', 'to-[color:var(--color-coffee)]', 'border-[color:var(--color-espresso)]', 'text-white');
+                btn.classList.add('bg-white', 'border-gray-300', 'text-[color:var(--color-espresso)]');
+            });
+        }
+
         updateCategoryText();
         applyFilters();
     }
@@ -862,28 +908,12 @@
     // Multi-Select City Filter
     function toggleCityDropdown() {
         const dropdown = document.getElementById('cityDropdown');
+        const categoryDropdown = document.getElementById('categoryDropdown');
+
+        // Close other dropdowns
+        categoryDropdown?.classList.add('hidden');
+
         dropdown.classList.toggle('hidden');
-        
-        if (!dropdown.classList.contains('hidden') && dropdown.innerHTML.trim() === '') {
-            // Populate cities from data-item
-            const cities = new Set();
-            document.querySelectorAll('[data-item]').forEach(card => {
-                try {
-                    const item = JSON.parse(card.getAttribute('data-item'));
-                    const desc = item.description || '';
-                    const match = desc.match(/([א-ת\s]+),/);
-                    if (match) cities.add(match[1].trim());
-                } catch(e) {}
-            });
-            
-            dropdown.innerHTML = Array.from(cities).map(city => `
-                <label class="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer">
-                    <input type="checkbox" value="${city}" onchange="toggleCity('${city}')"
-                           class="w-4 h-4 rounded border-gray-300 accent-[color:var(--color-espresso)]">
-                    <span class="text-sm">${city}</span>
-                </label>
-            `).join('');
-        }
     }
 
     function toggleCity(city) {
@@ -926,7 +956,7 @@
         compareMode = !compareMode;
         const btn = document.getElementById('compareBtn');
         const checkboxes = document.querySelectorAll('.compare-checkbox');
-        
+
         if (compareMode) {
             btn.classList.add('bg-[color:var(--color-espresso)]', 'text-white');
             checkboxes.forEach(cb => cb.classList.remove('hidden'));
@@ -969,7 +999,7 @@
     function toggleFavorite(itemId, btn) {
         const index = favorites.indexOf(itemId);
         const heart = btn.querySelector('svg');
-        
+
         if (index > -1) {
             favorites.splice(index, 1);
             heart.classList.remove('text-red-500');
@@ -979,7 +1009,7 @@
             heart.classList.remove('text-gray-400');
             heart.classList.add('text-red-500');
         }
-        
+
         localStorage.setItem('favorites', JSON.stringify(favorites));
     }
 
@@ -994,19 +1024,19 @@
         document.getElementById('searchInput').value = '';
         document.getElementById('priceRange').value = 20000;
         document.getElementById('sortBy').value = 'recommended';
-        selectedCategories = [];
+
         selectedCities = [];
-        minRating = 0;
-        
-        updateCategoryText();
         updateCityText();
-        updatePriceDisplay();
-        
+
+        minRating = 0;
         document.querySelectorAll('.rating-btn').forEach(btn => {
             btn.classList.remove('bg-[color:var(--color-espresso)]', 'text-white', 'border-[color:var(--color-espresso)]');
         });
-        
-        applyFilters();
+
+        updatePriceDisplay();
+
+        // Reset categories using the main function to sync buttons and checkboxes
+        filterByCategory('all');
     }
 
     // Update Results Counter
@@ -1016,34 +1046,5 @@
             document.getElementById('resultsCount').textContent = visibleCards;
         }
     }
-
-    // Initialize favorites on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        favorites.forEach(favId => {
-            const card = document.querySelector(`[data-id="${favId}"]`);
-            if (card) {
-                const heart = card.querySelector('svg');
-                if (heart) {
-                    heart.classList.remove('text-gray-400');
-                    heart.classList.add('text-red-500');
-                }
-            }
-        });
-        
-        updateResultsCount();
-    });
-
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!event.target.closest('#categoryDropdown') && !event.target.closest('button[onclick="toggleCategoryDropdown()"]')) {
-            document.getElementById('categoryDropdown').classList.add('hidden');
-        }
-        if (!event.target.closest('#cityDropdown') && !event.target.closest('button[onclick="toggleCityDropdown()"]')) {
-            document.getElementById('cityDropdown').classList.add('hidden');
-        }
-        if (!event.target.closest('#searchSuggestions') && !event.target.closest('#searchInput')) {
-            document.getElementById('searchSuggestions').classList.add('hidden');
-        }
-    });
 </script>
 {% endblock %}
