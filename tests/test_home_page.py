@@ -6,6 +6,7 @@ import pytest
 from tests.pages import HomePage
 
 
+@pytest.mark.slow
 class TestHomePage:
     """Test cases for the home page"""
     

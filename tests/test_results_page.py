@@ -7,6 +7,7 @@ import time
 from tests.pages import ResultsPage
 
 
+@pytest.mark.slow
 class TestResultsPage:
     """Test cases for the results page"""
     
@@ -208,8 +209,9 @@ class TestResultsPage:
             print("ℹ️ Back to search link not found (optional)")
 
 
+@pytest.mark.slow
 class TestResultsFiltering:
-    """Test filtering functionality on results page"""
+    """Test cases for results filtering functionality"""
     
     def test_filter_form_submission(self, driver):
         """Test that filter form can be submitted"""

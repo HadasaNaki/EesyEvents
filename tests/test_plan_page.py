@@ -7,6 +7,7 @@ import time
 from tests.pages import PlanPage, ResultsPage
 
 
+@pytest.mark.slow
 class TestPlanPage:
     """Test cases for the event planning page"""
     
@@ -215,8 +216,9 @@ class TestPlanPage:
         print(f"✅ Found {len(containers)} responsive layout elements")
 
 
+@pytest.mark.slow
 class TestPlanPageInteractions:
-    """Test interactive elements on plan page"""
+    """Test cases for form interactions"""
     
     def test_guests_input_accepts_numbers(self, driver):
         """Test that guests input accepts numeric values"""

@@ -15,6 +15,7 @@ def generate_random_email():
     return f"test_{random_str}@example.com"
 
 
+@pytest.mark.slow
 class TestLogin:
     """Test cases for login functionality"""
     
@@ -87,6 +88,7 @@ class TestLogin:
             pytest.skip("No registration link on login page")
 
 
+@pytest.mark.slow
 class TestRegistration:
     """Test cases for registration functionality"""
     
@@ -192,8 +194,9 @@ class TestRegistration:
             print(f"ℹ️ Registration may have validation errors or user exists")
 
 
+@pytest.mark.slow
 class TestAuthenticationFlow:
-    """Test complete authentication flows"""
+    """Integration test for full auth flow"""
     
     def test_register_then_login(self, driver):
         """Test full flow: register new user then login"""
