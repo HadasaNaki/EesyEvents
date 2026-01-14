@@ -1,0 +1,32 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+.venv
+env/
+venv/
+venv_linux/
+
+# Tests & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+tests/screenshots/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Database (Don't copy local DB to container)
+database/*.db
+database/*.sqlite
