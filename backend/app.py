@@ -221,6 +221,19 @@ def init_db():
             FOREIGN KEY (event_id) REFERENCES events(id)
         )
     ''')
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS guests (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            event_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            phone TEXT,
+            email TEXT,
+            status TEXT DEFAULT 'pending',
+            notes TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (event_id) REFERENCES events(id)
+        )
+    ''')
     conn.commit()
     conn.close()
     print("✅ Database initialized successfully!")
