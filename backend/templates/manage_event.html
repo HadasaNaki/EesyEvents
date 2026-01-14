@@ -15,7 +15,7 @@
         <div class="relative h-[400px] mb-12 fade-in-up overflow-hidden group shadow-2xl">
             <!-- Background Image -->
             <img src="{% if event.event_type == 'wedding' %}https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop
-                      {% elif event.event_type == 'bar-mitzvah' %}https://images.unsplash.com/photo-1530103862676-de3c9a59af57?q=80&w=1600&auto=format&fit=crop
+                      {% elif event.event_type == 'bar-mitzvah' %}{{ url_for('static', filename='images/bar-mitzvah/bar-mitzvah1.jpg') }}
                       {% elif event.event_type == 'brit' %}https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=1600&auto=format&fit=crop
                       {% elif event.event_type == 'engagement' %}https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1600&auto=format&fit=crop
                       {% elif event.event_type == 'party' %}https://images.unsplash.com/photo-1519671482538-518b5c2bf1c6?q=80&w=1600&auto=format&fit=crop
