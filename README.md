@@ -19,6 +19,25 @@ The system centralizes all production stages in one place:
 ### 🎯 Project Goal
 To provide users with a simple, comfortable, and professional planning experience, while saving time and preventing errors. With a focus on **modern luxury design** and **seamless user experience**.
 
+## 🛠 DevOps & Infrastructure
+
+The project follows industry standard DevOps practices:
+
+### CI/CD
+* **GitHub Actions**: Runs unit tests, linting, and security checks on every push.
+* **Azure Pipelines**: Parallel CI pipeline for redundancy and Azure ecosystem integration.
+* **CodeQL**: Automated security scanning for vulnerability detection.
+* **Dependabot**: Automatically keeps dependencies up-to-date.
+
+### Quality Assurance
+* **Pre-commit Hooks**: Enforces formatting and linting before code is committed.
+* **Flake8**: Ensures code style compliance.
+* **Pytest**: Comprehensive test suite including Selenium UI tests.
+
+### Deployment & Local Dev
+* **Docker & Docker Compose**: Full environment containerization.
+* **Makefile**: Simple commands for common tasks (`make install`, `make test`, `make run`).
+
 ---
 
 ## 👥 Development Team
