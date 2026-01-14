@@ -25,11 +25,12 @@ class TestPlanPage:
         
         time.sleep(1)
         
-        # Look for event type cards
-        cards = driver.find_elements("css selector", ".event-type-card, .category-card, [data-type]")
+        # Look for event type radio inputs or images
+        # In plan.html: <input type="radio" name="event_type" ...>
+        inputs = driver.find_elements("css selector", "input[name='event_type']")
         
-        print(f"✅ Found {len(cards)} event type cards")
-        assert len(cards) > 0, "Should have event type selection cards"
+        print(f"✅ Found {len(inputs)} event type options")
+        assert len(inputs) > 0, "Should have event type selection inputs"
     
     def test_wedding_event_type_exists(self, driver):
         """Test that wedding event type option exists"""
@@ -39,14 +40,17 @@ class TestPlanPage:
         time.sleep(1)
         
         # Look for wedding option
-        wedding_elements = driver.find_elements("css selector", 
-            "[data-type='wedding'], [onclick*='wedding'], .event-card:contains('חתונה')")
+        # Using a safer CSS selector that doesn't rely on 'contains' which is not valid CSS
+        wedding_elements = driver.find_elements("css selector", "input[value='wedding']")
         
-        # Also check by text content
-        page_source = driver.page_source
-        has_wedding = "חתונה" in page_source or "wedding" in page_source.lower()
+        if not wedding_elements:
+             # Fallback: check page source text
+             page_source = driver.page_source
+             has_wedding = "חתונה" in page_source or "wedding" in page_source.lower()
+             assert has_wedding, "Wedding event type should be available"
+        else:
+             assert len(wedding_elements) > 0, "Wedding input should exist"
         
-        assert has_wedding, "Wedding event type should be available"
         print("✅ Wedding event type found")
     
     def test_bar_mitzvah_event_type_exists(self, driver):
@@ -56,10 +60,18 @@ class TestPlanPage:
         
         time.sleep(1)
         
-        page_source = driver.page_source
-        has_bar_mitzvah = "בר מצווה" in page_source or "bar_mitzvah" in page_source.lower()
+        # Check specific input value first
+        bm_input = driver.find_elements("css selector", "input[value='bar-mitzvah']")
         
-        assert has_bar_mitzvah, "Bar Mitzvah event type should be available"
+        if bm_input:
+             assert True
+        else:
+             # Check text coverage
+             page_source = driver.page_source
+             # Updated text to match actual HTML: "בר/בת מצווה"
+             has_bar_mitzvah = "בר/בת מצווה" in page_source or "bar-mitzvah" in page_source.lower()
+             assert has_bar_mitzvah, "Bar Mitzvah event type should be available"
+             
         print("✅ Bar Mitzvah event type found")
     
     def test_birthday_event_type_exists(self, driver):
@@ -95,17 +107,20 @@ class TestPlanPage:
         
         time.sleep(1)
         
-        # Find clickable event cards
-        cards = driver.find_elements("css selector", 
-            ".event-type-card, .category-card, [onclick], label[for]")
+        # Click the label containing the input, as the input itself is hidden
+        # Find the wedding input, then get its parent label
+        wedding_input = driver.find_element("css selector", "input[value='wedding']")
+        wedding_label = wedding_input.find_element("xpath", "./..")
         
-        if cards:
-            # Click first card
-            cards[0].click()
-            time.sleep(0.5)
-            print("✅ Event type card clicked")
-        else:
-            pytest.skip("No clickable event type cards found")
+        try:
+            wedding_label.click()
+            print("✅ Clicked wedding event type")
+            
+            # Verify it's selected
+            assert wedding_input.is_selected(), "Wedding option should be selected after click"
+            
+        except Exception as e:
+            pytest.fail(f"Failed to click event type: {str(e)}")
     
     def test_form_submission_redirects_to_results(self, driver):
         """Test that form submission redirects to results page"""
@@ -114,13 +129,48 @@ class TestPlanPage:
         
         time.sleep(1)
         
-        # Find and click an event type if available
-        event_cards = driver.find_elements("css selector", 
-            ".event-type-card, [data-type], [onclick*='select']")
+        # 1. Select Event Type (Wedding)
+        try:
+            wedding_input = driver.find_element("css selector", "input[value='wedding']")
+            wedding_label = wedding_input.find_element("xpath", "./..")
+            driver.execute_script("arguments[0].scrollIntoView(true);", wedding_label)
+            time.sleep(0.5)
+            wedding_label.click()
+        except:
+            print("Warning: Could not select wedding type, trying to proceed")
         
-        if event_cards:
-            event_cards[0].click()
-            time.sleep(0.3)
+        time.sleep(0.5)
+        
+        # 2. Fill Date
+        try:
+            date_input = driver.find_element("css selector", "input[name='date']")
+            date_input.send_keys("01-01-2027") # Future date
+        except:
+            pass # Maybe not required or visible
+            
+        # 3. Fill Guests
+        try:
+            guests_input = driver.find_element("css selector", "input[name='guests']")
+            guests_input.send_keys("300")
+        except:
+            pass
+        
+        # 4. Submit Form
+        submit_btn = driver.find_element("css selector", "button[type='submit']")
+        
+        # Scroll to button to avoid interception
+        driver.execute_script("arguments[0].scrollIntoView(true);", submit_btn)
+        time.sleep(1)
+        
+        # Click using JS to be safe
+        driver.execute_script("arguments[0].click();", submit_btn)
+        
+        # Wait for redirect
+        time.sleep(3)
+        
+        current_url = driver.current_url
+        assert "/results" in current_url or "/login" in current_url, f"Expected results/login URL, got {current_url}"
+        print("✅ Form submission redirected successfully")
         
         # Find and submit form
         submit_btns = driver.find_elements("css selector", 

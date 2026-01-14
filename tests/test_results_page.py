@@ -61,16 +61,41 @@ class TestResultsPage:
         assert supplier_count >= 0, "Supplier count should be non-negative"
     
     def test_filter_summary_is_visible(self, driver):
-        """Test that filter summary section is visible"""
+        """Test that filters section is visible"""
         results = ResultsPage(driver)
-        results.go_to_results(event_type="wedding")
+        results.go_to_results()
         
         time.sleep(1)
-        # Look for filter summary elements
-        filter_elements = driver.find_elements("css selector", ".filters-card, .filters-grid, .filter-item")
         
-        assert len(filter_elements) > 0, "Filter summary should be visible"
+        # Look for the filter section header "סינון מתקדם"
+        filter_header = driver.find_elements("xpath", "//h3[contains(text(), 'סינון מתקדם')]")
+        
+        assert len(filter_header) > 0, "Filter section header should be visible"
         print("✅ Filter summary section is visible")
+
+    def test_results_hero_section(self, driver):
+        """Test that results header/hero is displayed"""
+        results = ResultsPage(driver)
+        results.go_to_results(event_type="birthday")
+        
+        time.sleep(1)
+        
+        # Look for the main header "הבחירות שלך"
+        # Using CSS selector and text check instead of XPath for better reliability with Hebrew
+        hero_elements = driver.find_elements("css selector", "h2.font-serif")
+        
+        found = False
+        for h in hero_elements:
+            if "הבחירות שלך" in h.text:
+                found = True
+                break
+        
+        if not found:
+             # Fallback check in page source
+             found = "הבחירות שלך" in driver.page_source
+        
+        assert found, "Results page header should be visible"
+        print("✅ Results page header is displayed")
     
     def test_toggle_filters_panel(self, driver):
         """Test that filters panel can be toggled"""
