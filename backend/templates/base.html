@@ -288,8 +288,37 @@
                 <a href="/inspirations" class="nav-link whitespace-nowrap">השראה</a>
             </nav>
 
-            <!-- Mobile Menu Button (Placeholder) -->
-            <button class="md:hidden text-2xl flex-shrink-0">☰</button>
+            <!-- Mobile Menu Button -->
+            <button onclick="toggleMobileMenu()" class="md:hidden text-2xl flex-shrink-0 p-2 text-[color:var(--color-black)] hover:bg-gray-100 rounded-lg transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-white shadow-xl border-t border-gray-100 p-4 transition-all duration-300 ease-in-out">
+            <nav class="flex flex-col gap-4">
+                {% if current_user.is_authenticated %}
+                    <div class="border-b border-gray-100 pb-2 mb-2">
+                        <span class="block text-sm text-gray-500 mb-2">שלום, {{ current_user.first_name }}</span>
+                        <a href="/dashboard" class="block font-bold text-[color:var(--color-black)] py-2">האירועים שלי</a>
+                    </div>
+                {% endif %}
+                
+                <a href="/plan" class="block text-gray-700 hover:text-[color:var(--color-black)] py-2">תכנון אירוע</a>
+                <a href="/search" class="block text-gray-700 hover:text-[color:var(--color-black)] py-2">ספקים</a>
+                <a href="/inspirations" class="block text-gray-700 hover:text-[color:var(--color-black)] py-2">השראה</a>
+
+                <div class="border-t border-gray-100 pt-2 mt-2">
+                    {% if current_user.is_authenticated %}
+                        <button onclick="logout()" class="w-full text-right text-red-500 font-bold py-2">התנתק</button>
+                    {% else %}
+                        <a href="/login" class="block text-[color:var(--color-black)] font-bold py-2">התחברות</a>
+                        <a href="/register" class="block text-[color:var(--color-black)] py-2">הרשמה</a>
+                    {% endif %}
+                </div>
+            </nav>
         </div>
     </header>
 
@@ -338,6 +367,11 @@
     </footer>
 
     <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
         async function logout() {
             try {
                 const response = await fetch('/api/logout', { method: 'POST' });
