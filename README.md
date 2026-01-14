@@ -1,124 +1,175 @@
-# 🎉 EasyVents - Platform for Event Management & Production
+# EasyEvents - פלטפורמה לניהול והפקת אירועים
 
-[![GitHub](https://img.shields.io/badge/GitHub-EesyEvents-blue)](https://github.com/HadasaNaki/EesyEvents)
-[![Status](https://img.shields.io/badge/Status-Active%20Development-success)]()
-[![Tech Stack](https://img.shields.io/badge/Stack-Python%20Flask-blueviolet)]()
+[![GitHub Status](https://img.shields.io/badge/Status-Active%20Development-success?style=flat-square)]()
+[![Python Version](https://img.shields.io/badge/Python-3.12-blue?style=flat-square)]()
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)]()
 
-## 📖 Project Description
+## 📖 אודות הפרויקט
 
-**EasyVents** is a professional platform for planning and managing events - weddings, bar/bat mitzvahs, bachelorette parties, and business events.
+**EasyEvents** היא פלטפורמה מקצועית ומקיפה לתכנון וניהול אירועים - החל מחתונות ובר/בת מצווה ועד לאירועים עסקיים ומסיבות פרטיות.
+המערכת נבנתה מתוך הבנה שתכנון אירוע הוא תהליך מורכב, ומטרתה לרכז את כל שלבי ההפקה במקום אחד, תוך דגש על חווית משתמש יוקרתית, עיצוב מודרני וחסכון בזמן ומשאבים.
 
-The system centralizes all production stages in one place:
-- ✅ Budget planning
-- 👥 Vendor selection
-- 📋 Task management
-- 📧 Digital invitations
-- 📅 Scheduling and coordination
-- 🎨 Luxury event design features
-
-### 🎯 Project Goal
-To provide users with a simple, comfortable, and professional planning experience, while saving time and preventing errors. With a focus on **modern luxury design** and **seamless user experience**.
-
-## 🔄 תהליך ה-CI/CD והאוטומציה
-
-המערכת משתמשת בצינור פיתוח (Pipeline) חכם ואוטומטי המבוסס על **GitHub Actions**, שנועד להבטיח איכות קוד מקסימלית ופריסה בטוחה.
-
-### 🧠 אסטרטגית בדיקות חכמה (Smart Testing)
-כדי לייעל את קצב הפיתוח, חילקנו את הבדיקות לשני מסלולים:
-*   **⚡ Fast Track (יומיומי/Push):** מריץ אוטומטית בכל שינוי קוד (Push/PR). כולל בדיקות יחידה (Unit Tests), בדיקות אינטגרציה ולוגיקה. מדלג על בדיקות UI כבדות כדי לתת משוב מהיר למפתחים.
-*   **🐢 Full Suite (שבועי/Scheduled):** מריץ את *כל* הבדיקות, כולל סימולציות משתמש מלאות (Selenium E2E Test) על דפדפנים אמיתיים. רץ אוטומטית בסופי שבוע או בהפעלה ידנית לפני שחרור גרסה.
-
-### 🛡️ איכות קוד ובינה מלאכותית (Code Quality & Insights)
-הוספנו שכבת ניתוח מתקדמת (Non-blocking) המספקת תובנות לשיפור הקוד מבלי לעצור את הפיתוח:
-*   **Security Audit (Bandit):** סריקת אבטחה אוטומטית לזיהוי חולשות בקוד (כגון SQL Injection, סיסמאות קשיחות).
-*   **Complexity Check (Radon):** אלגוריתם המחשב את מורכבות הקוד (Cyclomatic Complexity) ומתריע על פונקציות מסובכות מדי שקשה לתחזק.
-*   **Maintainability Index:** ציון איכות לכל קובץ בפרויקט, שעוזר לנו לשמור על קוד נקי וקריא בטווח הארוך.
-
-### 🚀 תהליך הפריסה (Deployment Pipeline)
-תהליך ה-Deploy שלנו הוא אוטומטי לחלוטין:
-1.  **Linting & Style:** בדיקת תקני כתיבה (Flake8).
-2.  **Testing:** הרצת חבילת הבדיקות המתאימה (מהירה או מלאה).
-3.  **Containerization:** בניית Arifact מסוג Docker Image המכיל את כל האפליקציה מוכנה להרצה.
-4.  **Simulation:** סימולציית פריסה לסביבת Staging לוודא שהקונטיינר עולה בהצלחה.
+### מטרות המערכת
+*   יצירת חווית תכנון פשוטה ואינטואיטיבית.
+*   מניעת טעויות נפוצות בניהול תקציב וספקים.
+*   הנגשת כלים מקצועיים לקהל הרחב.
 
 ---
 
-## 👥 Development Team
+## ✨ פיצ'רים עיקריים
 
-- **Efrat Brinkman** - 215704883
-- **Hillel Uchana** - 327605234
-- **Hadasa Naki** - 327787628
+המערכת מספקת מעטפת מלאה למפיק האירוע:
 
-**Institution:** Lev Academic Center (JCT)
-**Start Date:** October 22, 2025
-
----
-
-## 🛠️ Tech Stack
-
-### Architecture: Python Flask (SSR)
-The application uses a robust **Flask** backend with server-side rendering:
-
-| Component | Technology | Version | Purpose |
-|-----------|-----------|---------|---------|
-| **Backend** | Python Flask | 3.1.2 | Web Server & API |
-| **Templating** | Jinja2 | Built-in | HTML Rendering |
-| **Styling** | Tailwind CSS | 3.4.1 | Modern responsive design (Pre-compiled) |
-| **Database** | SQLite | Built-in | User data & event management |
-| **Security** | Werkzeug | 3.1.3 | Secure authentication |
-| **CORS** | Flask-CORS | 6.0.1 | Cross-origin requests |
+1.  **ניהול תקציב חכם** - מעקב הוצאות בזמן אמת, הגדרת יעדים והתראות חריגה.
+2.  **איתור וניהול ספקים** - אינדקס ספקים רחב, השוואת מחירים וניהול התקשרויות.
+3.  **ניהול משימות (To-Do List)** - צ'ק-ליסט מובנה לפי שלבי ההפקה.
+4.  **הזמנות דיגיטליות** - יצירה ושליחה של הזמנות מעוצבות וניהול אישורי הגעה (RSVP).
+5.  **לוח שנה ויומן אירועים** - סנכרון פגישות עם ספקים וטעימות.
+6.  **עיצוב יוקרתי (UI/UX)** - ממשק Responsive המותאם לכל המכשירים עם דגש על עיצוב נקי ויוקרתי.
 
 ---
 
-## 📁 **מבנה הפרויקט - איפה כל דבר נמצא**
+## 🛠️ טכנולוגיות וארכיטקטורה
 
-```
+הפרויקט בנוי בארכיטקטורת Monolith מודרנית, תוך שימוש ב-Server Side Rendering (SSR) לביצועים מהירים ואבטחה מוגברת.
+
+| תחום | טכנולוגיה | גרסה | תיאור |
+|---|---|---|---|
+| **Backend** | Python Flask | 3.1.2 | שרת אפליקציה וניהול API |
+| **Frontend** | Jinja2 + HTML5 | - | מנוע תבניות לרינדור דינמי |
+| **Styling** | Tailwind CSS | 3.4.1 | פריימוורק CSS לעיצוב רספונסיבי |
+| **Database** | SQLite | 3.x | מסד נתונים רלציוני קל ומהיר |
+| **Testing** | Pytest + Selenium | 8.x | תשתית בדיקות אוטומטיות |
+| **Containerization** | Docker | Latest | אריזת המערכת לסביבות רצות |
+
+---
+
+## 🧪 אסטרטגיית בדיקות ואבטחת איכות
+
+אנו מאמינים בגישת "Quality First", ולכן הטמענו מערך בדיקות רב-שכבתי המבטיח יציבות מקסימלית.
+
+### סוגי הבדיקות במערכת
+*   **Unit Tests (בדיקות יחידה):** בדיקת פונקציות בודדות, לוגיקה עסקית וחישובי תקציב.
+*   **Integration Tests (בדיקות אינטגרציה):** בדיקת התקשורת בין רכיבי המערכת (למשל, Flask מול מסד הנתונים).
+*   **E2E / UI Tests (בדיקות קצה-לקצה):** סימולציה מלאה של משתמש באמצעות **Selenium WebDriver**. הבדיקות רצות על דפדפן אמיתי (Chrome/Headless) ובודקות תרחישים מורכבים כמו הרשמה, התחברות, וניהול הפקה.
+
+### ניתוח קוד מתקדם (AI & Code Insights)
+כחלק מתהליך הפיתוח, שילבנו כלים לניתוח סטטי ובינה מלאכותית:
+*   **Bandit:** סריקת אבטחה לזיהוי חולשות אבטחה בקוד Python.
+*   **Radon:** ניתוח מורכבות קוגניטיבית (Cognitive Complexity) ותחזוקתיות הקוד.
+*   **Flake8:** אכיפת סטנדרטים של כתיבת קוד (PEP8).
+
+---
+
+## 🔄 תהליך ה-CI/CD (אוטומציה)
+
+צינור הפיתוח (Pipeline) ב-GitHub Actions מנוהל בצורה חכמה כדי לאפשר פיתוח מהיר מבלי להתפשר על איכות.
+
+### 1. Fast Track (בכל דחיפת קוד)
+*   הרצת Flake8 לניקיון קוד.
+*   הרצת בדיקות יחידה ואינטגרציה (`Unit` + `Integration`).
+*   דילוג אוטומטי על בדיקות UI כבדות ("Slow Tests") כדי לא לעכב את המפתחים.
+*   קבלת משוב תוך דקות בודדות.
+
+### 2. Full Quality Suite (בלילה/סופ"ש/לפני שחרור)
+*   הרצת **כל** הבדיקות, כולל Selenium UI Tests.
+*   יצירת דוח HTML מפורט עם תוצאות הבדיקה.
+*   **Quality Insights:** הרצת בדיקות אבטחה ומורכבות (Bandit/Radon) ומתן דוח על "בריאות" הקוד.
+
+### 3. Deployment Simulation
+*   בניית **Docker Image** רשמי של הגרסה.
+*   הרצת הקונטיינר בסביבת בדיקות מבודדת לוודא שהגרסה תקינה לפריסה.
+
+---
+
+## 📁 מבנה הפרויקט
+
+```text
 easyevent/
-├── backend/
-│   ├── app.py                    # שרת Flask ראשי
-│   ├── templates/                # קבצי HTML
-│   │   ├── base.html             # תבנית בסיס
-│   │   ├── index.html            # דף הבית
-│   │   ├── login.html            # דף התחברות
-│   │   └── register.html         # דף הרשמה
-│   └── static/                   # קבצים סטטיים
-│       ├── css/                  # סגנונות
-│       ├── js/                   # סקריפטים
-│       └── images/               # תמונות
-├── database/
-│   └── easyevents.db             # מסד הנתונים
-└── README.md                     # קובץ זה
+├── backend/                  # ליבת המערכת (שרת)
+│   ├── app.py                # נקודת הכניסה (Entry Point) של אפליקציית Flask
+│   ├── image_manager.py      # לוגיקה לניהול ועיבוד תמונות
+│   ├── templates/            # קבצי HTML (Jinja2 Templates)
+│   │   ├── base.html         # תבנית בסיס (Layout)
+│   │   ├── index.html        # עמוד הבית
+│   │   ├── login.html        # עמוד התחברות
+│   │   ├── register.html     # עמוד הרשמה
+│   │   └── ...
+│   └── static/               # קבצים סטטיים (Client-Side)
+│       ├── css/              # קבצי עיצוב ו-Tailwind
+│       ├── js/               # קוד JavaScript לצד לקוח
+│       └── images/           # נכסים גרפיים
+├── database/                 # שכבת הנתונים
+│   └── easyevents.db         # קובץ מסד הנתונים (SQLite)
+├── tests/                    # חבילת הבדיקות
+│   ├── conftest.py           # הגדרות Pytest ו-Fixtures
+│   ├── pages.py              # מודל הדפים (Page Object Model) לבדיקות UI
+│   ├── test_authentication.py# בדיקות אימות והרשמה
+│   ├── test_basic.py         # בדיקות יחידה בסיסיות
+│   └── ...
+├── .github/workflows/        # הגדרות CI/CD
+│   └── ci.yml                # קובץ הקונפיגורציה של ה-Pipeline
+├── Dockerfile                # הוראות בניית הקונטיינר
+├── docker-compose.yml        # הרצת סביבה מלאה
+├── makefile                  # קיצורי דרך לפקודות נפוצות
+└── requirements.txt          # רשימת תלויות Python
 ```
 
 ---
 
-## 🚀 **איך להריץ את הפרויקט**
+## 🚀 מדריך התקנה והרצה
 
-### התקנה ראשונית:
+### דרישות מוקדמות
+*   Python 3.12 ומעלה
+*   Git
+
+### הרצה מקומית (Local Development)
+
+1.  **שכפול המאגר:**
+    ```bash
+    git clone https://github.com/HadasaNaki/EesyEvents.git
+    cd easyevent
+    ```
+
+2.  **יצירת סביבה וירטואלית:**
+    ```bash
+    python -m venv .venv
+    # Windows:
+    .venv\Scripts\activate
+    # Mac/Linux:
+    source .venv/bin/activate
+    ```
+
+3.  **התקנת תלויות:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **הרצת השרת:**
+    ```bash
+    python backend/app.py
+    ```
+    האתר יהיה זמין בכתובת: `http://localhost:5000`
+
+### הרצה באמצעות Docker (מומלץ לייצור)
+
 ```bash
-# התקן תלויות Python
-pip install -r requirements.txt
+# בניית התמונה והרצת הקונטיינר ברקע
+docker-compose up -d --build
 ```
-
-### הרצה:
-```bash
-# הרץ את השרת
-python backend/app.py
-```
-
-האתר יהיה זמין בכתובת: `http://localhost:5000`
 
 ---
 
-## 🎨 עיצוב וממשק משתמש
+## 👥 הצוות
 
-הפרויקט משתמש בעיצוב יוקרתי המבוסס על פלטת צבעים של בורדו, זהב ובז'.
-העיצוב מיושם באמצעות Tailwind CSS וכולל אנימציות CSS מותאמות אישית לחווית משתמש חלקה.
+פרויקט זה פותח במסגרת אקדמית במרכז האקדמי לב (JCT).
+
+*   **אפרת ברינקמן** - מפתחת Full Stack
+*   **הלל אוחנה** - מפתח Backend ו-DevOps
+*   **הדסה נקי** - מפתחת Frontend, ראש צוות ובדיקות
+
+**תאריך התחלה:** אוקטובר 2025
+**סטטוס:** בפיתוח פעיל
 
 ---
-
-## 🔒 אבטחה
-
-- **סיסמאות**: מוצפנות באמצעות `Werkzeug` (PBKDF2).
-- **אימות**: בדיקות תקינות בצד הלקוח ובצד השרת.
-- **SQL Injection**: שימוש בפרמטרים מוגנים בשאילתות.
+© כל הזכויות שמורות לצוות הפיתוח של EasyEvents.
