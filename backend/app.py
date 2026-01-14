@@ -1354,9 +1354,91 @@ def checklist_item_api(item_id):
     return jsonify({'success': True})
 
 def get_grouped_results():
-    """Helper to fetch and group all results"""
-    venues = Venue.query.all()
-    suppliers = Supplier.query.all()
+    """Helper to fetch and group filtered results"""
+    from sqlalchemy import or_
+
+    # Get filter params from request.args
+    args = request.args
+    
+    # Base Queries
+    venues_query = Venue.query
+    suppliers_query = Supplier.query
+
+    # --- Filtering Logic ---
+    
+    # 1. Region Filtering
+    # Handle comma-separated list or multiple args
+    region_arg = args.get('region')
+    if region_arg:
+        selected_regions = region_arg.split(',')
+        region_city_map = {
+            'north': ['חיפה', 'טבריה', 'עכו', 'צפת', 'נצרת', 'קרית שמונה'],
+            'sharon': ['נתניה', 'הרצליה', 'כפר סבא', 'רעננה', 'הוד השרון', 'רמת השרון'],
+            'center': ['תל אביב', 'רמת גן', 'גבעתיים', 'בני ברק', 'פתח תקווה', 'חולון', 'בת ים', 'ראשון לציון'],
+            'jerusalem': ['ירושלים', 'בית שמש', 'מבשרת ציון', 'מעלה אדומים'],
+            'south': ['באר שבע', 'אשדוד', 'אשקלון', 'אילת', 'דימונה']
+        }
+        allowed_cities = []
+        for r in selected_regions:
+            allowed_cities.extend(region_city_map.get(r, []))
+        
+        if allowed_cities:
+            venues_query = venues_query.filter(Venue.city.in_(allowed_cities))
+            suppliers_query = suppliers_query.filter(Supplier.city.in_(allowed_cities))
+
+    # 2. Venue Type Filtering (Venues only)
+    venue_type = args.get('venue_type')
+    if venue_type:
+        type_keywords = {
+            'hall': ['אולם'],
+            'garden': ['גן'],
+            'hotel': ['מלון'],
+            'synagogue': ['בית כנסת'],
+            'restaurant': ['מסעדה'],
+        }
+        keywords = type_keywords.get(venue_type)
+        if keywords:
+            venues_query = venues_query.filter(or_(*[Venue.name.like(f'%{k}%') for k in keywords]))
+
+    # 3. Style Filtering (Venues mostly)
+    style = args.get('style')
+    if style:
+        style_map = {
+            'luxury': 'יוקרתי',
+            'modern': 'מודרני',
+            'rustic': 'כפרי',
+            'vintage': 'וינטג',
+            'boho': 'בוהו',
+            'classic': 'קלאסי'
+        }
+        hebrew_style = style_map.get(style)
+        if hebrew_style:
+             venues_query = venues_query.filter(Venue.style.like(f'%{hebrew_style}%'))
+
+    # 4. Guest Capacity (Venues)
+    guests = args.get('guests', type=int)
+    if guests:
+         venues_query = venues_query.filter(Venue.capacity >= guests)
+
+    # 5. Budget Filtering (Venues) - Rough estimation
+    budget = args.get('budget')
+    if budget:
+        # Assuming Venue.price is total rental or base price.
+        # This logic is approximate as we don't have proper max/min price columns logic
+        budget_map = {
+            'low': 50000,
+            'medium': 100000,
+            'high': 200000,
+            'premium': 350000,
+            'luxury': 999999999
+        }
+        max_price = budget_map.get(budget)
+        if max_price:
+             venues_query = venues_query.filter(Venue.price <= max_price)
+
+    # Fetch Results
+    venues = venues_query.all()
+    suppliers = suppliers_query.all()
     
     grouped = {
         'אולמות וגנים': [],
