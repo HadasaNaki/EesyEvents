@@ -1,0 +1,60 @@
+# Azure DevOps Pipeline for Eesy Events
+# This pipeline builds the Python application, runs tests, and publishes artifacts.
+
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  python.version: '3.12'
+
+stages:
+- stage: Build
+  displayName: 'Build and Test Stage'
+  jobs:
+  - job: BuildJob
+    displayName: 'Build Job'
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(python.version)'
+      displayName: 'Use Python $(python.version)'
+
+    - script: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest selenium webdriver-manager
+      displayName: 'Install Dependencies'
+
+    - script: |
+        # Run unit tests
+        # Note: GUI/Selenium tests are skipped here to ensure pipeline stability in headless mode
+        # unless Xvfb/Headless Chrome is explicitly configured.
+        export PYTHONPATH=$PYTHONPATH:$(pwd)
+        pytest tests/test_basic.py --junitxml=test-results.xml
+      displayName: 'Run Unit Tests'
+
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFiles: '**/test-results.xml'
+        testRunTitle: 'Python $(python.version) Tests'
+      displayName: 'Publish Test Results'
+
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(Build.SourcesDirectory)'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        replaceExistingArchive: true
+      displayName: 'Archive Project Files'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+      displayName: 'Publish Artifact'
