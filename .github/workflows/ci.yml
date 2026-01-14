@@ -1,13 +1,19 @@
-name: EasyEvents CI
+name: EasyEvents CI/CD
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  # Run full suite every Sunday at 2 AM
+  schedule:
+    - cron: '0 2 * * 0'
+  # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   build-and-test:
+    name: Build & Test
     runs-on: ubuntu-latest
 
     steps:
@@ -26,19 +32,40 @@ jobs:
 
     - name: Lint with flake8
       run: |
-        # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-    - name: Test with pytest
+    - name: Run Tests
       env:
         PYTHONPATH: ${{ github.workspace }}
       run: |
-        # Run tests (excluding GUI tests that might need display, focusing on functional logic)
-        # Using xvfb-run in future if we want headless chrome testing in GitHub Actions
-        pytest tests/test_basic.py --junitxml=test-results.xml
+        # If triggered by schedule or manually, run ALL tests (including slow UI tests)
+        if [[ "${{ github.event_name }}" == "schedule" || "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          echo "Running Full Test Suite (Weekly/Manual)..."
+          # Run logic + UI tests (headless)
+          xvfb-run pytest --html=tests/report.html || pytest --html=tests/report.html
+        else
+          echo "Running Fast Test Suite (Daily)..."
+          # Skip tests marked as 'slow'
+          pytest -m "not slow" --html=tests/report.html
+        fi
 
-    - name: Build Docker image
+    - name: Build Docker Image
       run: |
-        docker build . --file Dockerfile --tag easyevent:$(date +%s)
+        echo "Building Docker container to ensure deployability..."
+        docker build . --file Dockerfile --tag easyevent:${{ github.sha }}
+        # In a real pipeline, we would push this to Docker Hub or Azure Container Registry
+        # docker push easyevent:${{ github.sha }}
+
+  deploy-simulation:
+    name: Simulate Deployment
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deploy to Staging
+        run: |
+          echo "Deploying to Staging Env..."
+          # Here we would have SSH commands or kubectl apply
+          echo "Deployment Success!"
