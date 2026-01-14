@@ -10,7 +10,8 @@ import os
 import json
 import http.client
 
-os.chdir('c:\\Users\\halle\\Downloads\\EHH\\EesyEvents')
+# Set working directory to project root
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 print("=" * 70)
 print("STARTING EASYEVENTS")

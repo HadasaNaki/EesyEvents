@@ -101,6 +101,14 @@ easyevent/
 │       └── images/           # נכסים גרפיים
 ├── database/                 # שכבת הנתונים
 │   └── easyevents.db         # קובץ מסד הנתונים (SQLite)
+├── docs/                     # תיעוד ומסמכי אפיון
+│   ├── ARCHITECTURE.md       # ארכיטקטורת המערכת
+│   ├── SETUP.md              # מדריך התקנה מלא
+│   └── ...
+├── scripts/                  # כלי תחזוקה וסקריפטים
+│   ├── check_server.py       # בדיקת תקינות השרת
+│   ├── view_users.py         # כלי לצפייה במשתמשים
+│   └── ...
 ├── tests/                    # חבילת הבדיקות
 │   ├── conftest.py           # הגדרות Pytest ו-Fixtures
 │   ├── pages.py              # מודל הדפים (Page Object Model) לבדיקות UI
