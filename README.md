@@ -168,6 +168,31 @@ docker-compose up -d --build
 
 ---
 
+## 🐞 ניטור ובדיקות (Testing & Debugging)
+
+כחלק משיפור חווית הפיתוח, המערכת כוללת אינטגרציה מלאה לניהול תקלות בבדיקות:
+
+1.  **צילומי מסך אוטומטיים:**
+    *   כאשר בדיקת UI נכשלת, המערכת מצלמת אוטומטית את המסך ברגע הכישלון.
+    *   התמונות נשמרות בתיקייה `tests/screenshots/` עם שם הבדיקה הרלוונטית (למשל `FAIL_test_login_error.png`).
+    *   מאפשר הבנה מיידית של הבעיה ללא צורך בניחושים.
+
+2.  **הרצה ברקע (Headless Mode):**
+    *   לפיתוח מהיר, ניתן להריץ את הבדיקות ללא פתיחת החלון הגרפי של הדפדפן.
+    *   פקודה (PowerShell):
+        ```powershell
+        $env:HEADLESS="true"; pytest
+        ```
+    *   פקודה (Bash/Linux):
+        ```bash
+        HEADLESS=true pytest
+        ```
+
+3.  **דוחות HTML:**
+    *   בסיום כל הרצה נוצר קובץ `tests/report.html` המכיל פירוט מלא של כל הבדיקות שעברו/נכשלו, זמני ריצה ולוגים מפורטים.
+
+---
+
 ## 👥 הצוות
 
 פרויקט זה פותח במסגרת אקדמית במרכז האקדמי לב (JCT).

@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import time
+import os
 
 # Base URL for the application
 BASE_URL = "http://localhost:5000"
@@ -30,6 +31,10 @@ def driver():
     
     # Hebrew support
     chrome_options.add_argument("--lang=he")
+
+    if os.environ.get("HEADLESS") == "true":
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-gpu")
     
     # Create driver
     service = Service(ChromeDriverManager().install())
@@ -52,6 +57,11 @@ def driver_module():
     chrome_options.add_argument("--start-maximized")
     chrome_options.add_argument("--lang=he")
     
+    if os.environ.get("HEADLESS") == "true":
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-gpu")
+    
+    # Create driver
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
     driver.implicitly_wait(10)
@@ -59,6 +69,15 @@ def driver_module():
     yield driver
     
     driver.quit()
+
+def pytest_collection_modifyitems(items):
+    """
+    Automatically mark tests as 'slow' if they use Selenium fixtures.
+    """
+    for item in items:
+        if "driver" in item.fixturenames or "driver_module" in item.fixturenames:
+            item.add_marker(pytest.mark.slow)
+            item.add_marker(pytest.mark.ui)
 
 
 class BasePage:
@@ -103,3 +122,35 @@ class BasePage:
     def take_screenshot(self, name):
         """Take a screenshot"""
         self.driver.save_screenshot(f"tests/screenshots/{name}.png")
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    # Execute all other hooks to obtain the report object
+    outcome = yield
+    rep = outcome.get_result()
+    
+    # Check if test failed
+    if rep.when == "call" and rep.failed:
+        
+        # Check if driver fixture is available
+        if "driver" in item.fixturenames:
+            driver = item.funcargs["driver"]
+            take_screenshot_on_fail(driver, item.name)
+        elif "driver_module" in item.fixturenames:
+            driver = item.funcargs["driver_module"]
+            take_screenshot_on_fail(driver, item.name)
+
+def take_screenshot_on_fail(driver, test_name):
+    # Clean test name for filename
+    valid_chars = "-_.() abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    safe_name = ''.join(c for c in test_name if c in valid_chars)
+    
+    screenshot_dir = os.path.join(os.path.dirname(__file__), "screenshots")
+    if not os.path.exists(screenshot_dir):
+        os.makedirs(screenshot_dir)
+        
+    filename = f"FAIL_{safe_name}.png"
+    filepath = os.path.join(screenshot_dir, filename)
+    driver.save_screenshot(filepath)
+    print(f"📸 Screenshot saved to {filepath}")
