@@ -10,7 +10,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import re
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
+import uuid
 from flask_sqlalchemy import SQLAlchemy
 import glob
 from image_manager import init_image_manager
@@ -858,6 +859,86 @@ def login_page():
 def register_page():
     """Serve the register page"""
     return render_template('register.html')
+
+@app.route('/forgot-password')
+def forgot_password_page():
+    return render_template('forgot_password.html')
+
+@app.route('/api/forgot-password', methods=['POST'])
+def forgot_password_api():
+    try:
+        data = request.json
+        email = data.get('email')
+        
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
+        
+        if not user:
+            conn.close()
+            return jsonify({'message': 'אם האימייל קיים במערכת, נשלח אליו קישור לאיפוס'}), 200
+            
+        token = str(uuid.uuid4())
+        expiry = (datetime.now() + timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S.%f')
+        
+        conn.execute('UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE id = ?', 
+                    (token, expiry, user['id']))
+        conn.commit()
+        conn.close()
+        
+        print(f"PASSWORD RESET LINK: http://localhost:5000/reset-password/{token}")
+        
+        return jsonify({'message': 'אם האימייל קיים במערכת, נשלח אליו קישור לאיפוס'}), 200
+    except Exception as e:
+        print(f"Error in forgot_password_api: {e}")
+        return jsonify({'message': 'שגיאה פנימית'}), 500
+
+@app.route('/reset-password/<token>')
+def reset_password_page(token):
+    conn = get_db_connection()
+    user = conn.execute('SELECT * FROM users WHERE reset_token = ?', (token,)).fetchone()
+    conn.close()
+    
+    if not user:
+        return render_template('login.html'), 400
+        
+    return render_template('reset_password.html', token=token)
+
+@app.route('/api/reset-password/<token>', methods=['POST'])
+def reset_password_api(token):
+    try:
+        data = request.json
+        password = data.get('password')
+        
+        if not password:
+            return jsonify({'message': 'חסרה סיסמה'}), 400
+
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM users WHERE reset_token = ?', (token,)).fetchone()
+        
+        if not user:
+            conn.close()
+            return jsonify({'message': 'קישור לא תקין או פג תוקף'}), 400
+            
+        reset_expiry_str = user['reset_token_expiry']
+        if reset_expiry_str:
+            try:
+                expiry = datetime.strptime(reset_expiry_str, '%Y-%m-%d %H:%M:%S.%f')
+                if datetime.now() > expiry:
+                    conn.close()
+                    return jsonify({'message': 'הקישור פג תוקף'}), 400
+            except ValueError:
+                 pass
+        
+        hashed = generate_password_hash(password)
+        conn.execute('UPDATE users SET password_hash = ?, reset_token = NULL, reset_token_expiry = NULL WHERE id = ?',
+                    (hashed, user['id']))
+        conn.commit()
+        conn.close()
+        
+        return jsonify({'message': 'הסיסמה שונתה בהצלחה'}), 200
+    except Exception as e:
+        print(f"Error in reset_password_api: {e}")
+        return jsonify({'message': 'שגיאה פנימית'}), 500
 
 @app.route('/plan')
 def plan_page():
