@@ -25,6 +25,11 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 DB_PATH = os.path.join(PROJECT_ROOT, 'database', 'easyevents.db')
 
+# Ensure database directory exists
+db_dir = os.path.dirname(DB_PATH)
+if not os.path.exists(db_dir):
+    os.makedirs(db_dir)
+
 # Use forward slashes for Windows compatibility in URI
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + DB_PATH.replace('\\', '/')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -135,9 +140,8 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login_page'
 
-# Database configuration
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATABASE = os.path.join(BASE_DIR, '..', 'database', 'easyevents.db')
+# Database configuration used by raw SQLite connections
+DATABASE = DB_PATH
 
 def get_db_connection():
     """Create a database connection with timeout to prevent locking"""
