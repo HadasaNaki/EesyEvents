@@ -57,6 +57,43 @@ jobs:
         # In a real pipeline, we would push this to Docker Hub or Azure Container Registry
         # docker push easyevent:${{ github.sha }}
 
+  quality-insights:
+    name: Quality & AI Insights
+    runs-on: ubuntu-latest
+    permissions:
+        contents: read
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install Analysis Tools
+        run: |
+          pip install bandit radon xenon
+
+      - name: Security Scan (Bandit)
+        continue-on-error: true
+        run: |
+          echo "🛡️ Running Security Analysis..."
+          # Recursive scan, showing only medium/high confidence issues
+          bandit -r backend/ -ll -ii
+
+      - name: Code Complexity (Radon)
+        continue-on-error: true
+        run: |
+          echo "🧠 Analyzing Cognitive Complexity..."
+          # Show everything with complexity > 5
+          radon cc backend/ -a -s
+          
+      - name: Maintainability Index
+        continue-on-error: true
+        run: |
+          echo "📉 Calculating Maintainability..."
+          radon mi backend/ -s
+
   deploy-simulation:
     name: Simulate Deployment
     needs: build-and-test

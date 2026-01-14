@@ -19,24 +19,27 @@ The system centralizes all production stages in one place:
 ### 🎯 Project Goal
 To provide users with a simple, comfortable, and professional planning experience, while saving time and preventing errors. With a focus on **modern luxury design** and **seamless user experience**.
 
-## 🛠 DevOps & Infrastructure
+## 🔄 תהליך ה-CI/CD והאוטומציה
 
-The project follows industry standard DevOps practices:
+המערכת משתמשת בצינור פיתוח (Pipeline) חכם ואוטומטי המבוסס על **GitHub Actions**, שנועד להבטיח איכות קוד מקסימלית ופריסה בטוחה.
 
-### CI/CD
-* **GitHub Actions**: Runs unit tests, linting, and security checks on every push.
-* **Azure Pipelines**: Parallel CI pipeline for redundancy and Azure ecosystem integration.
-* **CodeQL**: Automated security scanning for vulnerability detection.
-* **Dependabot**: Automatically keeps dependencies up-to-date.
+### 🧠 אסטרטגית בדיקות חכמה (Smart Testing)
+כדי לייעל את קצב הפיתוח, חילקנו את הבדיקות לשני מסלולים:
+*   **⚡ Fast Track (יומיומי/Push):** מריץ אוטומטית בכל שינוי קוד (Push/PR). כולל בדיקות יחידה (Unit Tests), בדיקות אינטגרציה ולוגיקה. מדלג על בדיקות UI כבדות כדי לתת משוב מהיר למפתחים.
+*   **🐢 Full Suite (שבועי/Scheduled):** מריץ את *כל* הבדיקות, כולל סימולציות משתמש מלאות (Selenium E2E Test) על דפדפנים אמיתיים. רץ אוטומטית בסופי שבוע או בהפעלה ידנית לפני שחרור גרסה.
 
-### Quality Assurance
-* **Pre-commit Hooks**: Enforces formatting and linting before code is committed.
-* **Flake8**: Ensures code style compliance.
-* **Pytest**: Comprehensive test suite including Selenium UI tests.
+### 🛡️ איכות קוד ובינה מלאכותית (Code Quality & Insights)
+הוספנו שכבת ניתוח מתקדמת (Non-blocking) המספקת תובנות לשיפור הקוד מבלי לעצור את הפיתוח:
+*   **Security Audit (Bandit):** סריקת אבטחה אוטומטית לזיהוי חולשות בקוד (כגון SQL Injection, סיסמאות קשיחות).
+*   **Complexity Check (Radon):** אלגוריתם המחשב את מורכבות הקוד (Cyclomatic Complexity) ומתריע על פונקציות מסובכות מדי שקשה לתחזק.
+*   **Maintainability Index:** ציון איכות לכל קובץ בפרויקט, שעוזר לנו לשמור על קוד נקי וקריא בטווח הארוך.
 
-### Deployment & Local Dev
-* **Docker & Docker Compose**: Full environment containerization.
-* **Makefile**: Simple commands for common tasks (`make install`, `make test`, `make run`).
+### 🚀 תהליך הפריסה (Deployment Pipeline)
+תהליך ה-Deploy שלנו הוא אוטומטי לחלוטין:
+1.  **Linting & Style:** בדיקת תקני כתיבה (Flake8).
+2.  **Testing:** הרצת חבילת הבדיקות המתאימה (מהירה או מלאה).
+3.  **Containerization:** בניית Arifact מסוג Docker Image המכיל את כל האפליקציה מוכנה להרצה.
+4.  **Simulation:** סימולציית פריסה לסביבת Staging לוודא שהקונטיינר עולה בהצלחה.
 
 ---
 
