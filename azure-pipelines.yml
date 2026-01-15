@@ -5,10 +5,11 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: 'Default'
 
 variables:
   python.version: '3.12'
+  HEADLESS: 'true'  # Enable headless mode for UI tests to run on CI
 
 stages:
 - stage: Build
@@ -35,12 +36,10 @@ stages:
       displayName: 'Run Linting (Flake8)'
 
     - script: |
-        # Run unit tests
-        # Note: GUI/Selenium tests are skipped here to ensure pipeline stability in headless mode
-        # unless Xvfb/Headless Chrome is explicitly configured.
+        # Run ALL tests (including GUI/Selenium tests in headless mode)
         export PYTHONPATH=$PYTHONPATH:$(pwd)
-        pytest tests/test_basic.py --junitxml=test-results.xml
-      displayName: 'Run Unit Tests'
+        pytest tests/ --junitxml=test-results.xml
+      displayName: 'Run All Tests (Headless)'
 
     - task: PublishTestResults@2
       condition: succeededOrFailed()
