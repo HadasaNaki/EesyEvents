@@ -153,4 +153,4 @@ def take_screenshot_on_fail(driver, test_name):
     filename = f"FAIL_{safe_name}.png"
     filepath = os.path.join(screenshot_dir, filename)
     driver.save_screenshot(filepath)
-    print(f"📸 Screenshot saved to {filepath}")
+    print(f"[SCREENSHOT] Saved to {filepath}")
