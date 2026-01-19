@@ -1,0 +1,65 @@
+# Azure DevOps Pipeline for Eesy Events
+# This pipeline builds the Python application, runs tests, and publishes artifacts.
+
+trigger:
+- main
+
+pool:
+  name: 'Default'
+
+variables:
+  python.version: '3.12'
+  HEADLESS: 'true'  # Enable headless mode for UI tests to run on CI
+
+stages:
+- stage: Build
+  displayName: 'Build and Test Stage'
+  jobs:
+  - job: BuildJob
+    displayName: 'Build Job'
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(python.version)'
+      displayName: 'Use Python $(python.version)'
+
+    - script: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-html selenium webdriver-manager flake8
+      displayName: 'Install Dependencies'
+
+    - script: |
+        # Run linting checks
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      displayName: 'Run Linting (Flake8)'
+
+    - script: |
+        # Run ALL tests (including GUI/Selenium tests in headless mode)
+        export PYTHONPATH=$PYTHONPATH:$(pwd)
+        pytest tests/ --junitxml=test-results.xml
+      displayName: 'Run All Tests (Headless)'
+
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFiles: '**/test-results.xml'
+        testRunTitle: 'Python $(python.version) Tests'
+      displayName: 'Publish Test Results'
+
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(Build.SourcesDirectory)'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        replaceExistingArchive: true
+      displayName: 'Archive Project Files'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+      displayName: 'Publish Artifact'
