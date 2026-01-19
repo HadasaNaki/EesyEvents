@@ -29,18 +29,81 @@ stages:
         pip install pytest pytest-html selenium webdriver-manager flake8
       displayName: 'Install Dependencies'
 
-    - script: |
+    - powershell: |
         # Run linting checks
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       displayName: 'Run Linting (Flake8)'
 
-    - script: |
+    - powershell: |
+        Write-Host "Starting Flask Server in Background..."
+        $process = Start-Process -FilePath "python" -ArgumentList "backend/app.py" -PassThru
+        Write-Host "Server started with PID: $($process.Id)"
+        Write-Host "##vso[task.setvariable variable=FLASK_PID]$($process.Id)"
+        Start-Sleep -Seconds 10
+      displayName: 'Start Background Server'
+
+    - powershell: |
+        Write-Host "Waiting for server to initialize..."
+        Start-Sleep -Seconds 5
+        try {
+            # Just check if server is up, data is seeded automatically on startup
+            $response = Invoke-RestMethod -Uri "http://localhost:5000/api/images/manifest" -Method GET
+            Write-Host "Server is up and running!"
+        } catch {
+            Write-Warning "Server check failed: $_"
+            # Don't fail the build here, let the tests decide
+        }
+      displayName: 'Check Server Status'
+
+    - powershell: |
         # Run ALL tests (including GUI/Selenium tests in headless mode)
         # Using python -m pytest adds current directory to sys.path automatically, avoiding cross-platform 'export' issues
         # -p no:cacheprovider prevents creation of .pytest_cache which causes permission issues on Windows agents
         python -m pytest -p no:cacheprovider tests/ --junitxml=test-results.xml
       displayName: 'Run All Tests (Headless)'
+
+    - powershell: |
+        Write-Host "Stopping Flask Server (PID: $(FLASK_PID))..."
+        
+        # Use taskkill to kill the process tree (/T) vigorously (/F). 
+        # This ensures any child processes (like Flask reloader) are also killed.
+        taskkill /F /T /PID $(FLASK_PID)
+        
+        # Failsafe: kill any remaining python processes to ensure file handles are released
+        Write-Host "Ensuring all Python processes are stopped..."
+        taskkill /F /IM python.exe /T 2>$null
+        
+        Write-Host "Forcing cleanup of database and temporary files..."
+        
+        # Give a moment for file handles to release
+        Start-Sleep -Seconds 3
+        
+        # Retry loop to robustly delete database files
+        $filesToDelete = @("database/easyevents.db", "database/easyevents.db-shm", "database/easyevents.db-wal")
+        foreach ($file in $filesToDelete) {
+            if (Test-Path $file) {
+                Write-Host "Removing $file..."
+                for ($i = 0; $i -lt 5; $i++) {
+                    try {
+                        Remove-Item $file -Force -ErrorAction Stop
+                        Write-Host "Deleted $file"
+                        break
+                    } catch {
+                        Write-Host "File locked. Waiting... ($($i+1)/5)"
+                        Start-Sleep -Seconds 2
+                    }
+                }
+            }
+        }
+        
+        # Clean up pycache
+        Get-ChildItem -Path . -Include "__pycache__" -Recurse -Directory | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
+        
+        # Exit cleanly
+        exit 0
+      condition: always()
+      displayName: 'Stop Server and Cleanup'
 
     - task: PublishTestResults@2
       condition: succeededOrFailed()
@@ -50,12 +113,14 @@ stages:
       displayName: 'Publish Test Results'
 
     - task: ArchiveFiles@2
+      condition: succeeded()
       inputs:
         rootFolderOrFile: '$(Build.SourcesDirectory)'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
         replaceExistingArchive: true
+        verbose: true # Get more details if it fails
       displayName: 'Archive Project Files'
 
     - task: PublishBuildArtifacts@1

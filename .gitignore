@@ -44,3 +44,7 @@ test-results.xml
 *.sqlite3
 *.db-wal
 *.db-shm
+
+# Test Reports
+tests/report.html
+tests/screenshots/
