@@ -1,0 +1,34 @@
+# Azure DevOps Mini Pipeline for Eesy Events
+# Purpose: Quick code validation and basic unit tests (No UI/Selenium)
+
+trigger:
+- none # Manual trigger or configure as needed
+
+pool:
+  name: 'Default' # Runs on your local agent
+
+steps:
+- script: |
+    python --version
+    python -m pip install --upgrade pip
+    python -m pip install flask pytest flake8
+  displayName: 'Install Dependencies'
+
+- script: |
+    # Run linting checks (Code Quality)
+    # Stop the build if there are Python syntax errors or undefined names
+    flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+  displayName: 'Code Quality Check'
+
+- script: |
+    # Run ONLY basic unit tests (skipping Selenium UI tests)
+    # This ensures the server logic works without launching a browser
+    python -m pytest -p no:cacheprovider tests/test_basic.py --junitxml=test-results-basic.xml
+  displayName: 'Run Basic Unit Tests'
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFiles: '**/test-results-basic.xml'
+    testRunTitle: 'Basic Unit Tests'
+  displayName: 'Publish Results'
