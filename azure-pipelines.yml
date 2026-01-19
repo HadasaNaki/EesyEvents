@@ -37,8 +37,9 @@ stages:
 
     - script: |
         # Run ALL tests (including GUI/Selenium tests in headless mode)
-        export PYTHONPATH=$PYTHONPATH:$(pwd)
-        pytest tests/ --junitxml=test-results.xml
+        # Using python -m pytest adds current directory to sys.path automatically, avoiding cross-platform 'export' issues
+        # -p no:cacheprovider prevents creation of .pytest_cache which causes permission issues on Windows agents
+        python -m pytest -p no:cacheprovider tests/ --junitxml=test-results.xml
       displayName: 'Run All Tests (Headless)'
 
     - task: PublishTestResults@2

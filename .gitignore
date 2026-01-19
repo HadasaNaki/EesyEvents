@@ -28,6 +28,12 @@ Thumbs.db
 # Logs
 *.log
 
+# Unit Test / Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+test-results.xml
+
 # Temporary files
 *.tmp
 *.swp
