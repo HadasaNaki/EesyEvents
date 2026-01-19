@@ -18,10 +18,10 @@ stages:
   - job: BuildJob
     displayName: 'Build Job'
     steps:
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '$(python.version)'
-      displayName: 'Use Python $(python.version)'
+    - script: |
+        python --version
+        python -m pip install --upgrade pip
+      displayName: 'Check Python Version'
 
     - script: |
         python -m pip install --upgrade pip
