@@ -36,7 +36,5 @@ Thumbs.db
 *.db
 *.sqlite
 *.sqlite3
-
-# Python cache
-__pycache__/
-*.pyc
+*.db-wal
+*.db-shm

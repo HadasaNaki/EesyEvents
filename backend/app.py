@@ -10,7 +10,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import re
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
+import uuid
 from flask_sqlalchemy import SQLAlchemy
 import glob
 from image_manager import init_image_manager
@@ -872,6 +873,86 @@ def register_page():
     """Serve the register page"""
     return render_template('register.html')
 
+@app.route('/forgot-password')
+def forgot_password_page():
+    return render_template('forgot_password.html')
+
+@app.route('/api/forgot-password', methods=['POST'])
+def forgot_password_api():
+    try:
+        data = request.json
+        email = data.get('email')
+        
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
+        
+        if not user:
+            conn.close()
+            return jsonify({'message': 'אם האימייל קיים במערכת, נשלח אליו קישור לאיפוס'}), 200
+            
+        token = str(uuid.uuid4())
+        expiry = (datetime.now() + timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S.%f')
+        
+        conn.execute('UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE id = ?', 
+                    (token, expiry, user['id']))
+        conn.commit()
+        conn.close()
+        
+        print(f"PASSWORD RESET LINK: http://localhost:5000/reset-password/{token}")
+        
+        return jsonify({'message': 'אם האימייל קיים במערכת, נשלח אליו קישור לאיפוס'}), 200
+    except Exception as e:
+        print(f"Error in forgot_password_api: {e}")
+        return jsonify({'message': 'שגיאה פנימית'}), 500
+
+@app.route('/reset-password/<token>')
+def reset_password_page(token):
+    conn = get_db_connection()
+    user = conn.execute('SELECT * FROM users WHERE reset_token = ?', (token,)).fetchone()
+    conn.close()
+    
+    if not user:
+        return render_template('login.html'), 400
+        
+    return render_template('reset_password.html', token=token)
+
+@app.route('/api/reset-password/<token>', methods=['POST'])
+def reset_password_api(token):
+    try:
+        data = request.json
+        password = data.get('password')
+        
+        if not password:
+            return jsonify({'message': 'חסרה סיסמה'}), 400
+
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM users WHERE reset_token = ?', (token,)).fetchone()
+        
+        if not user:
+            conn.close()
+            return jsonify({'message': 'קישור לא תקין או פג תוקף'}), 400
+            
+        reset_expiry_str = user['reset_token_expiry']
+        if reset_expiry_str:
+            try:
+                expiry = datetime.strptime(reset_expiry_str, '%Y-%m-%d %H:%M:%S.%f')
+                if datetime.now() > expiry:
+                    conn.close()
+                    return jsonify({'message': 'הקישור פג תוקף'}), 400
+            except ValueError:
+                 pass
+        
+        hashed = generate_password_hash(password)
+        conn.execute('UPDATE users SET password_hash = ?, reset_token = NULL, reset_token_expiry = NULL WHERE id = ?',
+                    (hashed, user['id']))
+        conn.commit()
+        conn.close()
+        
+        return jsonify({'message': 'הסיסמה שונתה בהצלחה'}), 200
+    except Exception as e:
+        print(f"Error in reset_password_api: {e}")
+        return jsonify({'message': 'שגיאה פנימית'}), 500
+
 @app.route('/plan')
 def plan_page():
     """Serve the event planning/filtering page"""
@@ -1367,9 +1448,91 @@ def checklist_item_api(item_id):
     return jsonify({'success': True})
 
 def get_grouped_results():
-    """Helper to fetch and group all results"""
-    venues = Venue.query.all()
-    suppliers = Supplier.query.all()
+    """Helper to fetch and group filtered results"""
+    from sqlalchemy import or_
+
+    # Get filter params from request.args
+    args = request.args
+    
+    # Base Queries
+    venues_query = Venue.query
+    suppliers_query = Supplier.query
+
+    # --- Filtering Logic ---
+    
+    # 1. Region Filtering
+    # Handle comma-separated list or multiple args
+    region_arg = args.get('region')
+    if region_arg:
+        selected_regions = region_arg.split(',')
+        region_city_map = {
+            'north': ['חיפה', 'טבריה', 'עכו', 'צפת', 'נצרת', 'קרית שמונה'],
+            'sharon': ['נתניה', 'הרצליה', 'כפר סבא', 'רעננה', 'הוד השרון', 'רמת השרון'],
+            'center': ['תל אביב', 'רמת גן', 'גבעתיים', 'בני ברק', 'פתח תקווה', 'חולון', 'בת ים', 'ראשון לציון'],
+            'jerusalem': ['ירושלים', 'בית שמש', 'מבשרת ציון', 'מעלה אדומים'],
+            'south': ['באר שבע', 'אשדוד', 'אשקלון', 'אילת', 'דימונה']
+        }
+        allowed_cities = []
+        for r in selected_regions:
+            allowed_cities.extend(region_city_map.get(r, []))
+        
+        if allowed_cities:
+            venues_query = venues_query.filter(Venue.city.in_(allowed_cities))
+            suppliers_query = suppliers_query.filter(Supplier.city.in_(allowed_cities))
+
+    # 2. Venue Type Filtering (Venues only)
+    venue_type = args.get('venue_type')
+    if venue_type:
+        type_keywords = {
+            'hall': ['אולם'],
+            'garden': ['גן'],
+            'hotel': ['מלון'],
+            'synagogue': ['בית כנסת'],
+            'restaurant': ['מסעדה'],
+        }
+        keywords = type_keywords.get(venue_type)
+        if keywords:
+            venues_query = venues_query.filter(or_(*[Venue.name.like(f'%{k}%') for k in keywords]))
+
+    # 3. Style Filtering (Venues mostly)
+    style = args.get('style')
+    if style:
+        style_map = {
+            'luxury': 'יוקרתי',
+            'modern': 'מודרני',
+            'rustic': 'כפרי',
+            'vintage': 'וינטג',
+            'boho': 'בוהו',
+            'classic': 'קלאסי'
+        }
+        hebrew_style = style_map.get(style)
+        if hebrew_style:
+             venues_query = venues_query.filter(Venue.style.like(f'%{hebrew_style}%'))
+
+    # 4. Guest Capacity (Venues)
+    guests = args.get('guests', type=int)
+    if guests:
+         venues_query = venues_query.filter(Venue.capacity >= guests)
+
+    # 5. Budget Filtering (Venues) - Rough estimation
+    budget = args.get('budget')
+    if budget:
+        # Assuming Venue.price is total rental or base price.
+        # This logic is approximate as we don't have proper max/min price columns logic
+        budget_map = {
+            'low': 50000,
+            'medium': 100000,
+            'high': 200000,
+            'premium': 350000,
+            'luxury': 999999999
+        }
+        max_price = budget_map.get(budget)
+        if max_price:
+             venues_query = venues_query.filter(Venue.price <= max_price)
+
+    # Fetch Results
+    venues = venues_query.all()
+    suppliers = suppliers_query.all()
     
     grouped = {
         'אולמות וגנים': [],

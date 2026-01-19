@@ -6,8 +6,11 @@
 
         <!-- Back Link -->
         <div class="mb-8 fade-in-up">
-            <a href="/dashboard" class="text-gray-400 hover:text-[color:var(--color-black)] text-xs uppercase tracking-widest transition-colors">
-                ← חזרה לאירועים שלי
+            <a href="/dashboard" class="text-gray-400 hover:text-[color:var(--color-black)] text-xs uppercase tracking-widest transition-colors flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                </svg>
+                 חזרה לאירועים שלי
             </a>
         </div>
 
@@ -15,7 +18,7 @@
         <div class="relative h-[400px] mb-12 fade-in-up overflow-hidden group shadow-2xl">
             <!-- Background Image -->
             <img src="{% if event.event_type == 'wedding' %}https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop
-                      {% elif event.event_type == 'bar-mitzvah' %}https://images.unsplash.com/photo-1530103862676-de3c9a59af57?q=80&w=1600&auto=format&fit=crop
+                      {% elif event.event_type == 'bar-mitzvah' %}{{ url_for('static', filename='images/bar-mitzvah/bar-mitzvah1.jpg') }}
                       {% elif event.event_type == 'brit' %}https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=1600&auto=format&fit=crop
                       {% elif event.event_type == 'engagement' %}https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1600&auto=format&fit=crop
                       {% elif event.event_type == 'party' %}https://images.unsplash.com/photo-1519671482538-518b5c2bf1c6?q=80&w=1600&auto=format&fit=crop
@@ -151,9 +154,24 @@
                 <div class="bg-[color:var(--color-espresso)] p-8 text-white">
                     <h3 class="font-serif text-xl mb-6">פעולות מהירות</h3>
                     <ul class="space-y-4 text-sm font-sans tracking-wide">
-                        <li><a href="/results" class="block hover:text-[color:var(--color-vanilla)] transition-colors flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> חיפוש ספקים נוספים</a></li>
-                        <li><button onclick="document.getElementById('vendors-section').scrollIntoView({behavior: 'smooth'})" class="block hover:text-[color:var(--color-vanilla)] transition-colors text-left w-full flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> הספקים שלי ({{ vendors|length }})</button></li>
-                        <li><button onclick="document.getElementById('guests-section').scrollIntoView({behavior: 'smooth'})" class="block hover:text-[color:var(--color-vanilla)] transition-colors text-left w-full flex items-center gap-2"><span class="text-[color:var(--color-caramel)]">→</span> ניהול מוזמנים ({{ guests|length }})</button></li>
+                        <li><a href="/results" class="block hover:text-[color:var(--color-vanilla)] transition-colors flex items-center gap-2">
+                            <span class="text-[color:var(--color-caramel)]">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                                </svg>
+                            </span> חיפוש ספקים נוספים</a></li>
+                        <li><button onclick="document.getElementById('vendors-section').scrollIntoView({behavior: 'smooth'})" class="block hover:text-[color:var(--color-vanilla)] transition-colors text-left w-full flex items-center gap-2">
+                            <span class="text-[color:var(--color-caramel)]">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                                </svg>
+                            </span> הספקים שלי ({{ vendors|length }})</button></li>
+                        <li><button onclick="document.getElementById('guests-section').scrollIntoView({behavior: 'smooth'})" class="block hover:text-[color:var(--color-vanilla)] transition-colors text-left w-full flex items-center gap-2">
+                            <span class="text-[color:var(--color-caramel)]">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                                </svg>
+                            </span> ניהול מוזמנים ({{ guests|length }})</button></li>
                     </ul>
                 </div>
 
